@@ -1,0 +1,15 @@
+dist: trusty
+language: java
+jdk: oraclejdk8
+sudo: enabled 
+before_install: apt install ant ivy
+install: ant -f ./build_package resolve
+script: ant -f ./build_package exejar
+notifications: 
+ email:
+  recipients: 
+   - pawel.trajdos@pwr.edu.pl
+  on_success: always
+  on_failure: always
+        
+     
