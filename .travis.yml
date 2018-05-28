@@ -8,6 +8,7 @@ before_install:
         - wget http://ftp.ps.pl/pub/apache//ant/ivy/2.5.0-rc1/apache-ivy-2.5.0-rc1-bin.tar.gz
         - tar -xvf ./*.tar.gz
         - find ./ -type f -name "ivy*\.jar" -exec cp {} ./ \;
+        - cd -
 install: ant -f ./build_package.xml resolve
 script: ant -f ./build_package.xml exejar
 notifications: 
