@@ -3,6 +3,7 @@ language: java
 jdk: oraclejdk8
 sudo: enabled 
 before_install:
+        - mkdir -p ${HOME}/.ant/lib
         - cd ${HOME}/.ant/lib
         - wget http://ftp.ps.pl/pub/apache//ant/ivy/2.5.0-rc1/apache-ivy-2.5.0-rc1-bin.tar.gz
         - tar -xvf ./*.tar.gz
