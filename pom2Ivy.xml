@@ -1,0 +1,10 @@
+<!-- Use ant to convert pom file to Ivy dependencies -->
+<project
+  name="convertPomToIvy"
+  basedir="." default="all"
+  xmlns:ivy="antlib:org.apache.ivy.ant">
+
+    <target name="pom2Ivy">
+        <ivy:convertpom pomFile="pom.xml" ivyFile="ivy.xml" />
+    </target>
+</project> 
