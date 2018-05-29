@@ -108,7 +108,7 @@
          ================================= -->
     <target name="resolve" description="--> retrieve dependencies with ivy">
         <ivy:retrieve />
-        <ivy:retrieve sync="true" type="jar" />
+       <!-- <ivy:retrieve sync="true" type="jar" />-->
     </target>
 
 
