@@ -10,7 +10,7 @@ import java.util.Arrays;
  * @version 0.2.0
  *
  */
-public class Utils {
+public class UtilsPT {
 
 	/**
 	 * @version 0.2.0
