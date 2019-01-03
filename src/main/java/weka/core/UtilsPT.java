@@ -31,5 +31,36 @@ public class UtilsPT {
 		return median;
 		
 	}
+	/**
+	 * Calculated the truncated mean for the given array
+	 * @version 0.3.0
+	 * @param array -- array to calculate the truncated means
+	 * @return truncated mean
+	 */
+	public static double truncatedMean(double[] array) {
+		if(array.length<3) {
+			return Utils.mean(array);
+		}
+		
+		double minVal = Double.POSITIVE_INFINITY;
+		double maxVal = Double.NEGATIVE_INFINITY;
+		double sum=0;
+		for(int i=0;i<array.length;i++) {
+			sum+= array[i];
+			
+			if(array[i] < minVal) {
+				minVal = array[i];
+			}
+			
+			if(array[i] > maxVal) {
+				maxVal=array[i];
+			}
+		}
+		
+		sum-= (minVal+maxVal);
+		double mean = sum/(array.length-2);
+		
+		return mean;
+	}
 
 }
