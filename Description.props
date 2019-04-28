@@ -6,10 +6,10 @@
 PackageName=WekaTools
 
 # Version (required)
-Version=0.3.0
+Version=0.4.0
 
 #Date
-Date=2019-01-03
+Date=2019-04-28
 
 # Title (required)
 Title= Weka Tools
