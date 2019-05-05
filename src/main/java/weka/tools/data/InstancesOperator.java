@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Random;
 
+import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.filters.Filter;
@@ -216,7 +217,12 @@ public static Instances desparse(Instances inputSet)throws Exception{
 }
 
 
-
+/**
+ * Counts the number of objects per class
+ * @param inputSet -- input data
+ * @return -- array of class specific instance counts
+ * @throws Exception
+ */
 public static int[] objPerClass(Instances inputSet)throws Exception{
 	int numClass = inputSet.numClasses();
 	int numInstances = inputSet.numInstances();
@@ -232,6 +238,14 @@ public static int[] objPerClass(Instances inputSet)throws Exception{
 	
 	return classCnts;
 }
+/**
+ * Calculates the frequency of class-specific instances.
+ * The resulting array sums up to one.  
+ * @author pawel trajdos
+ * @param inputSet
+ * @return
+ * @throws Exception
+ */
 public static double[] classFreq(Instances inputSet)throws Exception{
 	int numClass = inputSet.numClasses(); 
 	int numInstances = inputSet.numInstances();
@@ -247,6 +261,37 @@ public static double[] classFreq(Instances inputSet)throws Exception{
 		classFreqs[i]/=numInstances;
 	}
 	return classFreqs;
+}
+
+/**
+ * Split a dataset according to class indices. 
+ * Accepts <b> only </b> nominal and string class attributes. 
+ * @param input -- input dataset
+ * @return -- an array of splitted instances.
+ * @throws Exception when a dataset with a wrong attribute class has been passed.
+ * 
+ * @since 0.4.0
+ * @version 0.4.0
+ */
+public static Instances[] classSpecSplit(Instances input)throws Exception {
+	Attribute classAttr = input.classAttribute();
+	if(!(classAttr.isNominal() || classAttr.isString()))throw new Exception("Incompatible class atribute");
+	
+	int numClasses = input.numClasses();
+	
+	Instances[] results = new Instances[numClasses];
+	for(int c=0;c<numClasses;c++) 
+		results[c] = new Instances(input, 0);
+	
+	int instNum = input.numInstances();
+	int classVal=0;
+	Instance tmpInstance;
+	for(int i=0;i<instNum;i++) {
+		tmpInstance = input.get(i);
+		classVal = (int) tmpInstance.classValue();
+		results[classVal].add(tmpInstance);
+	}
+	return results;
 }
 
 
