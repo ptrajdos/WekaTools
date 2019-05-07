@@ -3,6 +3,7 @@
  */
 package weka.core;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -124,6 +125,62 @@ public class UtilsPT {
 		corr/= stdDev(arr1)*stdDev(arr2);
 		return corr;
 	}
+	
+	/**
+	 * Compares two double arrays.
+	 * @author pawel trajdos
+	 * @since 0.5.0
+	 * @version 0.5.0
+	 * 
+	 * 
+	 * @param arr1
+	 * @param arr2
+	 * @return
+	 */
+	
+	public static boolean compareDoubleArrays(double[] arr1, double[] arr2) {
+		if(arr1 ==  arr2)
+			return true;
+		if(arr1 == null || arr2==null)
+			return false;
+		if(arr1.length!= arr2.length)
+			return false;
+		int len = arr1.length;
+		
+		for(int i=0;i<len;i++)
+			if(!Utils.eq(arr1[i], arr2[i]))
+				return false;
+		return true;
+	}
+	
+	/**
+	 * Compares two float arrays.
+	 * @author pawel trajdos
+	 * @since 0.5.0
+	 * @version 0.5.0
+	 * 
+	 * 
+	 * @param arr1
+	 * @param arr2
+	 * @return
+	 */
+	
+	public static boolean compareFloatArrays(float[] arr1, float[] arr2) {
+		if(arr1 ==  arr2)
+			return true;
+		if(arr1 == null || arr2==null)
+			return false;
+		if(arr1.length!= arr2.length)
+			return false;
+		int len = arr1.length;
+		
+		for(int i=0;i<len;i++)
+			if(! (Math.abs(arr1[i] - arr2[i]) <Utils.SMALL))
+				return false;
+		return true;
+	}
+	
+	
 	
 
 }

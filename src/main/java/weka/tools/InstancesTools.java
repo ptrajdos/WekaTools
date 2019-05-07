@@ -6,6 +6,7 @@ package weka.tools;
 import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.Utils;
 
 /**
  * @author pawel trajdos
@@ -109,7 +110,7 @@ public class InstancesTools {
 	 * @throws Exception if something goes wrong
 	 * 
 	 * @since 0.4.0
-	 * @version 0.4.0
+	 * @version 0.5.0
 	 */
 	public static boolean checkEquall(Instance inst1, Instance inst2, boolean checkClass) throws Exception{
 		if(!checkCompatibility(inst1, inst2))return false;
@@ -122,7 +123,7 @@ public class InstancesTools {
 		int classIdx = dataset.classIndex();
 		for(int a=0; a<numAttrs;a++) {
 			if(a == classIdx && !checkClass )continue;
-			if(rep1[a] != rep2[a])
+			if(! Utils.eq(rep1[a], rep2[a]))
 				return false;
 		}
 		
