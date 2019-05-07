@@ -130,7 +130,7 @@ public class UtilsPT {
 	 * Compares two double arrays.
 	 * @author pawel trajdos
 	 * @since 0.5.0
-	 * @version 0.5.0
+	 * @version 0.5.1
 	 * 
 	 * 
 	 * @param arr1
@@ -147,9 +147,12 @@ public class UtilsPT {
 			return false;
 		int len = arr1.length;
 		
-		for(int i=0;i<len;i++)
+		for(int i=0;i<len;i++) {
+			if(Double.doubleToLongBits(arr1[i]) == Double.doubleToLongBits(arr2[i]))
+				return true;
 			if(!Utils.eq(arr1[i], arr2[i]))
 				return false;
+		}
 		return true;
 	}
 	
@@ -157,7 +160,7 @@ public class UtilsPT {
 	 * Compares two float arrays.
 	 * @author pawel trajdos
 	 * @since 0.5.0
-	 * @version 0.5.0
+	 * @version 0.5.1
 	 * 
 	 * 
 	 * @param arr1
@@ -174,9 +177,12 @@ public class UtilsPT {
 			return false;
 		int len = arr1.length;
 		
-		for(int i=0;i<len;i++)
+		for(int i=0;i<len;i++) {
+			if(Float.floatToIntBits(arr1[i]) == Float.floatToIntBits(arr2[i]))
+				return true;
 			if(! (Math.abs(arr1[i] - arr2[i]) <Utils.SMALL))
 				return false;
+		}
 		return true;
 	}
 	
