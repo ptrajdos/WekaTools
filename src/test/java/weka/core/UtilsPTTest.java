@@ -2,6 +2,8 @@ package weka.core;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 
 public class UtilsPTTest {
@@ -40,11 +42,28 @@ public class UtilsPTTest {
 		try {
 			 corr = UtilsPT.corr(array, array2);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			fail("An exception has been caught");
 		}
 		assertEquals(-1, corr, 10e-6);
 		
+	}
+	@Test
+	public void testDoubleComp() {
+		double[] array = new double[] {1,2,3,4,5,6,7,8,9,10};
+		double[] array2 = Arrays.copyOf(array, array.length);
+		array2[0] += 1E-11;
+		
+		assertTrue("Double array comparision", UtilsPT.compareDoubleArrays(array, array2));
+	}
+	
+	@Test
+	public void testFloatComp() {
+		float[] array = new float[] {1,2,3,4,5,6,7,8,9,10};
+		float[] array2 = Arrays.copyOf(array, array.length);
+		array2[0] += 1E-7;
+		
+		assertTrue("Double array comparision", UtilsPT.compareFloatArrays(array, array2));
 	}
 
 }
