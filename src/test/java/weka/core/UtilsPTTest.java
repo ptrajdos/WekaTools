@@ -62,6 +62,10 @@ public class UtilsPTTest {
 		
 		assertTrue("Double array comparision", UtilsPT.compareDoubleArrays(array, array2));
 		
+		array2[3] += -1;
+		
+		assertFalse("Double array comparision", UtilsPT.compareDoubleArrays(array, array2));
+		
 	}
 	
 	@Test
@@ -77,6 +81,10 @@ public class UtilsPTTest {
 		array2[0] += 1E-7;
 		
 		assertTrue("Double array comparision", UtilsPT.compareFloatArrays(array, array2));
+		
+		array2[3] += -1;
+		
+		assertFalse("Double array comparision", UtilsPT.compareFloatArrays(array, array2));
 	}
 
 }
