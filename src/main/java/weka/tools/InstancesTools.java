@@ -44,9 +44,9 @@ public class InstancesTools {
 		if(inst.classIndex() != dataset.classIndex())
 			throw new Exception("The class index does not match");
 		
-		if(!inst.dataset().equals(dataset))
+		/*if(!inst.dataset().equals(dataset))
 			throw new Exception("Dataset is incompatible!");
-		
+		*/
 
 		
 		Attribute instAttr;
@@ -81,9 +81,9 @@ public class InstancesTools {
 		if(inst2.classIndex() != inst1.classIndex())
 			throw new Exception("The class index does not match");
 		
-		if(!checkCompatibility(inst1.dataset(), inst2))
+		/*if(!checkCompatibility(inst1.dataset(), inst2))
 			throw new Exception("Datasets does not match");
-		
+		*/
 		Attribute inst2Attr;
 		Attribute inst1Attr;
 		String msg;

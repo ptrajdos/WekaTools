@@ -6,13 +6,13 @@
 PackageName=WekaTools
 
 # Version (required)
-Version=0.5.2
+Version=0.5.3
 
 #Date
-Date=2019-05-08
+Date=2019-05-10
 
 # Title (required)
-Title= Weka Tools
+Title= WekaTools
 
 Category=Classification
 

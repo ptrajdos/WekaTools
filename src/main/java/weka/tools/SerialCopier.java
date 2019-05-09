@@ -6,7 +6,9 @@ package weka.tools;
 import weka.core.SerializedObject;
 
 /**
- * @author pawel
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class SerialCopier {
@@ -15,5 +17,6 @@ public class SerialCopier {
 		
 		return new SerializedObject(obj).getObject();
 	}
+	
 	
 }
