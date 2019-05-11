@@ -3,8 +3,8 @@
  */
 package weka.core;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
+
 
 /**
  * @author pawel trajdos
@@ -188,6 +188,108 @@ public class UtilsPT {
 		return true;
 	}
 	
+	/**
+	 * Helper function for getting options
+	 * Return string for object and its options.
+	 * 
+	 * @author pawel trajdos
+	 * @since 0.6.0
+	 * @version 0.6.0
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	public static String getClassAndOptions(Object obj) {
+		String className = obj.getClass().getName();
+		String objOptions = " ";
+		if(obj instanceof OptionHandler) {
+			objOptions = Utils.joinOptions(((OptionHandler) obj).getOptions());
+		}
+		String result = ""+className + " " + objOptions;
+		return result;
+	}
+	
+	/**
+	 * Parses the integer option from options. If the integer option is invalid returns defaultValue
+	 * @param options
+	 * @param optionFlag -- flag of the option
+	 * @param defValue -- default Value
+	 * @return
+	 * 
+	 * @author pawel trajdos
+	 * @since 0.6.0
+	 * @version 0.6.0
+	 */
+	public static int parseIntegerOption(String[] options,String optionFlag,  int defValue) {
+		int value=defValue;
+		try {
+			String optionStr = Utils.getOption(optionFlag, options);
+			value = Integer.parseInt(optionStr);
+		} catch (Exception e) {
+			System.err.println("Invalid option" + optionFlag + "\n Default value will be used");
+		}
+		return value;
+	}
+	
+	/**
+	 * Parses the double option from options. If the integer option is invalid returns defaultValue
+	 * @param options
+	 * @param optionFlag -- flag of the option
+	 * @param defValue -- default Value
+	 * @return
+	 * 
+	 * @author pawel trajdos
+	 * @since 0.6.0
+	 * @version 0.6.0
+	 */
+	public static double parseDoubleOption(String[] options,String optionFlag,  double defValue) {
+		double value=defValue;
+		try {
+			String optionStr = Utils.getOption(optionFlag, options);
+			value = Double.parseDouble(optionStr);
+		} catch (Exception e) {
+			System.err.println("Invalid option" + optionFlag + "\n Default value will be used");
+		}
+		return value;
+	}
+	/**
+	 * Parses Object from options.
+	 * If the object cannot be parsed, then the default value is used. 
+	 * 
+	 * @param options
+	 * @param optionFlag
+	 * @param defValue
+	 * @param classtype
+	 * @return
+	 * @throws Exception
+	 * 
+	 * 
+	 * @author pawel trajdos
+	 * @since 0.6.0
+	 * @version 0.6.0
+	 */
+	public static Object parseObjectOptions(String[] options, String optionFlag, Object defValue, Class<?> classtype)throws Exception {
+		Object parsedObj = defValue;
+		try {
+		String objectOptionString = Utils.getOption(optionFlag, options);
+	    if(objectOptionString.length() != 0) {
+	      String objectClassSpec[] = Utils.splitOptions(objectOptionString);
+	      if(objectClassSpec.length == 0) { 
+	        throw new Exception("Invalid Cluster prototype " +
+	                            "specification string."); 
+	      }
+	      String className = objectClassSpec[0];
+	      objectClassSpec[0] = "";
+	      parsedObj = Utils.forName( classtype, 
+	                                 className, 
+	                                 objectClassSpec);
+	    }
+		}catch(Exception e) {
+			System.err.println("Option " + optionFlag + "cannot be parsed. Default value is used");
+		}
+	    
+		return parsedObj;
+	}
 	
 	
 
