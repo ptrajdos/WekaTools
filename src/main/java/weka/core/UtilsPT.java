@@ -291,6 +291,48 @@ public class UtilsPT {
 		return parsedObj;
 	}
 	
+	/**
+	 * Calculates soft-max of the array 
+	 * @param array
+	 * @return
+	 *
+	 * @author pawel trajdos
+	 * @since 0.7.0
+	 * @version 0.7.0
+	 */
 	
+	public static double[] softMax(double[] array) {
+		double[] tmp =  Arrays.copyOf(array, array.length);
+		double sum=0;
+		for(int i=0;i<array.length;i++) {
+			tmp[i] = Math.exp(tmp[i]);
+			sum+= tmp[i];
+		}
+		if(!Utils.eq(0, sum)) {
+			Utils.normalize(tmp);
+		}
+		return tmp;
+	}
+	/**
+	 * Calculates soft-min of the array 
+	 * @param array
+	 * @return
+	 *
+	 * @author pawel trajdos
+	 * @since 0.7.0
+	 * @version 0.7.0
+	 */
+	public static double[] softMin(double[] array) {
+		double[] tmp =  Arrays.copyOf(array, array.length);
+		double sum=0;
+		for(int i=0;i<array.length;i++) {
+			tmp[i] = Math.exp(-tmp[i]);
+			sum+= tmp[i];
+		}
+		if(!Utils.eq(0, sum)) {
+			Utils.normalize(tmp);
+		}
+		return tmp;
+	}
 
 }
