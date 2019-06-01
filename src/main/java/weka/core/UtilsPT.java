@@ -68,12 +68,14 @@ public class UtilsPT {
 	/**
 	 * Calculate variance of the sample (array)
 	 * @since 0.4.0
-	 * @version 0.4.0
+	 * @version 0.8.1
 	 * @param array
 	 * @return
 	 */
 	public static double var(double[] array) {
 		double variance =0;
+		if(array.length==1)
+			return 0.0;
 		double mean = Utils.mean(array);
 		for(int i=0;i<array.length;i++)
 			variance += (array[i] - mean)*(array[i] - mean);
@@ -94,7 +96,7 @@ public class UtilsPT {
 	/**
 	 * Calculate covariance of two samples of equal length (arr1, arr2)
 	 * @since 0.4.0
-	 * @version 0.4.0
+	 * @version 0.8.1
 	 * @param arr1
 	 * @param arr2
 	 * @return
@@ -102,6 +104,8 @@ public class UtilsPT {
 	 */
 	public static double cov(double[] arr1, double[] arr2)throws Exception{
 		if(arr1.length != arr2.length)throw new Exception("Incompatible arrays");
+		if(arr1.length == 1)
+			return 0.0;
 		double cov =0;
 		double m1 = Utils.mean(arr1);
 		double m2 = Utils.mean(arr2);
@@ -114,7 +118,7 @@ public class UtilsPT {
 	/**
 	 * Calculate correlation of two samples (arrays)
 	 * @since 0.4.0
-	 * @version 0.4.0
+	 * @version 0.8.1
 	 * @param arr1
 	 * @param arr2
 	 * @return
@@ -122,6 +126,8 @@ public class UtilsPT {
 	 */
 	public static double corr(double[] arr1, double[] arr2)throws Exception{
 		double corr=cov(arr1,arr2);
+		if(arr1.length==1)
+			return 1.0;
 		corr/= stdDev(arr1)*stdDev(arr2);
 		return corr;
 	}
@@ -248,7 +254,7 @@ public class UtilsPT {
 			String optionStr = Utils.getOption(optionFlag, options);
 			value = Double.parseDouble(optionStr);
 		} catch (Exception e) {
-			System.err.println("Invalid option" + optionFlag + "\n Default value will be used");
+			System.err.println("Invalid option: " + optionFlag + "\n Default value will be used");
 		}
 		return value;
 	}
