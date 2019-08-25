@@ -35,8 +35,14 @@ public class InstancesTools {
 	 * @param inst
 	 * @return true if the instance and the dataset are compatible
 	 * @throws Exception -- when there is some kind of incompatibility
+	 * 
+	 * @since 0.4.0
+	 * @version 0.8.0
+	 * 
 	 */
 	public static boolean checkCompatibility(Instances dataset, Instance inst)throws Exception{
+		if(dataset == inst.dataset())
+			return true;
 		int numAttribs = dataset.numAttributes();
 		if(inst.numAttributes() != numAttribs)
 			throw new Exception("Incompatible number of attributes");
@@ -44,9 +50,9 @@ public class InstancesTools {
 		if(inst.classIndex() != dataset.classIndex())
 			throw new Exception("The class index does not match");
 		
-		if(!inst.dataset().equals(dataset))
+		/*if(!inst.dataset().equals(dataset))
 			throw new Exception("Dataset is incompatible!");
-		
+		*/
 
 		
 		Attribute instAttr;
@@ -71,9 +77,13 @@ public class InstancesTools {
 	 * @param inst2
 	 * @return true if they are compatible
 	 * @throws Exception if the instances are incompatible
+	 * 
+	 * @since 0.4.0
+	 * @version 0.8.0
 	 */
 	public static boolean checkCompatibility(Instance inst1, Instance inst2 )throws Exception{
-		
+		if(inst1.dataset() == inst2.dataset())
+			return true;
 		int numAttribs = inst1.numAttributes();
 		if(inst2.numAttributes() != numAttribs)
 			throw new Exception("Incompatible number of attributes");
@@ -81,9 +91,9 @@ public class InstancesTools {
 		if(inst2.classIndex() != inst1.classIndex())
 			throw new Exception("The class index does not match");
 		
-		if(!checkCompatibility(inst1.dataset(), inst2))
+		/*if(!checkCompatibility(inst1.dataset(), inst2))
 			throw new Exception("Datasets does not match");
-		
+		*/
 		Attribute inst2Attr;
 		Attribute inst1Attr;
 		String msg;

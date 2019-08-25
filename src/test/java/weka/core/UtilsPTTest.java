@@ -55,15 +55,36 @@ public class UtilsPTTest {
 		array2[0] += 1E-11;
 		
 		assertTrue("Double array comparision", UtilsPT.compareDoubleArrays(array, array2));
+		
+		 array = new double[] {1,2,3,4,5,6,7,Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY,Double.NaN};
+		 array2 = Arrays.copyOf(array, array.length);
+		array2[0] += 1E-11;
+		
+		assertTrue("Double array comparision", UtilsPT.compareDoubleArrays(array, array2));
+		
+		array2[3] += -1;
+		
+		assertFalse("Double array comparision", UtilsPT.compareDoubleArrays(array, array2));
+		
 	}
 	
 	@Test
 	public void testFloatComp() {
-		float[] array = new float[] {1,2,3,4,5,6,7,8,9,10};
+		float[] array = new float[] {1,2,3,4,5,6,7,Float.POSITIVE_INFINITY,Float.NEGATIVE_INFINITY,Float.NaN};
 		float[] array2 = Arrays.copyOf(array, array.length);
 		array2[0] += 1E-7;
 		
 		assertTrue("Double array comparision", UtilsPT.compareFloatArrays(array, array2));
+		
+		array = new float[] {1,2,3,4,5,6,7,8,9,10};
+		 array2 = Arrays.copyOf(array, array.length);
+		array2[0] += 1E-7;
+		
+		assertTrue("Double array comparision", UtilsPT.compareFloatArrays(array, array2));
+		
+		array2[3] += -1;
+		
+		assertFalse("Double array comparision", UtilsPT.compareFloatArrays(array, array2));
 	}
 
 }

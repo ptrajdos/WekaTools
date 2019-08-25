@@ -6,7 +6,7 @@
 
    <groupId>com.github.ptrajdos</groupId>
    <artifactId>WekaTools</artifactId>
-   <version>0.5.0</version>
+   <version>0.8.1</version>
    
    <name>WekaTools</name>
    <description> Contains WekaTools package developed by Pawel Trajdos </description>
@@ -57,13 +57,20 @@
     <dependency>
       <groupId>nz.ac.waikato.cms.weka</groupId>
       <artifactId>weka-stable</artifactId>
-      <version>[3.8.2,)</version>
+      <version>[3.8.3,)</version>
+      <type>java-source</type>
+    </dependency>
+    
+    <dependency>
+      <groupId>nz.ac.waikato.cms.weka</groupId>
+      <artifactId>weka-stable</artifactId>
+      <version>[3.8.3,)</version>
     </dependency>
 
     <dependency>
       <groupId>nz.ac.waikato.cms.weka</groupId>
       <artifactId>weka-stable</artifactId>
-      <version>[3.8.2,)</version>
+      <version>[3.8.3,)</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
@@ -226,6 +233,8 @@
                 <include>**/.attach_pid*</include>
                 <include>**/hs_err_pid*</include>
                 <include>src/test/resources/wekarefs/</include>
+                <include>doc/**</include>
+                <include>lib/**</include>
               </includes>
               <followSymlinks>false</followSymlinks>
             </fileset>
