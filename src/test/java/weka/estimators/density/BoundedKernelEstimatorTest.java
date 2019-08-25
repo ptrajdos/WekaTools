@@ -38,11 +38,11 @@ public class BoundedKernelEstimatorTest {
 			a+=delta;
 		}
 		
-		assertTrue("min CDF", Utils.eq(kern.getCDF(-1.0), 0));
-		assertTrue("max CDF", Utils.eq(kern.getCDF(1.5), 1));
+		assertTrue("min CDF", Utils.eq(kern.getCDF(-0.001), 0));
+		assertTrue("max CDF", Utils.eq(kern.getCDF(1.001), 1));
 		
-		assertTrue("min PDF", Utils.eq(kern.getPDF(-1.0), 0));
-		assertTrue("max PDF", Utils.eq(kern.getPDF(1.5), 0));
+		assertTrue("min PDF", Utils.eq(kern.getPDF(-0.001), 0));
+		assertTrue("max PDF", Utils.eq(kern.getPDF(1.001), 0));
 	}
 
 }
