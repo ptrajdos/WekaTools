@@ -51,7 +51,7 @@ public class BoundedKernelEstimator implements KernelDensityEstimator, Serializa
 	 */
 	@Override
 	public double getPDF(double x) {
-		double h = this.getBandwidth();
+		
 		if(x < this.lowerBound)return 0;
 		if(x > this.upperBound)return 0;
 		
@@ -64,10 +64,9 @@ public class BoundedKernelEstimator implements KernelDensityEstimator, Serializa
 	 */
 	@Override
 	public double getCDF(double x) {
-		double h = this.getBandwidth();
 		
-		if(x <this.lowerBound)return 0;
-		if(x>this.upperBound)return 1;
+		if(x < this.lowerBound)return 0;
+		if(x > this.upperBound)return 1;
 		
 		
 		return this.kernEstim.getCDF(x) 
