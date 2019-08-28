@@ -11,7 +11,6 @@ import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.UtilsPT;
 import weka.estimators.density.kernels.EpanechnikovKernel;
-import weka.estimators.density.kernels.RectangularKernel;
 import weka.tools.WeightedValuesHolder;
 
 /**
@@ -62,6 +61,9 @@ public abstract class AbstractKernelEstimator implements KernelDensityEstimator,
 		this.valHolder.addValue(data, weight);
 	}
 
+	public String kernelTipText() {
+		return "Kernel used with the kernel estimator";
+	}
 	/* (non-Javadoc)
 	 * @see weka.estimators.density.KernelDensityEstimator#setKernel(weka.estimators.density.Kernel)
 	 */
@@ -78,6 +80,9 @@ public abstract class AbstractKernelEstimator implements KernelDensityEstimator,
 		return this.kernel;
 	}
 
+	public String bandwidthTipText() {
+		return "Bandwidth (smoothing) paremeter for the kernel estimator";
+	}
 	/* (non-Javadoc)
 	 * @see weka.estimators.density.KernelDensityEstimator#setBandwidth(double)
 	 */
@@ -144,6 +149,19 @@ public abstract class AbstractKernelEstimator implements KernelDensityEstimator,
 		options.add(UtilsPT.getClassAndOptions(this.kernel));
 		
 	    return options.toArray(new String[0]);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder strBuild  = new StringBuilder();
+		strBuild.append("Kernel Estimator");
+		strBuild.append("Kernel: " + this.kernel.toString());
+		strBuild.append("Number of samples: " + this.valHolder.getNumVals());
+		return strBuild.toString();
 	}
 	
 	

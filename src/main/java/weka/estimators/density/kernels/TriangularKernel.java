@@ -44,5 +44,13 @@ public class TriangularKernel implements Kernel, Serializable {
 		
 		return 1;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Triangular Kernel";
+	}
 
 }

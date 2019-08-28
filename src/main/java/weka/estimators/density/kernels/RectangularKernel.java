@@ -37,5 +37,13 @@ public class RectangularKernel implements Kernel, Serializable {
 		if(x>1) return 1;
 		return 0.5*(x+1);
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Rectangular Kernel";
+	}
 
 }

@@ -8,7 +8,10 @@ import java.io.Serializable;
 import weka.estimators.density.Kernel;
 
 /**
- * @author pawel
+ * Triweight kernel
+ * @author pawel trajdos
+ * @since 0.9.0
+ * @version 0.9.0
  *
  */
 public class TriweightKernel implements Kernel, Serializable {
@@ -39,6 +42,14 @@ public class TriweightKernel implements Kernel, Serializable {
 		if(x>-1 & x<=1)
 			return 0.5 - (35.0/32.0)*x + (1.0/32.0)*x*x*x - (21.0/32.0)*x*x*x*x*x + (5.0/32.0)*x*x*x*x*x*x*x;
 		return 1;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Triweight Kernel";
 	}
 
 }

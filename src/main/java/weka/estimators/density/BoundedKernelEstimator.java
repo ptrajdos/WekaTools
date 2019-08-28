@@ -163,6 +163,9 @@ Vector<Option> newVector = new Vector<Option>(1);
 		return this.kernEstim.getBandwidth();
 	}
 
+	public String kernEstimTipText() {
+		return "The kernel estimator used inside the bounded estimator";
+	}
 	/**
 	 * @return the kernEstim
 	 */
@@ -177,6 +180,9 @@ Vector<Option> newVector = new Vector<Option>(1);
 		this.kernEstim = kernEstim;
 	}
 
+	public String lowerBoundTipText() {
+		return "Lower bound of the distribution.";
+	}
 	/**
 	 * @return the lowerBound
 	 */
@@ -184,11 +190,16 @@ Vector<Option> newVector = new Vector<Option>(1);
 		return this.lowerBound;
 	}
 
+	
 	/**
 	 * @param lowerBound the lowerBound to set
 	 */
 	public void setLowerBound(double lowerBound) {
 		this.lowerBound = lowerBound;
+	}
+	
+	public String upperBoundTipText() {
+		return "Upper bound of the distribution.";
 	}
 
 	/**
@@ -210,6 +221,21 @@ Vector<Option> newVector = new Vector<Option>(1);
 		this.kernEstim.addValues(data, weight);
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder strBuild = new StringBuilder();
+		strBuild.append("Bounded Kernel estimator");
+		strBuild.append("Lower Bound: " + this.getLowerBound());
+		strBuild.append("Upper Bound: " + this.getUpperBound());
+		strBuild.append(this.kernEstim.toString());
+		return strBuild.toString();
+	}
+	
+	
 	
 	
 

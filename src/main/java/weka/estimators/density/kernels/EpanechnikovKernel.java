@@ -33,5 +33,12 @@ public class EpanechnikovKernel implements Kernel, Serializable {
 			return -0.25*x*x*x + 0.75*x +0.5;
 		return 1;
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Epanechnikov Kernel";
+	}
 
 }

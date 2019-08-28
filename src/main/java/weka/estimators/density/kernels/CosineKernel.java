@@ -8,7 +8,10 @@ import java.io.Serializable;
 import weka.estimators.density.Kernel;
 
 /**
- * @author pawel
+ * Cosine kernel
+ * @author pawel trajdos
+ * @since 0.9.0
+ * @version 0.9.0
  *
  */
 public class CosineKernel implements Kernel, Serializable {
@@ -41,5 +44,15 @@ public class CosineKernel implements Kernel, Serializable {
 			return 0.5 + 0.5*Math.sin((Math.PI/2)*x);
 		return 1;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Cosine Kernel";
+	}
+	
+	
 
 }
