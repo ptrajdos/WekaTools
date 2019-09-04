@@ -16,6 +16,7 @@ public class WeightedKernelEstimator extends AbstractKernelEstimator {
 	 * 
 	 */
 	private static final long serialVersionUID = 5896746843853707517L;
+	
 
 	
 	/* (non-Javadoc)

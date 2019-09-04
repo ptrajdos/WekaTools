@@ -21,6 +21,7 @@ public class BoundedKernelEstimatorTest {
 		BoundedKernelEstimator kern = new BoundedKernelEstimator();
 		
 		
+		
 		for(int i=0;i<numVals;i++) {
 			kern.addValue(rnd.nextDouble(), wei);
 		}
