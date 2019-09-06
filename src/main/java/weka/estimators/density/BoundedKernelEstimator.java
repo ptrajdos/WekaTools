@@ -10,7 +10,6 @@ import java.util.Vector;
 import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.UtilsPT;
-import weka.estimators.density.kernels.EpanechnikovKernel;
 
 /**
  * Estimator with boundary correction based on the reflection approach
@@ -19,14 +18,14 @@ import weka.estimators.density.kernels.EpanechnikovKernel;
  * @version 0.9.0
  *
  */
-public class BoundedKernelEstimator implements KernelDensityEstimator, Serializable, OptionHandler {
+public class BoundedKernelEstimator implements DensityEstimator, Serializable, OptionHandler {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7156208703546768815L;
 	
-	protected KernelDensityEstimator kernEstim; 
+	protected DensityEstimator kernEstim; 
 	
 	protected double lowerBound = 0;
 	protected double upperBound = 1;
@@ -77,16 +76,7 @@ public class BoundedKernelEstimator implements KernelDensityEstimator, Serializa
 	public Enumeration<Option> listOptions() {
 Vector<Option> newVector = new Vector<Option>(1);
 		
-		newVector.addElement(new Option(
-			      "\tBandwidth to use "+
-		          "(default: 1).\n",
-			      "BW", 1, "-BW"));
-		
-		newVector.addElement(new Option(
-			      "\tKernel object to use "+
-		          "(default: weka.estimators.density.kernels.EpanechnikovKernel).\n",
-			      "KE", 1, "-KE"));
-		
+	
 		newVector.addElement(new Option(
 			      "\tKernel Estimator object to use "+
 		          "(default: weka.estimators.density.SimpleKernelEstimator).\n",
@@ -107,14 +97,10 @@ Vector<Option> newVector = new Vector<Option>(1);
 
 	@Override
 	public void setOptions(String[] options) throws Exception {
-		this.setKernel((Kernel) 
-				UtilsPT.parseObjectOptions(options, "KE", new EpanechnikovKernel(), Kernel.class));
-		
-		this.setBandwidth(UtilsPT.parseDoubleOption(options, "BW", 0.1));
-		
+
 		this.setKernEstim(
-				(KernelDensityEstimator)
-				UtilsPT.parseObjectOptions(options, "KES", new SimpleKernelEstimator(), KernelDensityEstimator.class));
+				(DensityEstimator)
+				UtilsPT.parseObjectOptions(options, "KES", new SimpleKernelEstimator(), DensityEstimator.class));
 		
 		this.setLowerBound(UtilsPT.parseDoubleOption(options, "LB", 0.0));
 		this.setUpperBound(UtilsPT.parseDoubleOption(options, "UB", 1.0));
@@ -125,11 +111,6 @@ Vector<Option> newVector = new Vector<Option>(1);
 	public String[] getOptions() {
 		Vector<String> options = new Vector<String>();
 		
-		options.add("-BW");
-		options.add(""+ this.getBandwidth());
-		
-		options.add("-KE");
-		options.add(UtilsPT.getClassAndOptions(this.getKernel()));
 		
 		options.add("-KES");
 		options.add(UtilsPT.getClassAndOptions(this.getKernEstim()));
@@ -143,41 +124,21 @@ Vector<Option> newVector = new Vector<Option>(1);
 	    return options.toArray(new String[0]);
 	}
 
-	@Override
-	public void setKernel(Kernel kernel) {
-		this.kernEstim.setKernel(kernel);
-	}
-
-	@Override
-	public Kernel getKernel() {
-		return this.kernEstim.getKernel();
-	}
-
-	@Override
-	public void setBandwidth(double bandwidth) {
-		this.kernEstim.setBandwidth(bandwidth);
-	}
-
-	@Override
-	public double getBandwidth() {
-		return this.kernEstim.getBandwidth();
-	}
-
 	public String kernEstimTipText() {
 		return "The kernel estimator used inside the bounded estimator";
 	}
 	/**
 	 * @return the kernEstim
 	 */
-	public KernelDensityEstimator getKernEstim() {
+	public DensityEstimator getKernEstim() {
 		return this.kernEstim;
 	}
 
 	/**
-	 * @param kernEstim the kernEstim to set
+	 * @param densityEstimator the kernEstim to set
 	 */
-	public void setKernEstim(KernelDensityEstimator kernEstim) {
-		this.kernEstim = kernEstim;
+	public void setKernEstim(DensityEstimator densityEstimator) {
+		this.kernEstim = densityEstimator;
 	}
 
 	public String lowerBoundTipText() {
