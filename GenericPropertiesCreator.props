@@ -1,0 +1,9 @@
+
+weka.estimators.density.DensityEstimator=\
+	weka.estimators.density
+
+weka.tools.numericIntegration.Function=\
+	weka.tools.numericIntegration
+
+weka.tools.numericIntegration.Integrator=\
+	weka.tools.numericIntegration

@@ -246,7 +246,7 @@ public class UtilsPT {
 	 * 
 	 * @author pawel trajdos
 	 * @since 0.6.0
-	 * @version 0.6.0
+	 * @version 0.10.0
 	 */
 	public static double parseDoubleOption(String[] options,String optionFlag,  double defValue) {
 		double value=defValue;
@@ -255,6 +255,8 @@ public class UtilsPT {
 			value = Double.parseDouble(optionStr);
 		} catch (Exception e) {
 			System.err.println("Invalid option: " + optionFlag + "\n Default value will be used");
+			System.err.println("Options: " + Arrays.toString(options));
+			System.err.println("Default value: " + defValue);
 		}
 		return value;
 	}
@@ -272,26 +274,30 @@ public class UtilsPT {
 	 * 
 	 * @author pawel trajdos
 	 * @since 0.6.0
-	 * @version 0.6.0
+	 * @version 0.10.0
 	 */
 	public static Object parseObjectOptions(String[] options, String optionFlag, Object defValue, Class<?> classtype)throws Exception {
 		Object parsedObj = defValue;
 		try {
-		String objectOptionString = Utils.getOption(optionFlag, options);
-	    if(objectOptionString.length() != 0) {
-	      String objectClassSpec[] = Utils.splitOptions(objectOptionString);
-	      if(objectClassSpec.length == 0) { 
-	        throw new Exception("Invalid Cluster prototype " +
-	                            "specification string."); 
-	      }
-	      String className = objectClassSpec[0];
-	      objectClassSpec[0] = "";
-	      parsedObj = Utils.forName( classtype, 
-	                                 className, 
-	                                 objectClassSpec);
-	    }
+			String objectOptionString = Utils.getOption(optionFlag, options);
+		    if(objectOptionString.length() != 0) {
+		      String objectClassSpec[] = Utils.splitOptions(objectOptionString);
+		      if(objectClassSpec.length == 0) { 
+		        throw new Exception("Invalid prototype specification string."); 
+		      }
+		      String className = objectClassSpec[0];
+		      objectClassSpec[0] = "";
+		      parsedObj = Utils.forName( classtype, 
+		                                 className, 
+		                                 objectClassSpec);
+		    }else {
+		    	throw new Exception("No option");
+		    }
 		}catch(Exception e) {
-			System.err.println("Option " + optionFlag + "cannot be parsed. Default value is used");
+			System.err.println("Option " + optionFlag + " cannot be parsed. Default value is used");
+			System.err.println("Default value: " + defValue.toString());
+			System.err.println("Class type: " + classtype.toGenericString());
+			System.err.println("Options String: " + Arrays.toString(options));
 		}
 	    
 		return parsedObj;
