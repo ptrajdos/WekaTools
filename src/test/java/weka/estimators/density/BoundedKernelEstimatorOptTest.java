@@ -10,7 +10,7 @@ public class BoundedKernelEstimatorOptTest extends OptionHandlerTest {
 	}
 	
 	public BoundedKernelEstimatorOptTest(String name) {
-		this(name, BoundedKernelEstimator.class.getCanonicalName());
+		this(name, BoundedEstimator.class.getCanonicalName());
 	}
 
 	

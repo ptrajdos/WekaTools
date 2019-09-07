@@ -18,7 +18,7 @@ public class BoundedKernelEstimatorTest {
 		int numVals =300;
 		double wei =1.0;
 		
-		BoundedKernelEstimator kern = new BoundedKernelEstimator();
+		BoundedEstimator kern = new BoundedEstimator();
 		
 		
 		

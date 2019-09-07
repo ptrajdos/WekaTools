@@ -15,10 +15,10 @@ import weka.core.UtilsPT;
  * Estimator with boundary correction based on the reflection approach
  * @author pawel trajdos
  * @since 0.9.0
- * @version 0.9.0
+ * @version 0.10.1
  *
  */
-public class BoundedKernelEstimator implements DensityEstimator, Serializable, OptionHandler {
+public class BoundedEstimator implements DensityEstimator, Serializable, OptionHandler {
 
 	/**
 	 * 
@@ -33,7 +33,7 @@ public class BoundedKernelEstimator implements DensityEstimator, Serializable, O
 	/**
 	 * 
 	 */
-	public BoundedKernelEstimator() {
+	public BoundedEstimator() {
 		this.kernEstim = new SimpleKernelEstimator();
 	}
 
