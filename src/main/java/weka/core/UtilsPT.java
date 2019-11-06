@@ -34,6 +34,34 @@ public class UtilsPT {
 		
 	}
 	/**
+	 * Calculates q-order quantile from the sample
+	 * @param array -- sample
+	 * @param q -- quantile order [0,1]
+	 * @return quantile
+	 * @version 0.12.0
+	 * @since 0.12.0
+	 */
+	public static double quantile(double[] array,double q) {
+		double[] tmpArray = Arrays.copyOf(array,array.length);
+		Arrays.sort(tmpArray);
+		
+		if(q >1)
+			return tmpArray[array.length-1];
+		if(q<0)
+			return tmpArray[0];
+		
+		double preIdx = q*array.length;
+		double idx = Math.ceil(preIdx);
+		double quantile=0;
+		if(Utils.eq(preIdx, idx)) {
+			quantile = 0.5*(tmpArray[(int)idx-1] + tmpArray[(int)idx]); 
+		}else {
+			quantile = tmpArray[(int)idx-1];
+		}
+		
+		return quantile;
+	}
+	/**
 	 * Calculated the truncated mean for the given array
 	 * @since 0.3.0
 	 * @version 0.3.0

@@ -1,6 +1,9 @@
 package weka.core;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 
@@ -85,6 +88,16 @@ public class UtilsPTTest {
 		array2[3] += -1;
 		
 		assertFalse("Double array comparision", UtilsPT.compareFloatArrays(array, array2));
+	}
+	
+	@Test
+	public void testQuantile() {
+		double[] array = new double[] {1,2,3,4,5,6,7,8,9,10};
+		
+		double med = UtilsPT.median(array);
+		double quant = UtilsPT.quantile(array, 0.5);
+		assertTrue("Q 0.5", Utils.eq(med,quant));
+		
 	}
 
 }

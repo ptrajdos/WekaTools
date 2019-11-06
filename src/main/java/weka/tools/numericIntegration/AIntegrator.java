@@ -5,8 +5,6 @@ package weka.tools.numericIntegration;
 
 import java.io.Serializable;
 
-import weka.tools.Linspace;
-
 /**
  * Abstract class for numeric integration
  * @author pawel trajdos
