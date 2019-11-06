@@ -3,9 +3,6 @@
  */
 package weka.core;
 
-import weka.core.DenseInstance;
-import weka.core.Instance;
-
 /**
  * @author Pawel Trajdos
  * Fast getter of the values -- no copy

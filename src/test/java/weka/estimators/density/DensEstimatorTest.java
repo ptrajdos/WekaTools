@@ -12,7 +12,7 @@ import weka.tools.numericIntegration.TrapezoidalIntegrator;
  * Test class for bounded density estimators
  * @author pawel trajdos
  * @since 0.11.0
- * @version 0.11.0
+ * @version 0.11.1
  *
  */
 public abstract class DensEstimatorTest extends TestCase {
@@ -49,6 +49,7 @@ public abstract class DensEstimatorTest extends TestCase {
 		double[] lins = Linspace.genLinspace(getLower(), getUpper(), step);
 		for(int i=0;i< lins.length-1;i++) {
 			assertTrue("Finite", Double.isFinite(dens.getCDF(lins[i])));
+			assertTrue("Finite", Double.isFinite(dens.getCDF(lins[i+1])));
 			assertTrue("Increasing Property", dens.getCDF(lins[i])<= dens.getCDF(i+1) );
 		}
 		

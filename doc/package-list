@@ -1,6 +1,0 @@
-weka.core
-weka.estimators.density
-weka.estimators.density.kernels
-weka.tools
-weka.tools.data
-weka.tools.numericIntegration
