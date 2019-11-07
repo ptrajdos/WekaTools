@@ -47,4 +47,24 @@ public class SimpleKernelEstimator extends AbstractKernelEstimator {
 		return estimation;
 	}
 
+	@Override
+	public double[] getValues() {
+		int numVals = this.valHolder.getNumVals();
+		double[] vals = new double[numVals];
+		for(int i=0;i<numVals;i++) {
+			vals[i] = this.valHolder.getValue(i);
+		}
+		return vals;
+	}
+
+	@Override
+	public double[] getWeights() {
+		int numVals = this.valHolder.getNumVals();
+		double[] weights = new double[numVals];
+		for(int i=0;i<numVals;i++) {
+			weights[i] = this.valHolder.getWeight(i);
+		}
+		return weights;
+	}
+
 }

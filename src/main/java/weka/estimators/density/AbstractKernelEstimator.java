@@ -158,9 +158,10 @@ public abstract class AbstractKernelEstimator implements KernelDensityEstimator,
 	@Override
 	public String toString() {
 		StringBuilder strBuild  = new StringBuilder();
-		strBuild.append("Kernel Estimator");
-		strBuild.append("Kernel: " + this.kernel.toString());
-		strBuild.append("Number of samples: " + this.valHolder.getNumVals());
+		strBuild.append("Kernel Estimator \n");
+		strBuild.append("Kernel: " + this.kernel.toString() + "\n");
+		strBuild.append("Number of samples: " + this.valHolder.getNumVals() + "\n");
+		strBuild.append("Bandwidth: " + this.bandwidth + "\n");
 		return strBuild.toString();
 	}
 	

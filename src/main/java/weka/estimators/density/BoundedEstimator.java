@@ -78,7 +78,7 @@ Vector<Option> newVector = new Vector<Option>(1);
 		
 	
 		newVector.addElement(new Option(
-			      "\tKernel Estimator object to use "+
+			      "\tEstimator object to use "+
 		          "(default: weka.estimators.density.SimpleKernelEstimator).\n",
 			      "KES", 1, "-KES"));
 		
@@ -189,11 +189,21 @@ Vector<Option> newVector = new Vector<Option>(1);
 	@Override
 	public String toString() {
 		StringBuilder strBuild = new StringBuilder();
-		strBuild.append("Bounded Kernel estimator");
-		strBuild.append("Lower Bound: " + this.getLowerBound());
-		strBuild.append("Upper Bound: " + this.getUpperBound());
-		strBuild.append(this.kernEstim.toString());
+		strBuild.append("Bounded Estimator \n");
+		strBuild.append("Lower Bound: " + this.getLowerBound()+ "\n");
+		strBuild.append("Upper Bound: " + this.getUpperBound()+ "\n");
+		strBuild.append(this.kernEstim.toString()+ "\n");
 		return strBuild.toString();
+	}
+
+	@Override
+	public double[] getValues() {
+		return this.kernEstim.getValues();
+	}
+
+	@Override
+	public double[] getWeights() {
+		return this.kernEstim.getWeights();
 	}
 	
 	

@@ -12,14 +12,14 @@ import weka.tools.numericIntegration.TrapezoidalIntegrator;
  * Test class for bounded density estimators
  * @author pawel trajdos
  * @since 0.11.0
- * @version 0.11.1
+ * @version 0.13.0
  *
  */
 public abstract class DensEstimatorTest extends TestCase {
 	
-	protected static int numVals=1000;
-	protected static double eps=1e-6;
-	protected static double step=0.01;
+	protected  int numVals=1000;
+	protected  double eps=1;
+	protected  double step=0.01;
 
 	
 	protected double[] generateUniform() {

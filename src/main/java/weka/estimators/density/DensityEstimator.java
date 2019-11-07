@@ -44,6 +44,27 @@ public interface DensityEstimator extends IncrementalEstimator {
 	 */
 	public void addValues(double[] data, double[] weight);
 	
+	/**
+	 * Get values added to the estimator
+	 * @return values
+	 * 
+	 * @author pawel trajdos
+	 * @since 0.13.0
+	 * @version 0.13.0
+	 * 
+	 */
+	public double[] getValues();
+	
+	/**
+	 * Get weights of the stored values/samples
+	 * @return weights
+	 * 
+	 * @author pawel trajdos
+	 * @since 0.13.0
+	 * @version 0.13.0
+	 */
+	public double[] getWeights();
+	
 	
 
 }
