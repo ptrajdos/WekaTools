@@ -11,6 +11,7 @@ import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.UtilsPT;
 import weka.estimators.density.kernels.EpanechnikovKernel;
+import weka.estimators.density.kernels.GaussianKernel;
 import weka.tools.WeightedValuesHolder;
 
 /**
@@ -40,7 +41,7 @@ public abstract class AbstractKernelEstimator implements KernelDensityEstimator,
 	 * 
 	 */
 	public AbstractKernelEstimator() {
-		this.kernel = new EpanechnikovKernel();
+		this.kernel = new GaussianKernel();
 		this.valHolder = new WeightedValuesHolder();
 	}
 

@@ -11,7 +11,7 @@ import weka.estimators.density.Kernel;
  * Triangular kernel
  * @author pawel trajdos
  * @since 0.9.0
- * @version 0.9.0
+ * @version 0.13.0
  *
  */
 public class TriangularKernel implements Kernel, Serializable {
@@ -51,6 +51,16 @@ public class TriangularKernel implements Kernel, Serializable {
 	@Override
 	public String toString() {
 		return "Triangular Kernel";
+	}
+
+	@Override
+	public double supportLower() {
+		return -1;
+	}
+
+	@Override
+	public double supportUpper() {
+		return 1;
 	}
 
 }

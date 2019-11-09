@@ -14,7 +14,7 @@ public interface Kernel {
 	 * @return kernel value
 	 * @author pawel trajdos
 	 * @since 0.9.0
-	 * @version 0.9.0
+	 * @version 0.13.0
 	 */
 	public double getKernelPDFValue(double x);
 
@@ -30,5 +30,18 @@ public interface Kernel {
 	 * @version 0.9.0
 	 */
 	public double getKernelCDFValue(double x);
+	
+	/**
+	 * Get lower value of kernel support
+	 * @return
+	 */
+	public double supportLower();
+	
+	
+	/**
+	 * Get upper value of kernel support
+	 * @return
+	 */
+	public double supportUpper();
 
 }

@@ -19,7 +19,7 @@ public abstract class SimpleIntegrator extends AIntegrator {
 	 */
 	private static final long serialVersionUID = -7365946408256340706L;
 	
-	protected double delta = 0.01;
+	protected double delta = 0.001;
 
 	/**
 	 * @return the delta

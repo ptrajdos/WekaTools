@@ -11,7 +11,7 @@ import weka.estimators.density.Kernel;
  * Quartic kernel
  * @author pawel trajdos
  * @since 0.9.0
- * @version 0.9.0
+ * @version 0.13.0
  *
  */
 public class QuarticKernel implements Kernel, Serializable {
@@ -50,6 +50,16 @@ public class QuarticKernel implements Kernel, Serializable {
 	@Override
 	public String toString() {
 		return "Quartic Kernel";
+	}
+
+	@Override
+	public double supportLower() {
+		return -1;
+	}
+
+	@Override
+	public double supportUpper() {
+		return 1;
 	}
 
 }
