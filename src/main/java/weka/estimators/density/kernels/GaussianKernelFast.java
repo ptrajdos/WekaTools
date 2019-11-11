@@ -5,8 +5,6 @@ package weka.estimators.density.kernels;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.special.Erf;
-
 import weka.estimators.density.Kernel;
 
 /**

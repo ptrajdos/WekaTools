@@ -4,6 +4,7 @@
 package weka.tools;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class WeightedValuesHolder implements Serializable {
 	protected double currentWeightSum=0;
 	
 	public WeightedValuesHolder() {
-		this.values  = new LinkedList<Double>();
-		this.weights = new LinkedList<Double>();
+		this.values  = new ArrayList<Double>(100);
+		this.weights = new ArrayList<Double>(100);
 	}
 
 	public void addValue(double value, double weight) {
