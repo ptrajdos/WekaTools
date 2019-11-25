@@ -67,7 +67,7 @@ public class Linspace {
 		int fillSet = (int) Math.floor((length-1)/2);
 		for(int i=0;i<=fillSet;i++){
 			sequence[i]=from+current;
-			sequence[length-1-i] = to -step;
+			sequence[length-1-i] = to -current;
 			current+=step;
 		}
 		return sequence;

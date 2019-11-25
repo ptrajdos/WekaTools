@@ -1,8 +1,5 @@
 package weka.estimators.density;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
 import org.mockito.Mockito;
 
 import weka.core.OptionHandler;

@@ -9,6 +9,22 @@ public class MaximalSmoothingPrincipleBandwidthSelectionKernelTest extends DensE
 	protected DensityEstimator getEstimator() {
 		return new MaximalSmoothingPrincipleBandwidthSelectionKernel();
 	}
+	
+	/* (non-Javadoc)
+	 * @see weka.estimators.density.DensEstimatorTest#getLower()
+	 */
+	@Override
+	protected double getLower() {
+		return super.getLower()-0.5;
+	}
+
+	/* (non-Javadoc)
+	 * @see weka.estimators.density.DensEstimatorTest#getUpper()
+	 */
+	@Override
+	protected double getUpper() {
+		return super.getUpper()+0.5;
+	}
 
 
 }

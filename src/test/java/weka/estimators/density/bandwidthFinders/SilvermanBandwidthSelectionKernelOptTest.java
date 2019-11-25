@@ -1,13 +1,9 @@
 package weka.estimators.density.bandwidthFinders;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
 import org.mockito.Mockito;
 
 import weka.core.OptionHandler;
 import weka.core.OptionHandlersTest.OptionHandlerTest;
-import weka.estimators.density.BandwidthSelectionKernelEstimator;
 
 public class SilvermanBandwidthSelectionKernelOptTest extends OptionHandlerTest {
 

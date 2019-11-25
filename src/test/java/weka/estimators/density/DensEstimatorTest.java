@@ -1,13 +1,13 @@
 package weka.estimators.density;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import junit.framework.TestCase;
 import weka.core.Utils;
 import weka.tools.Linspace;
 import weka.tools.numericIntegration.Function;
 import weka.tools.numericIntegration.SimpsonsIntegrator;
-import weka.tools.numericIntegration.TrapezoidalIntegrator;
 
 /**
  * Test class for bounded density estimators
@@ -18,13 +18,34 @@ import weka.tools.numericIntegration.TrapezoidalIntegrator;
  */
 public abstract class DensEstimatorTest extends TestCase {
 	
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		Utils.SMALL=1e-2;
+	}
+
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		Utils.SMALL=1e-6;
+	}
+
 	protected  int numVals=1000;
 	protected  double eps=1;
 	protected  double step=0.01;
-
+	protected int seed=0;
 	
 	protected double[] generateUniform() {
 		double[] values  = new double[numVals];
+		Random rnd = new Random(seed);
+		for(int i=0;i<numVals;i++)
+			values[i] = rnd.nextDouble();
 		return values;
 	}
 	

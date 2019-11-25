@@ -4,7 +4,9 @@ public class CachedEstimatorTest extends DensEstimatorTest {
 
 	@Override
 	protected DensityEstimator getEstimator() {
-		return new CachedEstimator();
+		CachedEstimator cEstim = new CachedEstimator();
+		cEstim.setDensEstim(new BoundedEstimator());
+		return cEstim;
 	}
 
 

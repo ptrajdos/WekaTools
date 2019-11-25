@@ -3,8 +3,6 @@
  */
 package weka.tools.numericIntegration;
 
-import static org.junit.Assert.assertTrue;
-
 import junit.framework.TestCase;
 import weka.core.Utils;
 

@@ -1,9 +1,5 @@
 package weka.estimators.density;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
 public class SimpleKernelEstimatorEstTest extends DensEstimatorTest{
 
 	@Override
@@ -11,6 +7,26 @@ public class SimpleKernelEstimatorEstTest extends DensEstimatorTest{
 		return new SimpleKernelEstimator();
 	}
 
+	/* (non-Javadoc)
+	 * @see weka.estimators.density.DensEstimatorTest#getLower()
+	 */
+	@Override
+	protected double getLower() {
+		return -0.5;
+	}
+
+	/* (non-Javadoc)
+	 * @see weka.estimators.density.DensEstimatorTest#getUpper()
+	 */
+	@Override
+	protected double getUpper() {
+		return 1.5;
+	}
+
+	/* (non-Javadoc)
+	 * @see weka.estimators.density.DensEstimatorTest#setUp()
+	 */
+	
 	
 
 }
