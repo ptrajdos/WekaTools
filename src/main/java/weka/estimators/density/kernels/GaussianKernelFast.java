@@ -39,6 +39,7 @@ public class GaussianKernelFast implements Kernel, Serializable {
 	@Override
 	public double getKernelCDFValue(double x) {
 		
+		//TODO Error here
 		double alpha = (4.0/Math.PI + a*x*x)/(1 + a*x*x);
 		double erf = Math.signum(x)*Math.sqrt(1-Math.exp(-alpha*x*x));
 				 

@@ -40,7 +40,7 @@ public class TriweightKernel implements Kernel, Serializable {
 	public double getKernelCDFValue(double x) {
 		if(x<=-1) return 0;
 		if(x>-1 & x<=1)
-			return 0.5 - (35.0/32.0)*x + (1.0/32.0)*x*x*x - (21.0/32.0)*x*x*x*x*x + (5.0/32.0)*x*x*x*x*x*x*x;
+			return 0.5 + (35.0/32.0)*x - (35.0/32.0)*x*x*x + (21.0/32.0)*x*x*x*x*x - (5.0/32.0)*x*x*x*x*x*x*x;
 		return 1;
 	}
 	

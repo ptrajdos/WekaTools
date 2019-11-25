@@ -4,9 +4,7 @@
 package weka.estimators.density.bandwidthFinders;
 
 import weka.core.UtilsPT;
-import weka.estimators.density.BandwidthSelectionKernelEstimator;
 import weka.estimators.density.Kernel;
-import weka.estimators.density.KernelDensityEstimator;
 import weka.tools.numericIntegration.Function;
 import weka.tools.numericIntegration.Integrator;
 import weka.tools.numericIntegration.SimpsonsIntegrator;

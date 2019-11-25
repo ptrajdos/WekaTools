@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import weka.core.Utils;
 import weka.tools.Linspace;
 import weka.tools.numericIntegration.Function;
+import weka.tools.numericIntegration.SimpsonsIntegrator;
 import weka.tools.numericIntegration.TrapezoidalIntegrator;
 
 /**
@@ -87,9 +88,10 @@ public abstract class DensEstimatorTest extends TestCase {
 		}
 		
 		Fun fun = new Fun(dens);
-		TrapezoidalIntegrator trint = new TrapezoidalIntegrator();
+		SimpsonsIntegrator trint = new SimpsonsIntegrator();
 		trint.setUpperBound(getUpper());
 		trint.setLowerBound(getLower());
+		trint.setFunction(fun);
 		
 		double integral = trint.integrate();
 		assertTrue("Integration", Utils.eq(integral, 1.0));
