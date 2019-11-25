@@ -11,7 +11,7 @@ import weka.estimators.density.Kernel;
  * Triweight kernel
  * @author pawel trajdos
  * @since 0.9.0
- * @version 0.9.0
+ * @version 0.13.0
  *
  */
 public class TriweightKernel implements Kernel, Serializable {
@@ -40,7 +40,7 @@ public class TriweightKernel implements Kernel, Serializable {
 	public double getKernelCDFValue(double x) {
 		if(x<=-1) return 0;
 		if(x>-1 & x<=1)
-			return 0.5 - (35.0/32.0)*x + (1.0/32.0)*x*x*x - (21.0/32.0)*x*x*x*x*x + (5.0/32.0)*x*x*x*x*x*x*x;
+			return 0.5 + (35.0/32.0)*x - (35.0/32.0)*x*x*x + (21.0/32.0)*x*x*x*x*x - (5.0/32.0)*x*x*x*x*x*x*x;
 		return 1;
 	}
 	
@@ -50,6 +50,16 @@ public class TriweightKernel implements Kernel, Serializable {
 	@Override
 	public String toString() {
 		return "Triweight Kernel";
+	}
+
+	@Override
+	public double supportLower() {
+		return -1;
+	}
+
+	@Override
+	public double supportUpper() {
+		return 1;
 	}
 
 }

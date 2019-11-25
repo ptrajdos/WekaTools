@@ -1,29 +1,51 @@
 package weka.estimators.density;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import junit.framework.TestCase;
 import weka.core.Utils;
 import weka.tools.Linspace;
 import weka.tools.numericIntegration.Function;
-import weka.tools.numericIntegration.TrapezoidalIntegrator;
+import weka.tools.numericIntegration.SimpsonsIntegrator;
 
 /**
  * Test class for bounded density estimators
  * @author pawel trajdos
  * @since 0.11.0
- * @version 0.11.1
+ * @version 0.13.0
  *
  */
 public abstract class DensEstimatorTest extends TestCase {
 	
-	protected static int numVals=1000;
-	protected static double eps=1e-6;
-	protected static double step=0.01;
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		Utils.SMALL=1e-2;
+	}
 
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#tearDown()
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		Utils.SMALL=1e-6;
+	}
+
+	protected  int numVals=1000;
+	protected  double eps=1;
+	protected  double step=0.01;
+	protected int seed=0;
 	
 	protected double[] generateUniform() {
 		double[] values  = new double[numVals];
+		Random rnd = new Random(seed);
+		for(int i=0;i<numVals;i++)
+			values[i] = rnd.nextDouble();
 		return values;
 	}
 	
@@ -87,9 +109,10 @@ public abstract class DensEstimatorTest extends TestCase {
 		}
 		
 		Fun fun = new Fun(dens);
-		TrapezoidalIntegrator trint = new TrapezoidalIntegrator();
+		SimpsonsIntegrator trint = new SimpsonsIntegrator();
 		trint.setUpperBound(getUpper());
 		trint.setLowerBound(getLower());
+		trint.setFunction(fun);
 		
 		double integral = trint.integrate();
 		assertTrue("Integration", Utils.eq(integral, 1.0));

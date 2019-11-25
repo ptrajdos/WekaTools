@@ -11,7 +11,7 @@ import weka.estimators.density.Kernel;
  * Rectangle kernel -- Uniform distribution on [0;1]
  * @author pawel trajdos
  * @since 0.9.0
- * @version 0.9.0
+ * @version 0.13.0
  *
  */
 public class RectangularKernel implements Kernel, Serializable {
@@ -44,6 +44,16 @@ public class RectangularKernel implements Kernel, Serializable {
 	@Override
 	public String toString() {
 		return "Rectangular Kernel";
+	}
+
+	@Override
+	public double supportLower() {
+		return -1;
+	}
+
+	@Override
+	public double supportUpper() {
+		return 1;
 	}
 
 }

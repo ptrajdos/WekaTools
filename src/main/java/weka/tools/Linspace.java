@@ -62,12 +62,12 @@ public class Linspace {
 		if(length>1){
 			step= (to-from)/(length-1);
 		}
-		
+		//TODO something is wrong here?
 		double current=0.0;
 		int fillSet = (int) Math.floor((length-1)/2);
 		for(int i=0;i<=fillSet;i++){
 			sequence[i]=from+current;
-			sequence[length-1-i] = to -sequence[i];
+			sequence[length-1-i] = to -current;
 			current+=step;
 		}
 		return sequence;

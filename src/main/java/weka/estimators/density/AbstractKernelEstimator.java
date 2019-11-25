@@ -11,6 +11,7 @@ import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.UtilsPT;
 import weka.estimators.density.kernels.EpanechnikovKernel;
+import weka.estimators.density.kernels.GaussianKernel;
 import weka.tools.WeightedValuesHolder;
 
 /**
@@ -40,7 +41,7 @@ public abstract class AbstractKernelEstimator implements KernelDensityEstimator,
 	 * 
 	 */
 	public AbstractKernelEstimator() {
-		this.kernel = new EpanechnikovKernel();
+		this.kernel = new GaussianKernel();
 		this.valHolder = new WeightedValuesHolder();
 	}
 
@@ -158,9 +159,10 @@ public abstract class AbstractKernelEstimator implements KernelDensityEstimator,
 	@Override
 	public String toString() {
 		StringBuilder strBuild  = new StringBuilder();
-		strBuild.append("Kernel Estimator");
-		strBuild.append("Kernel: " + this.kernel.toString());
-		strBuild.append("Number of samples: " + this.valHolder.getNumVals());
+		strBuild.append("Kernel Estimator \n");
+		strBuild.append("Kernel: " + this.kernel.toString() + "\n");
+		strBuild.append("Number of samples: " + this.valHolder.getNumVals() + "\n");
+		strBuild.append("Bandwidth: " + this.bandwidth + "\n");
 		return strBuild.toString();
 	}
 	

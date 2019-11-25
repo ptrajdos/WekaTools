@@ -8,7 +8,7 @@ import weka.estimators.density.Kernel;
  * Epanechnikov Kernel
  * @author pawel trajdos
  * @since 0.9.0
- * @version 0.9.0
+ * @version 0.13.0
  *
  */
 public class EpanechnikovKernel implements Kernel, Serializable {
@@ -39,6 +39,16 @@ public class EpanechnikovKernel implements Kernel, Serializable {
 	@Override
 	public String toString() {
 		return "Epanechnikov Kernel";
+	}
+
+	@Override
+	public double supportLower() {
+		return -1;
+	}
+
+	@Override
+	public double supportUpper() {
+		return 1;
 	}
 
 }
