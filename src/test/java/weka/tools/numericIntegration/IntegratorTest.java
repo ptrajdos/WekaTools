@@ -56,23 +56,5 @@ public abstract class IntegratorTest extends TestCase {
 		assertTrue("Square integration", Utils.eq(intVal, 1));
 	}
 	
-	public void testInfiniteValue1() {
-		Integrator integr = this.getIntegrator();
-		Function func = new Function() {
-			
-			@Override
-			public double getValue(double argument) {
-				if(argument < 0)
-					return 0.0;
-				
-				return 1.0/argument;
-			}
-		};
-		integr.setFunction(func);
-		integr.setLowerBound(0.0);
-		integr.setUpperBound(1.0);
-		double intVal = integr.integrate();
-		assertTrue("Square integration", Utils.eq(intVal, 1));
-	}
 
 }
