@@ -26,6 +26,12 @@ public class SimpleKernelEstimatorEstTest extends DensEstimatorTest{
 	/* (non-Javadoc)
 	 * @see weka.estimators.density.DensEstimatorTest#setUp()
 	 */
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		this.eps=0.5;
+	}
+
 	
 	
 
