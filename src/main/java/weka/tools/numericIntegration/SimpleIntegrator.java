@@ -9,7 +9,7 @@ import weka.tools.Linspace;
  * Simple integration with a uniform sequence.
  * @author pawel trajdos
  * @since 0.10.0
- * @version 0.13.0
+ * @version 0.14.0
  *
  */
 public abstract class SimpleIntegrator extends AIntegrator {
@@ -19,8 +19,8 @@ public abstract class SimpleIntegrator extends AIntegrator {
 	 */
 	private static final long serialVersionUID = -7365946408256340706L;
 	
-	protected double delta = 0.001;
-	protected int sequenceLength= 1000;
+	protected double delta = 1.0/1001.0;
+	protected int sequenceLength= 1001;
 
 	/**
 	 * @return the delta
@@ -53,9 +53,30 @@ public abstract class SimpleIntegrator extends AIntegrator {
 		this.sequenceLength = sequenceLength;
 		this.delta = (this.getUpperBound() - this.getLowerBound())/sequenceLength;
 	}
+	
 
 	protected double[] generateSequence() {
-		return Linspace.genLinspace(getLowerBound(), getUpperBound(), this.delta);
+		return Linspace.genLinspace(getLowerBound(), getUpperBound(), this.sequenceLength);
+	}
+
+	
+
+	/* (non-Javadoc)
+	 * @see weka.tools.numericIntegration.AIntegrator#setLowerBound(double)
+	 */
+	@Override
+	public void setLowerBound(double lower) {
+		super.setLowerBound(lower);
+		this.setSequenceLength(this.sequenceLength);
+	}
+
+	/* (non-Javadoc)
+	 * @see weka.tools.numericIntegration.AIntegrator#setUpperBound(double)
+	 */
+	@Override
+	public void setUpperBound(double upper) {
+		super.setUpperBound(upper);
+		this.setSequenceLength(this.sequenceLength);
 	}
 	
 
