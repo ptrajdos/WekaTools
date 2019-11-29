@@ -19,7 +19,12 @@ public abstract class IntegratorTest extends TestCase {
 	
 	public void testDefaults() {
 		Integrator  integr = this.getIntegrator();
-		assertTrue("Default integration to 1", Utils.eq(integr.integrate(), 1));
+		try {
+			assertTrue("Default integration to 1", Utils.eq(integr.integrate(), 1));
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("An exception has been caught");
+		}
 	}
 	
 	public void testSinus() {
@@ -27,13 +32,19 @@ public abstract class IntegratorTest extends TestCase {
 		Function func = new Function() {
 			
 			@Override
-			public double getValue(double argument) {
+			public double value(double argument) {
 				return Math.sin(argument);
 			}
 		};
 		integr.setFunction(func);
 		integr.setUpperBound(2*Math.PI);
-		double intVal = integr.integrate();
+		double intVal=0;
+		try {
+			intVal = integr.integrate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("An exception has been caught");
+		}
 		assertTrue("Sinus integration", Utils.eq(intVal, 0));
 	}
 	
@@ -42,7 +53,7 @@ public abstract class IntegratorTest extends TestCase {
 		Function func = new Function() {
 			
 			@Override
-			public double getValue(double argument) {
+			public double value(double argument) {
 				if(argument < -1 | argument > 1)
 					return 0.0;
 				
@@ -52,7 +63,13 @@ public abstract class IntegratorTest extends TestCase {
 		integr.setFunction(func);
 		integr.setLowerBound(-1.0);
 		integr.setUpperBound(1.0);
-		double intVal = integr.integrate();
+		double intVal = 0;
+		try {
+			intVal=integr.integrate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("An exception has been caught");
+		}
 		assertTrue("Square integration", Utils.eq(intVal, 1));
 	}
 

@@ -22,14 +22,14 @@ public class TrapezoidalIntegrator extends SimpleIntegrator {
 	 * @see weka.tools.numericIntegration.Integrator#integrate()
 	 */
 	@Override
-	public double integrate() {
+	public double integrate() throws Exception {
 		double value=0;
 		double[] sequence = this.generateSequence();
 		double delta =0;
 		double tmpVal =0;
 		for(int i=0;i<sequence.length -1;i++) {
 			delta = sequence[i+1] - sequence[i];
-			tmpVal = 0.5*(this.getFunction().getValue(sequence[i+1]) + this.getFunction().getValue(sequence[i]));
+			tmpVal = 0.5*(this.getFunction().value(sequence[i+1]) + this.getFunction().value(sequence[i]));
 			value+=tmpVal*delta;
 		}
 		return value;

@@ -38,10 +38,17 @@ public class ROIFinder implements Serializable {
 		for(int i=0;i<seq.length;i++) {
 			tmpCdf = estim.getCDF(seq[i]);
 			if(Utils.eq(tmpCdf, 0))
-				roi[0]=seq[i];
+				roi[0]=seq[Math.max(i-1,0)];
 			if(Utils.eq(tmpCdf,1) & !upperFound) {
-				roi[1]=seq[i];
+				roi[1]=seq[Math.min(i+1,seq.length-1)];
 				upperFound=true;
+			}
+			
+			if(Utils.eq(roi[0], roi[1])) {
+				double delta = roi[0]/2.0;
+				roi[0]-=delta;
+				roi[1]+=delta;
+				
 			}
 				
 				

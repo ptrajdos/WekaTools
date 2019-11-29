@@ -67,11 +67,17 @@ public abstract class KernelTest extends TestCase {
 		trint.setFunction(new Function() {
 			
 			@Override
-			public double getValue(double argument) {
+			public double value(double argument) {
 				return kern.getKernelPDFValue(argument);
 			}
 		});
-		double integral = trint.integrate();
+		double integral = 0;
+		try {
+			integral= trint.integrate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("An exception has been caught");
+		}
 		Utils.SMALL=1e-3;
 		assertTrue("Integration", Utils.eq(integral, 1.0));
 		

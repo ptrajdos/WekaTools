@@ -64,7 +64,7 @@ public class ROIFinderTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.SMALL=1E-2;
+		Utils.SMALL=2E-2;
 	}
 
 	/* (non-Javadoc)

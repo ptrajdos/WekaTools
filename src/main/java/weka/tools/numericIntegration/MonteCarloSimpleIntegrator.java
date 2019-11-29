@@ -23,7 +23,7 @@ public class MonteCarloSimpleIntegrator extends RandomisedIntegrator {
 	 * @see weka.tools.numericIntegration.Integrator#integrate()
 	 */
 	@Override
-	public double integrate() {
+	public double integrate() throws Exception {
 		
 		
 		double x=0;
@@ -33,7 +33,7 @@ public class MonteCarloSimpleIntegrator extends RandomisedIntegrator {
 		int numSamples = this.getNumSamples();
 		 while(counter<numSamples){
 			x=this.generateRandomArgument();
-			y=this.getFunction().getValue(x);
+			y=this.getFunction().value(x);
 			
 			if( !Double.isInfinite(y) && !Double.isNaN(y) ) { 
 				sum+=y;

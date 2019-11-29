@@ -92,7 +92,7 @@ public abstract class DensEstimatorTest extends TestCase {
 		}
 
 		@Override
-		public double getValue(double argument) {
+		public double value(double argument) {
 			return this.densEstim.getPDF(argument);
 		}
 		
@@ -122,7 +122,13 @@ public abstract class DensEstimatorTest extends TestCase {
 		trint.setFunction(fun);
 		//trint.setSequenceLength(1000);
 		
-		double integral = trint.integrate();
+		double integral=0;
+		try {
+			integral = trint.integrate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("An exception has been thrown");
+		}
 		assertTrue("Integration", Utils.eq(integral, 1.0));
 		
 	}

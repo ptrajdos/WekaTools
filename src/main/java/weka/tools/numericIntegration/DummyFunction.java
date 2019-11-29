@@ -23,7 +23,7 @@ public class DummyFunction implements Function, Serializable {
 	 * @see weka.tools.numericIntegration.Function#getValue(double)
 	 */
 	@Override
-	public double getValue(double argument) {
+	public double value(double argument) {
 		return 1.0;
 	}
 

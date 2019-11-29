@@ -3,20 +3,19 @@
  */
 package weka.tools.numericIntegration;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
+
 /**
  * An interface for functions to be integrated
  * @author pawel trajdos
  * @since 0.10.0
- * @version 0.10.0
+ * @version 1.0.0
  *
  */
-public interface Function {
+public interface Function extends UnivariateFunction  {
 	
 	/**
-	 * Value of the function
-	 * @param argument
-	 * @return
+	 * Just to introduce function interface for future use. 
 	 */
-	public double getValue(double argument);
 
 }

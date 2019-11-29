@@ -47,8 +47,20 @@ public class MaximalSmoothingPrincipleBandwidthSelectionKernel extends SimpleBan
 		double[] sample = this.kernEstim.getValues();
 		double sampleSD  = UtilsPT.stdDev(sample);
 		int sampleSize = sample.length;
-		double kernelSD = this.findKernelSD();
-		double kernelSQ = this.findKernelSquareIntegral();
+		
+		// Default values for gaussian kernel;
+		double kernelSD = 1;
+		double kernelSQ = 1.0/(2*Math.sqrt(Math.PI));
+		
+		try {
+			kernelSD = this.findKernelSecondMoment();
+			kernelSQ = this.findKernelSquareIntegral();
+		} catch (Exception e) {
+			e.printStackTrace();
+			 kernelSD = 1;
+			 kernelSQ = 1.0/(2*Math.sqrt(Math.PI));
+		}
+		
 		
 		double h = this.scaleFactor* 3.0 * Math.pow(35*sampleSize, -0.2) *sampleSD * Math.pow(kernelSD, -0.8) * Math.pow(kernelSQ, 0.2);
 		if(h<this.minH)
@@ -57,10 +69,10 @@ public class MaximalSmoothingPrincipleBandwidthSelectionKernel extends SimpleBan
 
 	}
 	
-	private double findKernelSD() {
+	private double findKernelSecondMoment() throws Exception {
 		Function fun = new Function() {
 			@Override
-			public double getValue(double argument) {
+			public double value(double argument) {
 				Kernel kern = kernEstim.getKernel();
 				return argument*argument*kern.getKernelPDFValue(argument);
 			}
@@ -75,10 +87,10 @@ public class MaximalSmoothingPrincipleBandwidthSelectionKernel extends SimpleBan
 		return integr.integrate();
 	}
 	
-	private double findKernelSquareIntegral() {
+	private double findKernelSquareIntegral() throws Exception {
 		Function fun = new Function() {
 			@Override
-			public double getValue(double argument) {
+			public double value(double argument) {
 				Kernel kern = kernEstim.getKernel();
 				double val = kern.getKernelPDFValue(argument);
 				return val*val;
