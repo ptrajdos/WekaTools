@@ -80,7 +80,7 @@ public abstract class KernelTest extends TestCase {
 		}
 		Utils.SMALL=1e-3;
 		assertTrue("Integration", Utils.eq(integral, 1.0));
-		
+		Utils.SMALL=1e-6;
 		
 	}
 
