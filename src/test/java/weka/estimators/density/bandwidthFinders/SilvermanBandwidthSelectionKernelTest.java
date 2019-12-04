@@ -10,20 +10,15 @@ public class SilvermanBandwidthSelectionKernelTest extends DensEstimatorTest{
 		return new SilvermanBandwidthSelectionKernel();
 	}
 
+		
 	/* (non-Javadoc)
-	 * @see weka.estimators.density.DensEstimatorTest#getLower()
+	 * @see weka.estimators.density.DensEstimatorTest#setUp()
 	 */
 	@Override
-	protected double getLower() {
-		return super.getLower()-0.5;
-	}
-
-	/* (non-Javadoc)
-	 * @see weka.estimators.density.DensEstimatorTest#getUpper()
-	 */
-	@Override
-	protected double getUpper() {
-		return super.getUpper()+0.5;
+	protected void setUp() throws Exception {
+		super.setUp();
+		this.eps=1.0;
+		this.integrationEps=1.0;
 	}
 
 	

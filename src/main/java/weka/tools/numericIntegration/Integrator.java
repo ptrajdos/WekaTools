@@ -52,7 +52,8 @@ public interface Integrator {
 	/**
 	 * Calculate the integral \int_{lower_bound}^{upper_bound}function(x)dx
 	 * @return
+	 * @throws Exception TODO
 	 */
-	public double integrate();
+	public double integrate() throws Exception;
 
 }
