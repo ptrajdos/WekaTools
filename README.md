@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/ptrajdos/WekaTools/badge.svg?branch=master)](https://coveralls.io/github/ptrajdos/WekaTools?branch=master)
 # WekaTools
 
 The package implements a set of usefull tools for Weka software
