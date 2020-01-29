@@ -180,8 +180,23 @@
           <goal>report</goal>
         </goals>
       </execution>
+ <execution>
+            <id>prepare-agent</id>
+            <goals>
+                <goal>prepare-agent</goal>
+            </goals>
+        </execution>
     </executions>
   </plugin>
+
+<plugin>
+    <groupId>org.eluder.coveralls</groupId>
+    <artifactId>coveralls-maven-plugin</artifactId>
+    <version>4.3.0</version>
+    <configuration>
+        <repoToken>wsV2NugSGRg55CWfMPFAwA077hDKJ6AU2</repoToken>
+    </configuration>
+</plugin>  
 
 
 

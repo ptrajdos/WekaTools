@@ -4,7 +4,7 @@ jdk: oraclejdk8
 sudo: enabled 
 install: mvn install -Dgpg.skip
 after_success:
-  - coveralls
+  - mvn clean test jacoco:report coveralls:report
 notifications: 
  email:
   recipients: 
