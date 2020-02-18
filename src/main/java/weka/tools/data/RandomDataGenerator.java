@@ -39,6 +39,8 @@ public class RandomDataGenerator implements Serializable, DataGenerator, Randomi
 	private boolean addClassAttrib=true;
 	
 	private int numClasses=2;
+	
+	private boolean allowUnary=false;
 
 	
 
@@ -71,6 +73,9 @@ public class RandomDataGenerator implements Serializable, DataGenerator, Randomi
 	protected void generateNominalAttribs(List<Attribute> attrList) {
 		for(int a=0;a<this.numNominalAttributes;a++) {
 			int numVals = this.rnd.nextInt(this.maxNumNominalValues)+1;
+			if(numVals == 1 & this.allowUnary==false) {
+				numVals++;
+			}
 			LinkedList<String> valList = new LinkedList<String>();
 			for(int v =0;v<numVals;v++) {
 				valList.add(""+v);
@@ -228,6 +233,20 @@ public class RandomDataGenerator implements Serializable, DataGenerator, Randomi
 	 */
 	public void setNumClasses(int numClasses) {
 		this.numClasses = numClasses;
+	}
+
+	/**
+	 * @return the allowUnary
+	 */
+	public boolean isAllowUnary() {
+		return this.allowUnary;
+	}
+
+	/**
+	 * @param allowUnary the allowUnary to set
+	 */
+	public void setAllowUnary(boolean allowUnary) {
+		this.allowUnary = allowUnary;
 	}
 	
 	

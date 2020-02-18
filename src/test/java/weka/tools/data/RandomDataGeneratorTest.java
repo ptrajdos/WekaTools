@@ -69,6 +69,7 @@ public class RandomDataGeneratorTest {
 	@Test
 	public void testNomNumVals() {
 		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setNumNominalAttributes(1000);
 		int[] numVals = {2,4,5,7,8};
 		for(int v=0;v<numVals.length;v++) {
 			gen.setMaxNumNominalValues(numVals[v]);
@@ -78,12 +79,13 @@ public class RandomDataGeneratorTest {
 				Attribute tmpAttr = dataset.attribute(a);
 				if(tmpAttr.isNominal()) {
 					int vals = tmpAttr.numValues();
-					assertTrue("Attribute Vals", vals<=numVals[v]);
+					assertTrue("Attribute Vals", vals<=numVals[v] & vals>=1);
 				}
 			}
 		}
 	}
 	
+
 	
 
 }
