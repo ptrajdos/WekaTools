@@ -270,8 +270,6 @@ public static double[] classFreq(Instances inputSet)throws Exception{
  * @return -- an array of splitted instances.
  * @throws Exception when a dataset with a wrong attribute class has been passed.
  * 
- * @since 0.4.0
- * @version 0.4.0
  */
 public static Instances[] classSpecSplit(Instances input)throws Exception {
 	Attribute classAttr = input.classAttribute();
@@ -293,7 +291,6 @@ public static Instances[] classSpecSplit(Instances input)throws Exception {
 	}
 	return results;
 }
-
 
 
 public static void main(String[] args) {
