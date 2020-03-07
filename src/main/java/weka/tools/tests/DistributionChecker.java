@@ -15,6 +15,8 @@ import weka.core.Utils;
 public class DistributionChecker {
 
 	public static boolean checkDistribution(double[] dist) {
+		if(dist == null)
+			return false;
 		double sum = Utils.sum(dist);
 		if(! Utils.eq(sum, 1.0))
 			return false;
