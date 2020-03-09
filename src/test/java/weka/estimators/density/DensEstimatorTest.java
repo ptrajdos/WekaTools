@@ -5,6 +5,7 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 import weka.core.Utils;
+import weka.core.UtilsPT;
 import weka.tools.Linspace;
 import weka.tools.numericIntegration.Function;
 import weka.tools.numericIntegration.SimpsonsIntegrator;
@@ -100,7 +101,15 @@ public abstract class DensEstimatorTest extends TestCase {
 	
 	public void checkPDF(double[] vals) {
 		DensityEstimator dens = this.getEstimator();
-		dens.addValues(vals, this.generateHomogeneous(1.0));
+		double[] values = this.generateHomogeneous(1.0);
+		dens.addValues(vals, values);
+		
+		double[] getVals = dens.getValues();
+		assertTrue("Get Set arrays",UtilsPT.compareDoubleArrays(vals, getVals));
+		
+		double[] weights = dens.getWeights();
+		assertTrue("Get Weights", weights !=null);
+		
 		
 		double val=0;
 		val = dens.getPDF(getLower()-eps);
