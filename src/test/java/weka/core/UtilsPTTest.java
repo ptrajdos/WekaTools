@@ -6,8 +6,11 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import org.junit.Test;
+
+import weka.tools.tests.DistributionChecker;
 
 public class UtilsPTTest {
 
@@ -98,6 +101,32 @@ public class UtilsPTTest {
 		double quant = UtilsPT.quantile(array, 0.5);
 		assertTrue("Q 0.5", Utils.eq(med,quant));
 		
+	}
+	
+	@Test
+	public void testSoftmax() {
+		int lens[]= {1,2,3,5,10,100};
+		for(int i=0;i<lens.length;i++) {
+			double[] dat = this.generateDate(lens[i], i);
+			double[] smax = UtilsPT.softMax(dat);
+			assertTrue("SoftMax test: ", DistributionChecker.checkDistribution(smax));
+		}
+		
+		double[][] dnormDistribs= {{0,0,0},{0},{0,0},{Double.MIN_VALUE,Double.MIN_VALUE}};
+		for (double[] ds : dnormDistribs) {
+			assertTrue("Denorm distribs", DistributionChecker.checkDistribution(ds));
+		}
+			
+		
+	}
+	
+	double[] generateDate(int numVals, int seed) {
+		double[] genData = new double[numVals];
+		Random rnd = new Random(seed);
+		for(int i=0;i<genData.length;i++)
+			genData[i] = rnd.nextDouble();
+		
+		return genData;
 	}
 
 }
