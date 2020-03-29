@@ -15,7 +15,7 @@ import weka.tools.data.WellSeparatedSquares;
 /**
  * @author pawel trajdos
  * @since 1.4.0
- * @version 1.4.0
+ * @version 1.5.0
  *
  */
 public class RandomDataChecker {
@@ -87,7 +87,7 @@ public class RandomDataChecker {
 		return true;
 	}
 	
-	public static boolean checkAgainstWellSeparatedData(Classifier classifier, double minVal) {
+	public static boolean checkAgainstWellSeparatedData(Classifier classifier, double minVal,double maxVal) {
 		
 		int numFolds =10;
 		int seed=0;
@@ -104,6 +104,8 @@ public class RandomDataChecker {
 					
 					if(kappa < minVal)
 						return false;
+					if(kappa >maxVal)
+						return false;
 				} catch (Exception e) {
 					return false;
 				}
@@ -112,9 +114,8 @@ public class RandomDataChecker {
 		return true;
 	}
 	
-	
-
-	
-	
+	public static boolean checkAgainstWellSeparatedData(Classifier classifier, double minVal) {
+		return checkAgainstWellSeparatedData(classifier, minVal,1.0);
+	}
 
 }
