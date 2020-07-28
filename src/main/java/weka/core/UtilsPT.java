@@ -9,7 +9,7 @@ import java.util.Arrays;
 /**
  * @author pawel trajdos
  * @since 0.2.0
- * @version 0.2.0
+ * @version 1.5.1
  *
  */
 public class UtilsPT {
@@ -234,6 +234,7 @@ public class UtilsPT {
 	 * @return
 	 */
 	public static String getClassAndOptions(Object obj) {
+		//TODO consider adding -- ending!
 		String className = obj.getClass().getName();
 		String objOptions = " ";
 		if(obj instanceof OptionHandler) {
@@ -298,34 +299,36 @@ public class UtilsPT {
 	 * @param classtype
 	 * @return
 	 * @throws Exception
-	 * 
-	 * 
-	 * @author pawel trajdos
-	 * @since 0.6.0
-	 * @version 0.10.0
 	 */
 	public static Object parseObjectOptions(String[] options, String optionFlag, Object defValue, Class<?> classtype)throws Exception {
 		Object parsedObj = defValue;
+		String objectOptionString = null;
 		try {
-			String objectOptionString = Utils.getOption(optionFlag, options);
+			objectOptionString = Utils.getOption(optionFlag, options);
 		    if(objectOptionString.length() != 0) {
 		      String objectClassSpec[] = Utils.splitOptions(objectOptionString);
 		      if(objectClassSpec.length == 0) { 
 		        throw new Exception("Invalid prototype specification string."); 
 		      }
+		      try {
 		      String className = objectClassSpec[0];
 		      objectClassSpec[0] = "";
 		      parsedObj = Utils.forName( classtype, 
 		                                 className, 
 		                                 objectClassSpec);
+		      }catch(Exception e) {
+		    	  throw new Exception("Exception "+ e.getMessage() +" at creating object with options: " + Arrays.toString(objectClassSpec));
+		      }
 		    }else {
 		    	throw new Exception("No option");
 		    }
 		}catch(Exception e) {
 			System.err.println("Option " + optionFlag + " cannot be parsed. Default value is used");
+			System.err.println("Exception: " + e.getMessage());
 			System.err.println("Default value: " + defValue.toString());
 			System.err.println("Class type: " + classtype.toGenericString());
 			System.err.println("Options String: " + Arrays.toString(options));
+			System.err.println("Option Object String:  " + ((objectOptionString != null)? objectOptionString: "NULL" ));
 		}
 	    
 		return parsedObj;
