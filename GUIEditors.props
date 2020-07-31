@@ -1,3 +1,4 @@
 weka.estimators.density.DensityEstimator=weka.gui.GenericObjectEditor
 weka.tools.numericIntegration.Function=weka.gui.GenericObjectEditor
 weka.tools.numericIntegration.Integrator=weka.gui.GenericObjectEditor
+weka.estimators.density.BandwidthSelectionKernelEstimator=weka.gui.GenericObjectEditor

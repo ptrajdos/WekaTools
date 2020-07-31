@@ -1,6 +1,7 @@
 
 weka.estimators.density.DensityEstimator=\
-	weka.estimators.density
+	weka.estimators.density,\
+	weka.estimators.density.bandwidthFinders
 
 weka.tools.numericIntegration.Function=\
 	weka.tools.numericIntegration
