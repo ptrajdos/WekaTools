@@ -10,6 +10,7 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import weka.tools.Linspace;
 import weka.tools.tests.DistributionChecker;
 
 public class UtilsPTTest {
@@ -95,12 +96,44 @@ public class UtilsPTTest {
 	
 	@Test
 	public void testQuantile() {
-		double[] array = new double[] {1,2,3,4,5,6,7,8,9,10};
 		
-		double med = UtilsPT.median(array);
-		double quant = UtilsPT.quantile(array, 0.5);
-		assertTrue("Q 0.5", Utils.eq(med,quant));
+		int numReps =10;
+		for(int i=0;i<numReps;i++) {
+			double[] sample = this.sampleGen(100, i);
+			
+			double med = UtilsPT.median(sample);
+			double quant = UtilsPT.quantile(sample, 0.5);
+			assertTrue("Median", Utils.eq(med, quant));
+			
+			quant = UtilsPT.quantile(sample, 0.0);
+			int minIdx = Utils.minIndex(sample);
+			assertTrue("Zero Quantile -> min", Utils.eq(quant, sample[minIdx]));
+			assertTrue("Under zero quantile -> min", Utils.eq(UtilsPT.quantile(sample, -0.1), sample[minIdx]));
+			
+			quant = UtilsPT.quantile(sample, 1.0);
+			int maxIdx = Utils.maxIndex(sample);
+			assertTrue("One quantile -> max", Utils.eq(quant, sample[maxIdx]));
+			assertTrue("Over one quantile -> max", Utils.eq(UtilsPT.quantile(sample, 1.1), sample[maxIdx]));
+		}
+		double sampleVal=6.54;
+		double[] sample= {sampleVal};
 		
+		double[] linS = Linspace.genLinspace(0, 1, 10);
+		for(int i=0;i<linS.length;i++) {
+			double quant = UtilsPT.quantile(sample, linS[i]);
+			assertTrue("One element distribution", Utils.eq(quant, sampleVal));
+		}
+		
+	}
+	
+	protected double[] sampleGen(int maxLen, int seed) {
+		Random rnd = new Random(seed);
+		int sampleSize = rnd.nextInt(maxLen)+1;
+		double[] sample = new double[sampleSize];
+		for(int i=0;i<sampleSize;i++)
+			sample[i] = rnd.nextDouble();
+		
+		return sample;
 	}
 	
 	@Test
