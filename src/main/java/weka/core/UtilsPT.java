@@ -38,10 +38,13 @@ public class UtilsPT {
 	 * @param array -- sample
 	 * @param q -- quantile order [0,1]
 	 * @return quantile
-	 * @version 0.12.0
+	 * @version 1.5.3
 	 * @since 0.12.0
 	 */
 	public static double quantile(double[] array,double q) {
+		if(array.length==1)
+			return array[0];
+		
 		double[] tmpArray = Arrays.copyOf(array,array.length);
 		Arrays.sort(tmpArray);
 		
@@ -50,14 +53,17 @@ public class UtilsPT {
 		if(q<0)
 			return tmpArray[0];
 		
-		double preIdx = q*array.length;
-		double idx = Math.ceil(preIdx);
+		double preIdx = q*(array.length+1);
+		double idx = (int)preIdx ;
+		if(idx<1)
+			return tmpArray[0];
+		if(idx>=array.length)
+			return tmpArray[tmpArray.length-1];
+		
+		double g = preIdx - idx;
 		double quantile=0;
-		if(Utils.eq(preIdx, idx)) {
-			quantile = 0.5*(tmpArray[(int)idx-1] + tmpArray[(int)idx]); 
-		}else {
-			quantile = tmpArray[(int)idx-1];
-		}
+		quantile = (1-g)*tmpArray[(int)idx-1] + g*tmpArray[(int)idx]; 
+		
 		
 		return quantile;
 	}
