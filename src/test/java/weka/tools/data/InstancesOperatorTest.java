@@ -1,21 +1,17 @@
 package weka.tools.data;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import org.junit.Test;
-
+import junit.framework.TestCase;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instances;
+import weka.tools.tests.DistributionChecker;
 
-public class InstancesOperatorTest {
+public class InstancesOperatorTest extends TestCase {
 
-	@Test
-	public void test() {
+	public void testSplitClassSpec() {
 		ArrayList<Attribute> atts = new ArrayList<Attribute>(3);
 	      atts.add(new Attribute("X1"));
 	      LinkedList<String> valList = new LinkedList<String>();
@@ -50,6 +46,39 @@ public class InstancesOperatorTest {
 			fail("An exception has been caught");
 		}
 	    		  
+	}
+	
+	public void testClassFreq() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		Instances data = gen.generateData();
+		
+		double[] distr=null;
+		try {
+			distr = InstancesOperator.classFreq(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("testClassFreq: An exception has been caught: " + e.toString());
+		}
+		assertTrue("Class Freqs", DistributionChecker.checkDistribution(distr));
+		
+		
+	} 
+	
+	public void testClassFreqEmpty() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setNumObjects(0);
+		Instances data = gen.generateData();
+		
+		double[] distr=null;
+		try {
+			distr = InstancesOperator.classFreq(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("testClassFreqEmpty: An exception has been caught: " + e.toString());
+		}
+		assertTrue("Class Freqs", DistributionChecker.checkDistribution(distr));
+		
+		
 	}
 
 }
