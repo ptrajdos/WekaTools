@@ -250,6 +250,8 @@ public static double[] classFreq(Instances inputSet)throws Exception{
 	int numClass = inputSet.numClasses(); 
 	int numInstances = inputSet.numInstances();
 	double[] classFreqs = new double[numClass];
+	if(numInstances == 0)
+		return classFreqs;
 	Instance tmpInstance=null;
 	int classIdx;
 	for(int i=0;i<numInstances;i++){
@@ -257,6 +259,7 @@ public static double[] classFreq(Instances inputSet)throws Exception{
 		classIdx = (int)tmpInstance.classValue();
 		classFreqs[classIdx]+=1.0;
 	}
+	
 	for(int i=0;i<classFreqs.length;i++){
 		classFreqs[i]/=numInstances;
 	}
