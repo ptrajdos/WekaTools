@@ -92,13 +92,34 @@ public class NoInstancesCheckerTest{
 		};
 		
 		boolean result;
+		int[] numInstances2Check = {-1,0,1,2,3,10,30};
 		try {
 			result = NoInstancesChecker.performCheck(data, classifier);
 			assertFalse("This classifier should have failed the test", result);
+			result = NoInstancesChecker.performCheck(data, classifier, numInstances2Check, 0);
 		} catch (Exception e) {
 			fail("An Exception has been caught: " + e.getLocalizedMessage());
 		}
 		
+		
+		
+		
+	}
+	
+	@Test
+	public void testBatchTest() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		
+		Instances data = gen.generateData();
+		
+		int[] numInstances2Check = {-1,0,1,2,3,10,30};
+		Classifier classifier = new IBk(1);
+		
+		try {
+			NoInstancesChecker.performCheck(data, classifier, numInstances2Check, 0);
+		} catch (Exception e) {
+			fail("An Exception has been caught: " + e.getLocalizedMessage());
+		}
 	}
 
 }

@@ -58,5 +58,16 @@ public class NoInstancesChecker {
 	public static boolean performCheck(Instances dataset, Classifier classifier) throws Exception {
 		return NoInstancesChecker.performCheck(dataset, classifier,0,0);
 	}
+	
+	public static boolean performCheck(Instances dataset, Classifier classifier,int[] numInstancesBatch, int seed)throws Exception {
+		
+		for(int i=0;i< numInstancesBatch.length;i++) {
+			boolean result = NoInstancesChecker.performCheck(dataset, classifier, numInstancesBatch[i], seed);
+			if(!result)
+				return false;
+		}
+		
+		return true;
+	}
 
 }
