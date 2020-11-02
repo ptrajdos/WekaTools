@@ -10,6 +10,7 @@ import java.util.Random;
 import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.Utils;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Normalize;
 import weka.filters.unsupervised.attribute.Standardize;
@@ -17,7 +18,9 @@ import weka.filters.unsupervised.instance.Resample;
 import weka.filters.unsupervised.instance.SparseToNonSparse;
 
 /**
- * @author pawel
+ * @author pawel trajdos
+ * @since 0.0.1
+ * @version 1.6.0
  *
  */
 public class InstancesOperator {
@@ -81,6 +84,11 @@ public static Instances[] splitSet(Instances inputSet,double splitCoeff,int seed
 	if(instancesNumber==0){
 		splittedInstances[0] = new Instances(inputSet);
 		splittedInstances[1] = new Instances(inputSet);
+		return splittedInstances;
+	}
+	if(Utils.eq(splitCoeff, 1.0)) {
+		splittedInstances[0] = new Instances(inputSet);
+		splittedInstances[1] = new Instances(inputSet,0);
 		return splittedInstances;
 	}
 	int leftIdx,rigthIdx;
@@ -166,9 +174,14 @@ public static Instances[] splitSet(Instances inputSet,double splitCoeff){
  * @param firstSetNum
  * @return Instances[] - two sets
  */
-public static Instances[] splItSet(Instances inputSet,int firstSetNum){
+public static Instances[] splitSet(Instances inputSet,int firstSetNum){
 	Instances splittedInstances[] = new Instances[2];
 	int instancesNumber = inputSet.numInstances();
+	if(firstSetNum>=instancesNumber) {
+		splittedInstances[0] = new Instances(inputSet);
+		splittedInstances[1] = new Instances(inputSet,0);
+		return splittedInstances;
+	}
 	int leftIdx,rigthIdx;
 	leftIdx = firstSetNum;
 	rigthIdx=leftIdx+1;
@@ -293,32 +306,6 @@ public static Instances[] classSpecSplit(Instances input)throws Exception {
 		results[classVal].add(tmpInstance);
 	}
 	return results;
-}
-
-
-public static void main(String[] args) {
-	System.out.println("Instances Operator Test: ");
-	
-	String file= new String("./data/iris.arff");		
-	try {
-		BufferedReader reader = new BufferedReader(
-                new FileReader(file));
-		Instances dat = new Instances(reader);
-		dat.setClass(dat.attribute(dat.numAttributes()-1));
-		Instances[] sInst = null;
-		sInst = InstancesOperator.splitSet(dat, 0.7);
-		
-		System.out.println("S0: "+sInst[0].numInstances());
-		System.out.println("S1: "+sInst[1].numInstances());
-		
-		
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		
-	
-
 }
 
 }

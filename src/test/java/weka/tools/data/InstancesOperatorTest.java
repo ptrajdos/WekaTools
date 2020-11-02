@@ -48,6 +48,8 @@ public class InstancesOperatorTest extends TestCase {
 	    		  
 	}
 	
+	
+	
 	public void testClassFreq() {
 		RandomDataGenerator gen = new RandomDataGenerator();
 		Instances data = gen.generateData();
@@ -76,9 +78,140 @@ public class InstancesOperatorTest extends TestCase {
 			e.printStackTrace();
 			fail("testClassFreqEmpty: An exception has been caught: " + e.toString());
 		}
-		assertTrue("Class Freqs", DistributionChecker.checkDistribution(distr));
+		assertTrue("Class Freqs", DistributionChecker.checkDistribution(distr));	
+	}
+	
+	protected void checkObjCounts(int[] counts, Instances data) {
+		assertTrue("Not null.", counts!=null);
+		int sum=0;
+		int numInstances = data.numInstances();
+		for(int i=0;i<counts.length;i++) {
+			sum+=counts[i];
+			assertTrue("Greater than zero", counts[i]>=0);
+			assertTrue("Less than the number of instances", counts[i]<=numInstances);
+		}
+		if(sum>0)
+			assertTrue("Sum equality", sum==numInstances);
+	}
+	
+	public void testObjPerClass() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setNumObjects(100);
+		Instances data = gen.generateData();
+		Instances emptySet = new Instances(data,0);
+		
+		try {
+			int[] counts = InstancesOperator.objPerClass(data);
+			this.checkObjCounts(counts, data);
+			
+			counts = InstancesOperator.objPerClass(emptySet);
+			this.checkObjCounts(counts, data);
+			
+		} catch (Exception e) {
+			fail("An exception has been caught");
+		}
 		
 		
+	}
+	
+	protected void instancesCheck(Instances data) {
+		assertTrue("Not null set.", data!=null);
+		assertTrue("Number of instances", data.numInstances()>=0);
+	}
+	
+	protected void instancesCheck(Instances[] dataArr) {
+		for(int i=0;i<dataArr.length;i++)
+			this.instancesCheck(dataArr[i]);
+		
+	}
+	
+	public void testGenerateBaggingSample() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setNumObjects(100);
+		
+		Instances data = gen.generateData();
+		try {
+			Instances d1 = InstancesOperator.generateBaggingSample(data);
+			instancesCheck(d1);
+			
+			d1 = InstancesOperator.generateBaggingSample(data, 0, 1.0);
+			instancesCheck(d1);
+			
+			d1 = InstancesOperator.generateBaggingSample(data, 0, 0.0);
+			instancesCheck(d1);
+			
+			Instances emptySet = new Instances(data,0);
+			
+			d1 = InstancesOperator.generateBaggingSample(emptySet);
+			instancesCheck(d1);
+			
+		} catch (Exception e) {
+			fail("An Exception has been caught: ");
+		}
+		
+	}
+	
+	public void testSplitSet() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setNumObjects(100);
+		
+		Instances data = gen.generateData();
+		
+		Instances[] d1 = InstancesOperator.splitSet(data, 0.5);
+		this.instancesCheck(d1);
+		
+		d1 = InstancesOperator.splitSet(data, 0.0);
+		this.instancesCheck(d1);
+		
+		d1 = InstancesOperator.splitSet(data, 1.0);
+		this.instancesCheck(d1);
+		
+		
+		Instances emptySet = new Instances(data,0);
+		d1 = InstancesOperator.splitSet(emptySet, 0.5);
+
+	}
+	
+	public void testSplitSet2() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		int numInstances = 100;
+		gen.setNumObjects(numInstances);
+		
+		Instances data = gen.generateData();
+		
+		Instances[] d1 = InstancesOperator.splitSet(data, numInstances/2);
+		this.instancesCheck(d1);
+		
+		d1 = InstancesOperator.splitSet(data, 0);
+		this.instancesCheck(d1);
+		
+		d1 = InstancesOperator.splitSet(data, numInstances);
+		this.instancesCheck(d1);
+		
+		Instances emptySet = new Instances(data,0);
+		
+		d1 = InstancesOperator.splitSet(emptySet, numInstances);
+		this.instancesCheck(d1);
+	}
+	
+	public void testStratifiedSplitSet() {
+		
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setNumObjects(100);
+		
+		Instances data = gen.generateData();
+		
+		Instances[] d1 = InstancesOperator.stratifiedSplitSet(data, 0.0, 0);
+		this.instancesCheck(d1);
+		
+		d1 = InstancesOperator.stratifiedSplitSet(data, 1.0, 0);
+		this.instancesCheck(d1);
+		
+		Instances emptySet = new Instances(data,0);
+		
+		d1 = InstancesOperator.stratifiedSplitSet(data, 0.5, 0);
+		this.instancesCheck(d1);
+
 	}
 
 }
