@@ -25,6 +25,15 @@ public class WellSeparatedSquares extends DataGeneratorA {
 	/**
 	 * 
 	 */
+	
+	public WellSeparatedSquares() {
+		this.setNumDateAttributes(0);
+		this.setNumNominalAttributes(0);
+		this.setNumStringAttributes(0);
+		this.setAddClassAttrib(true);
+		this.setNumClasses(2);
+		
+	}
 
 
 	@Override
@@ -33,11 +42,6 @@ public class WellSeparatedSquares extends DataGeneratorA {
 		
 		int classAttribIdx = dataset.classIndex();
 		Attribute classAttrib = dataset.classAttribute();
-		
-		if(!classAttrib.isNominal())
-			return;
-		
-		
 		
 		for(int i=0;i<this.numObjects;i++) {
 			
@@ -55,12 +59,6 @@ public class WellSeparatedSquares extends DataGeneratorA {
 				
 				if(tmpAttr.isNumeric()) {
 					instanceRep[a] = this.rnd.nextDouble() + classVal *(1.0 - this.overleap);
-					continue;
-				}
-				
-				if(tmpAttr.isNominal()) {
-					int numVals = tmpAttr.numValues();
-					instanceRep[a] = this.rnd.nextInt(numVals);
 					continue;
 				}
 			}

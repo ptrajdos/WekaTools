@@ -1,6 +1,7 @@
 package weka.tools.data;
 
 import java.io.Serializable;
+import java.text.ParseException;
 
 import weka.core.Attribute;
 import weka.core.DenseInstance;
@@ -15,6 +16,23 @@ public class RandomDataGenerator extends DataGeneratorA implements Serializable,
 	 * 
 	 */
 	private static final long serialVersionUID = -4367823102888277085L;
+	
+	protected RandomStringGenerator stringGen ;
+	
+	protected RandomDateGenerator dateGen;
+	
+	public RandomDataGenerator() {
+		this.initInternals();
+	}
+	
+	private void initInternals() {
+		this.stringGen = new RandomStringGenerator();
+		this.stringGen.setSeed(this.seed);
+		
+		this.dateGen = new RandomDateGenerator();
+		this.dateGen.setSeed(this.seed);
+		this.dateGen.setDateFormat(this.dateFormat);
+	}
 
 	
 	protected void fillWithInstances(Instances dataset) {
@@ -27,13 +45,28 @@ public class RandomDataGenerator extends DataGeneratorA implements Serializable,
 			for(int a=0;a<numAttrs;a++) {
 				tmpAttr = dataset.attribute(a);
 				
-				if(tmpAttr.isNumeric()) {
-					instanceRep[a] = this.rnd.nextDouble();
-					continue;
-				}
+				
 				if(tmpAttr.isNominal()) {
 					int numVals = tmpAttr.numValues();
 					instanceRep[a] = this.rnd.nextInt(numVals);
+					continue;
+				}
+				if(tmpAttr.isString()) {
+					int strLen = this.rnd.nextInt(20) +1;
+					instanceRep[a] = tmpAttr.addStringValue(this.stringGen.generateNextString(strLen));
+					continue;
+				}
+				if(tmpAttr.isDate()) {
+					try {
+						instanceRep[a] = tmpAttr.parseDate(this.dateGen.getNextDateString());
+					} catch (ParseException e) {
+						e.printStackTrace();
+						//This should not happend
+					}
+					continue;
+				}
+				if(tmpAttr.isNumeric()) {
+					instanceRep[a] = this.rnd.nextDouble();
 					continue;
 				}
 			}
@@ -43,5 +76,19 @@ public class RandomDataGenerator extends DataGeneratorA implements Serializable,
 		
 		
 	}
+
+	@Override
+	public void setSeed(int seed) {
+		super.setSeed(seed);
+		this.initInternals();
+	}
+
+	@Override
+	public void setDateFormatString(String dateFormatString) {
+		super.setDateFormatString(dateFormatString);
+		this.initInternals();
+	}
+	
+	
 
 }

@@ -4,6 +4,7 @@
 package weka.tools.data;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +32,10 @@ public abstract class DataGeneratorA implements DataGenerator, Serializable, Ran
 	
 	protected int numNominalAttributes=2;
 	
+	protected int numStringAttributes=0;
+	
+	protected int numDateAttributes=0;
+	
 	protected int numObjects=100;
 	
 	protected int maxNumNominalValues=3;
@@ -38,6 +43,14 @@ public abstract class DataGeneratorA implements DataGenerator, Serializable, Ran
 	protected String numericAttribNameProto="NumA";
 	
 	protected String nominalAttribNameProto="NomA";
+	
+	protected String stringAttribNameProto="StringA";
+	
+	protected String dateAttribNameProto="DateA";
+	
+	protected String dateFormatString="yyyy-MM-dd'T'HH:mm:ss";
+	
+	protected SimpleDateFormat dateFormat = new SimpleDateFormat(this.dateFormatString);
 	
 	protected int seed=0;
 	
@@ -69,6 +82,18 @@ public abstract class DataGeneratorA implements DataGenerator, Serializable, Ran
 			
 		}
 	}
+	
+	protected void generateStringAttribs(List<Attribute> attrList) {
+		for(int i=0;i<this.numStringAttributes;i++)
+			attrList.add(new Attribute(this.stringAttribNameProto+i,true));
+	}
+	
+	
+	protected void generateDateAttribs(List<Attribute> attrList) {
+		for(int i=0;i<this.numDateAttributes;i++)
+			attrList.add(new Attribute(this.dateAttribNameProto+i,this.dateFormatString));
+	}
+	
 	protected void generateClass(List<Attribute> attrList) {
 		if(!this.addClassAttrib)
 			return;
@@ -84,6 +109,8 @@ public abstract class DataGeneratorA implements DataGenerator, Serializable, Ran
 		ArrayList<Attribute> atts = new ArrayList<Attribute>(3);
 		this.generateNumericAttribs(atts);
 		this.generateNominalAttribs(atts);
+		this.generateStringAttribs(atts);
+		this.generateDateAttribs(atts);
 		this.generateClass(atts);
 		
 		Instances dataset = null;
@@ -229,6 +256,48 @@ public abstract class DataGeneratorA implements DataGenerator, Serializable, Ran
 	 */
 	public void setAllowUnary(boolean allowUnary) {
 		this.allowUnary = allowUnary;
+	}
+
+	/**
+	 * @return the numStringAttributes
+	 */
+	public int getNumStringAttributes() {
+		return this.numStringAttributes;
+	}
+
+	/**
+	 * @param numStringAttributes the numStringAttributes to set
+	 */
+	public void setNumStringAttributes(int numStringAttributes) {
+		this.numStringAttributes = numStringAttributes;
+	}
+
+	/**
+	 * @return the numDateAttributes
+	 */
+	public int getNumDateAttributes() {
+		return this.numDateAttributes;
+	}
+
+	/**
+	 * @param numDateAttributes the numDateAttributes to set
+	 */
+	public void setNumDateAttributes(int numDateAttributes) {
+		this.numDateAttributes = numDateAttributes;
+	}
+
+	/**
+	 * @return the dateFormatString
+	 */
+	public String getDateFormatString() {
+		return this.dateFormatString;
+	}
+
+	/**
+	 * @param dateFormatString the dateFormatString to set
+	 */
+	public void setDateFormatString(String dateFormatString) {
+		this.dateFormatString = dateFormatString;
 	}
 	
 	
