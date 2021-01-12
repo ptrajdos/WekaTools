@@ -77,6 +77,9 @@ public abstract class ADistributionDistanceCalculatorTest {
 					double[] dist2 = this.generateRandomDistribution(numClasses[i], rnd);
 					double dist = calc.calculateDistance(dist1, dist2);
 					assertTrue("Distance check", this.checkDistance(dist));
+					assertTrue("The same distrib:", Utils.eq(0, calc.calculateDistance(dist1, dist1)));
+					assertTrue("The same distrib:", Utils.eq(0, calc.calculateDistance(dist2, dist2)));
+					
 				}
 			}
 		}catch(Exception e) {

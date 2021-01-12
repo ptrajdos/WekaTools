@@ -8,3 +8,6 @@ weka.tools.numericIntegration.Function=\
 
 weka.tools.numericIntegration.Integrator=\
 	weka.tools.numericIntegration
+
+weka.tools.stats.distributionDistances.DistributionDistanceCalculator=\
+	weka.tools.stats.distributionDistances
