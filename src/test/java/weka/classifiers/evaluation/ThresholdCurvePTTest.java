@@ -12,13 +12,11 @@ import weka.core.Utils;
 import weka.tools.data.RandomDataGenerator;
 
 public class ThresholdCurvePTTest {
-
-	@Test
-	public void testPerfectPredictions() {
+	
+	
+	public void testPerfectPredictionsI(int nClasses, int numObjs) {
 		ArrayList<Prediction> predictions = new ArrayList<Prediction>();
-		
-		int nClasses = 2;
-		int numObjs=100;
+
 		Random rnd = new Random();
 		for (int i=0;i<numObjs;i++) {
 			double classVal = rnd.nextInt(nClasses);
@@ -37,13 +35,19 @@ public class ThresholdCurvePTTest {
 		}
 
 	}
-	
+
 	@Test
-	public void testWrongPredictions() {
+	public void testPerfectPredictions() {
+		int[] nCla= {2,3,4};
+		int[] nInst= {100,1000};
+		for(int i=0;i<nCla.length;i++)
+			for(int j=0;j<nInst.length;j++)
+				testPerfectPredictionsI(nCla[i], nInst[j]);
+
+	}
+	
+	public void testWrongPredictionsI(int nClasses, int numObjs) {
 		ArrayList<Prediction> predictions = new ArrayList<Prediction>();
-		
-		int nClasses = 2;
-		int numObjs=100;
 		Random rnd = new Random();
 		for (int i=0;i<numObjs;i++) {
 			double classVal = rnd.nextInt(nClasses);
@@ -60,6 +64,16 @@ public class ThresholdCurvePTTest {
 	        this.checkAUC(rarea);
 	        assertTrue("Perfect Predictions", Utils.eq(rarea, 0.0));
 		}
+
+	}
+	
+	@Test
+	public void testWrongPredictions() {
+		int[] nCla= {2};
+		int[] nInst= {100,1000};
+		for(int i=0;i<nCla.length;i++)
+			for(int j=0;j<nInst.length;j++)
+				testWrongPredictionsI(nCla[i], nInst[j]);
 
 	}
 	
