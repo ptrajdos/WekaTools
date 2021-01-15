@@ -234,19 +234,25 @@ public class UtilsPT {
 	 * 
 	 * @author pawel trajdos
 	 * @since 0.6.0
-	 * @version 0.6.0
+	 * @version 1.8.0
 	 * 
 	 * @param obj
 	 * @return
 	 */
 	public static String getClassAndOptions(Object obj) {
-		//TODO consider adding -- ending!
 		String className = obj.getClass().getName();
-		String objOptions = " ";
+		String objOptions = "";
 		if(obj instanceof OptionHandler) {
 			objOptions = Utils.joinOptions(((OptionHandler) obj).getOptions());
 		}
-		String result = ""+className + " " + objOptions;
+		
+		String result;
+		if(objOptions.length()>0) {
+			result = ""+className + " " + objOptions;	
+		}else {
+			result = ""+className;
+		}
+		 
 		return result;
 	}
 	

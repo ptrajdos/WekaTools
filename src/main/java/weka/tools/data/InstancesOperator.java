@@ -3,8 +3,6 @@
  */
 package weka.tools.data;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.Random;
 
 import weka.core.Attribute;
