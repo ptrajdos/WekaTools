@@ -353,14 +353,15 @@ public class UtilsPT {
 	 *
 	 * @author pawel trajdos
 	 * @since 0.7.0
-	 * @version 0.7.0
+	 * @version 1.9.0
 	 */
 	
 	public static double[] softMax(double[] array) {
 		double[] tmp =  Arrays.copyOf(array, array.length);
+		double tmpMax = tmp[Utils.maxIndex(tmp)];
 		double sum=0;
 		for(int i=0;i<array.length;i++) {
-			tmp[i] = Math.exp(tmp[i]);
+			tmp[i] = Math.exp(tmp[i]-tmpMax);
 			sum+= tmp[i];
 		}
 		if(!Utils.eq(0, sum)) {

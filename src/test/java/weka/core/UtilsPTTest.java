@@ -141,8 +141,11 @@ public class UtilsPTTest {
 		int lens[]= {1,2,3,5,10,100};
 		for(int i=0;i<lens.length;i++) {
 			double[] dat = this.generateDate(lens[i], i);
+			int dMaxIdx = Utils.maxIndex(dat);
 			double[] smax = UtilsPT.softMax(dat);
+			int sMaxIdx = Utils.maxIndex(smax);
 			assertTrue("SoftMax test: ", DistributionChecker.checkDistribution(smax));
+			assertTrue("The same max inedx ", dMaxIdx == sMaxIdx);
 		}
 		
 		double[][] dnormDistribs= {{0,0,0},{0},{0,0},{Double.MIN_VALUE,Double.MIN_VALUE}};

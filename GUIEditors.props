@@ -3,3 +3,4 @@ weka.tools.numericIntegration.Function=weka.gui.GenericObjectEditor
 weka.tools.numericIntegration.Integrator=weka.gui.GenericObjectEditor
 weka.estimators.density.BandwidthSelectionKernelEstimator=weka.gui.GenericObjectEditor
 weka.tools.stats.distributionDistances.DistributionDistanceCalculator=weka.gui.GenericObjectEditor
+weka.estimators.MultivariateEstimatorFromInstances=weka.gui.GenericObjectEditor
