@@ -1,7 +1,5 @@
 package weka.estimators.density.tools;
 
-import org.junit.Test;
-
 import junit.framework.TestCase;
 import weka.core.Utils;
 import weka.estimators.density.DensityEstimator;

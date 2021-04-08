@@ -5,8 +5,6 @@ package weka.core;
 
 import java.util.Random;
 
-import org.netlib.util.doubleW;
-
 import junit.framework.TestCase;
 import weka.core.neighboursearch.PerformanceStats;
 import weka.tools.data.RandomDataGenerator;
