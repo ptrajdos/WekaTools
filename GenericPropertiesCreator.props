@@ -11,3 +11,6 @@ weka.tools.numericIntegration.Integrator=\
 
 weka.tools.stats.distributionDistances.DistributionDistanceCalculator=\
 	weka.tools.stats.distributionDistances
+
+weka.estimators.MultivariateEstimatorFromInstances=\
+ weka.estimators
