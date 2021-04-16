@@ -8,6 +8,13 @@ import weka.core.DenseInstance;
 import weka.core.Instances;
 import weka.core.Randomizable;
 
+/**
+ * Generates random data for test purposed
+ * @author pawel trajdos
+ * @version 1.9.1
+ * @since  1.4.0
+ */
+
 public class RandomDataGenerator extends DataGeneratorA implements Serializable, DataGenerator, Randomizable {
 	
 	

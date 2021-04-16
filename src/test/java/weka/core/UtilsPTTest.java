@@ -148,9 +148,16 @@ public class UtilsPTTest {
 			assertTrue("The same max inedx ", dMaxIdx == sMaxIdx);
 		}
 		
-		double[][] dnormDistribs= {{0,0,0},{0},{0,0},{Double.MIN_VALUE,Double.MIN_VALUE}};
+		double[][] dnormDistribs= {{0,0,0},{0},{0,0},{Double.MIN_VALUE,Double.MIN_VALUE}, {Double.MAX_VALUE, Double.MAX_VALUE},
+				{Double.MIN_VALUE, Double.MAX_VALUE}, {-Double.MIN_VALUE,-Double.MIN_VALUE},
+				{-Double.MAX_VALUE, -Double.MAX_VALUE}, {-Double.MIN_VALUE, -Double.MAX_VALUE},
+				{-Double.MIN_VALUE, Double.MAX_VALUE}, {Double.MIN_VALUE, -Double.MAX_VALUE}};
 		for (double[] ds : dnormDistribs) {
-			assertTrue("Denorm distribs", DistributionChecker.checkDistribution(ds));
+			double[] normalised = UtilsPT.softMax(ds);
+			int maxIdx = Utils.maxIndex(ds);
+			int sMax = Utils.maxIndex(normalised);
+			assertTrue("Denorm distribs", DistributionChecker.checkDistribution(normalised));
+			assertTrue("Denorm distribution max idx",maxIdx == sMax);
 		}
 			
 		

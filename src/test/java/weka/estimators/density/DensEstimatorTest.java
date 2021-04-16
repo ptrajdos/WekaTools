@@ -14,7 +14,7 @@ import weka.tools.numericIntegration.SimpsonsIntegrator;
  * Test class for bounded density estimators
  * @author pawel trajdos
  * @since 0.11.0
- * @version 0.13.0
+ * @version 1.9.1
  *
  */
 public abstract class DensEstimatorTest extends TestCase {
@@ -48,6 +48,14 @@ public abstract class DensEstimatorTest extends TestCase {
 		Random rnd = new Random(seed);
 		for(int i=0;i<numVals;i++)
 			values[i] = rnd.nextDouble();
+		return values;
+	}
+	
+	protected double[] generateGauss(double divisor) {
+		double[] values  = new double[numVals];
+		Random rnd = new Random(seed);
+		for(int i=0;i<numVals;i++)
+			values[i] = rnd.nextGaussian()/divisor + 0.5;
 		return values;
 	}
 	
@@ -146,6 +154,14 @@ public abstract class DensEstimatorTest extends TestCase {
 		checkPDF(generateUniform());
 	}
 	
+	public void testPdfGauss() {
+		double[] divs= {10,100,1000,10000,1000000,1000000};
+		for (double d : divs) {
+			checkPDF(generateGauss(d));
+		}
+		
+	}
+	
 	/*
 	public void testPfdLower() {
 		checkPDF(generateHomogeneous(this.getLower() + eps));
@@ -162,6 +178,14 @@ public abstract class DensEstimatorTest extends TestCase {
 	
 	public void testCdf() {
 		checkCDF(generateUniform());
+	}
+	
+	public void testCdfGauss() {
+		double[] divs= {10,100,1000,10000,1000000,1000000};
+		for (double d : divs) {
+			checkCDF(generateGauss(d));
+		}
+		
 	}
 	
 /*	public void testCdfLower() {
