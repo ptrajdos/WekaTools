@@ -111,7 +111,8 @@ public class MultivariateEstimatorFromInstancesWrapper implements MultivariateEs
 		
 		
 		double[] instanceRep = this.transformInstance(instance);
-		double dens = Math.exp(this.mEstimator.logDensity(instanceRep));
+		double logDens = this.mEstimator.logDensity(instanceRep);
+		double dens = Math.exp(logDens);
 		return dens;
 	}
 
