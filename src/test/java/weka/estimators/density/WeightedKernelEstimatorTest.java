@@ -30,6 +30,10 @@ public class WeightedKernelEstimatorTest {
 			kern.addValue(dVal, wei);
 			sKern.addValue(dVal, wei);
 		}
+		double[] vals = kern.getValues();
+		double[] weights = kern.getWeights();
+		assertTrue("val len", vals.length == numVals);
+		assertTrue("Wei len", weights.length == numVals);
 		
 		double a =-1;
 		double delta =0.1;

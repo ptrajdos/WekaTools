@@ -11,7 +11,7 @@ import weka.core.Randomizable;
 /**
  * Generates random data for test purposed
  * @author pawel trajdos
- * @version 1.9.1
+ * @version 1.10.0
  * @since  1.4.0
  */
 
@@ -24,21 +24,23 @@ public class RandomDataGenerator extends DataGeneratorA implements Serializable,
 	 */
 	private static final long serialVersionUID = -4367823102888277085L;
 	
-	protected RandomStringGenerator stringGen ;
+	protected IRandomStringGenerator stringGen = new RandomStringGenerator();;
 	
-	protected RandomDateGenerator dateGen;
+	protected IRandomDateGenerator dateGen = new RandomDateGenerator();
+	
+	protected IRandomDoubleGenerator doubleGen = new RandomDoubleGeneratorUniform();
 	
 	public RandomDataGenerator() {
 		this.initInternals();
 	}
 	
 	private void initInternals() {
-		this.stringGen = new RandomStringGenerator();
 		this.stringGen.setSeed(this.seed);
 		
-		this.dateGen = new RandomDateGenerator();
 		this.dateGen.setSeed(this.seed);
 		this.dateGen.setDateFormat(this.dateFormat);
+		
+		this.doubleGen.setSeed(this.seed);
 	}
 
 	
@@ -73,7 +75,7 @@ public class RandomDataGenerator extends DataGeneratorA implements Serializable,
 					continue;
 				}
 				if(tmpAttr.isNumeric()) {
-					instanceRep[a] = this.rnd.nextDouble();
+					instanceRep[a] = this.doubleGen.getNextDouble();
 					continue;
 				}
 			}
@@ -93,8 +95,36 @@ public class RandomDataGenerator extends DataGeneratorA implements Serializable,
 	@Override
 	public void setDateFormatString(String dateFormatString) {
 		super.setDateFormatString(dateFormatString);
-		this.initInternals();
+		this.dateGen.setDateFormat(this.dateFormat);
 	}
+
+	
+	/**
+	 * @param stringGen the stringGen to set
+	 */
+	public void setStringGen(IRandomStringGenerator stringGen) {
+		this.stringGen = stringGen;
+		this.stringGen.setSeed(this.seed);
+	}
+
+	/**
+	 * @param dateGen the dateGen to set
+	 */
+	public void setDateGen(IRandomDateGenerator dateGen) {
+		this.dateGen = dateGen;
+		this.dateGen.setSeed(this.seed);
+	}
+
+	/**
+	 * @param doubleGen the doubleGen to set
+	 */
+	public void setDoubleGen(IRandomDoubleGenerator doubleGen) {
+		this.doubleGen = doubleGen;
+		this.doubleGen.setSeed(this.seed);
+	}
+	
+	
+	
 	
 	
 

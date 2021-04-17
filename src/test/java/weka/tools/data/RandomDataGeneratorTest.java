@@ -112,7 +112,9 @@ public class RandomDataGeneratorTest {
 		RandomDataGenerator gen = new RandomDataGenerator();
 		gen.setNumNominalAttributes(0);
 		gen.setNumNumericAttributes(0);
-		gen.setNumStringAttributes(10);
+		int numStrinAttrs=10;
+		gen.setNumStringAttributes(numStrinAttrs);
+		assertTrue("Number of string attributes", numStrinAttrs == gen.getNumStringAttributes());
 		
 		Instances data = gen.generateData();
 		assertTrue("Not null", data!=null);
@@ -131,7 +133,11 @@ public class RandomDataGeneratorTest {
 		gen.setNumNominalAttributes(0);
 		gen.setNumNumericAttributes(0);
 		gen.setNumStringAttributes(0);
-		gen.setNumDateAttributes(10);
+		int numDateAttributes = 10;
+		gen.setNumDateAttributes(numDateAttributes);
+		assertTrue("Num Date attributes", numDateAttributes == gen.getNumDateAttributes());
+		String dateFormat = gen.getDateFormatString();
+		gen.setDateFormatString(dateFormat);
 		
 		Instances data = gen.generateData();
 		assertTrue("Not null", data!=null);
@@ -144,5 +150,22 @@ public class RandomDataGeneratorTest {
 		}
 	}
 	
+	@Test 
+	public void testSetStringGen() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setStringGen(new RandomStringGenerator());
+	}
+	
+	@Test
+	public void testSetDateGenerator() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setDateGen(new RandomDateGenerator());
+	} 
+	
+	@Test
+	public void testSetDoubleGenerator() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setDoubleGen(new RandomDoubleGeneratorGaussian());
+	}
 
 }

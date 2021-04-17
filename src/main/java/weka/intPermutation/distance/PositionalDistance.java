@@ -6,6 +6,7 @@ package weka.intPermutation.distance;
 import java.io.Serializable;
 
 import weka.intPermutation.IntPermutation;
+import weka.intPermutation.IntPermutationOperator;
 
 /**
  * Deviation distance according to: Sevaux, M Sörensen, K
@@ -27,6 +28,7 @@ public class PositionalDistance implements IntPermDistanceCalc, Serializable {
 	@Override
 	public double calculateDistance(IntPermutation perm1, IntPermutation perm2) throws Exception {
 		boolean areConsistent;
+
 		areConsistent = perm1.isConsistentWith(perm2);
 		if(! areConsistent)throw new IllegalArgumentException("Permuatations are incconsistent");
 		
@@ -40,7 +42,16 @@ public class PositionalDistance implements IntPermDistanceCalc, Serializable {
 		}
 		int a = (len%2==0)? 2:0;
 		int NF = Math.floorDiv(len, 2);
-		double maxValue = (a + NF -1)*NF;
+		//double maxValue = (a + NF -1)*NF;
+		double maxValue = 0;
+		IntPermutation p1 = new IntPermutation(invArray1.length);
+		IntPermutation p2 = new IntPermutation(IntPermutationOperator.reversePermutation(p1.getArray()));
+		int[] p1A = p1.getArray();
+		int[] p2A = p2.getArray();
+		for(int i=0;i<invArray1.length;i++)
+			maxValue+= Math.abs(p1A[i] - p2A[i]);
+			
+		
 		double dist= preDist/maxValue;
 		return dist;
 	}
@@ -59,7 +70,7 @@ public class PositionalDistance implements IntPermDistanceCalc, Serializable {
 
 	@Override
 	public double getMaxDist() {
-		return 0;
+		return 1;
 	}
 
 	@Override

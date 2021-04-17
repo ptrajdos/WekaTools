@@ -14,7 +14,7 @@ import weka.core.Randomizable;
  * @version 1.7.0
  *
  */
-public class RandomStringGenerator implements Randomizable, Serializable {
+public class RandomStringGenerator implements IRandomStringGenerator, Serializable {
 	
 	
 	/**
