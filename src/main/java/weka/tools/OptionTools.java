@@ -12,13 +12,6 @@ import java.util.List;
 public class OptionTools {
 
 	/**
-	 * 
-	 */
-	public OptionTools() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	/**
 	 * Concatenates a list of string arrays
 	 * @param obj -- list of string arrays
 	 * @return

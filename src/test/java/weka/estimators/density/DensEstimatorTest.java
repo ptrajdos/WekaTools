@@ -6,6 +6,7 @@ import java.util.Random;
 import junit.framework.TestCase;
 import weka.core.Utils;
 import weka.core.UtilsPT;
+import weka.estimators.density.tools.DensityEstimatorProps;
 import weka.tools.Linspace;
 import weka.tools.numericIntegration.Function;
 import weka.tools.numericIntegration.SimpsonsIntegrator;
@@ -148,6 +149,24 @@ public abstract class DensEstimatorTest extends TestCase {
 		}
 		assertTrue("Integration", Utils.eq(integral, 1.0));
 		
+		double lowerBound = getUpper()+integrationEps;
+		double upperBound = getLower()-integrationEps;
+		double expVal;
+		try {
+			expVal = DensityEstimatorProps.getMoment(dens, lowerBound, upperBound, 1);
+			assertTrue("Finite expected value", Double.isFinite(expVal));
+		} catch (Exception e) {
+			fail("An exception has been caught:" + e.getMessage());
+		}
+		
+		try {
+			double var = DensityEstimatorProps.getCentralMoment(dens, lowerBound, upperBound, 2);
+			assertTrue("Finite variance", Double.isFinite(var));
+		} catch (Exception e) {
+			fail("Excaption has been caught:"  + e.getMessage());
+		}
+		
+		
 	}
 	
 	public void testPdfUniform() {
@@ -200,5 +219,20 @@ public abstract class DensEstimatorTest extends TestCase {
 	public void testCdfMiddle() {
 		checkCDF(generateHomogeneous(0.5*(this.getUpper() + this.getLower()) ));
 	}
+	
+	public void testToString() {
+		DensityEstimator dens = this.getEstimator();
+		String desc  = dens.toString();
+		assertTrue(desc!=null);
+	}
+	
+	public void testAddSingleVals() {
+		DensityEstimator dens = this.getEstimator();
+		double[] values = this.generateHomogeneous(1.0);
+		for (double d : values) {
+			dens.addValue(d, 1.0);
+		}	
+	}
+	
 
 }

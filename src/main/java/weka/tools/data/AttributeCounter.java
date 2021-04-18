@@ -22,7 +22,7 @@ public class AttributeCounter {
 		for(int a=0;a<numAttrs;a++) {
 			switch (type) {
 			case NUMERIC:
-				if(dataset.attribute(a).isNumeric())
+				if(dataset.attribute(a).isNumeric() & (!dataset.attribute(a).isString()) & (! dataset.attribute(a).isDate())) 
 					cntAttribs++;
 				break;
 			case NOMINAL:

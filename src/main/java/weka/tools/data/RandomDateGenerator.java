@@ -18,7 +18,7 @@ import weka.core.Randomizable;
  * 
  *
  */
-public class RandomDateGenerator implements Randomizable, Serializable{
+public class RandomDateGenerator implements IRandomDateGenerator, Serializable{
 	
 	/**
 	 * 
