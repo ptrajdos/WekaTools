@@ -6,7 +6,7 @@
 
    <groupId>com.github.ptrajdos</groupId>
    <artifactId>WekaTools</artifactId>
-   <version>1.10.0</version>
+   <version>1.11.0</version>
    
    <name>WekaTools</name>
    <description> Contains WekaTools package developed by Pawel Trajdos </description>

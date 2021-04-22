@@ -39,13 +39,38 @@ public class InstancesToolsTest extends TestCase {
 		
 		
 		
+		
+		
 		try {
+			
+			RandomDataGenerator gen2 = (RandomDataGenerator) SerialCopier.makeCopy(gen);
+			gen2.setNumClasses(3);
+			
+			Instances datasetOtherClass = gen2.generateData();
+			Instance incInstanceCl = datasetOtherClass.get(0);
+			
+
+			
+			
+			
 			assertTrue("Instance vs dataset", InstancesTools.checkCompatibility(dataset, tmpInstance1));
+			assertTrue("Instance vs dataset", InstancesTools.checkCompatibility(dataset, tmpInstance1,false));
 			assertTrue("Instance vs dataset", InstancesTools.checkCompatibility(dataset, tmpInstance2));
+			assertTrue("Instance vs dataset", InstancesTools.checkCompatibility(dataset, tmpInstance2,false));
 			assertTrue("Instance vs dataset", InstancesTools.checkCompatibility(dataset, comInstance1));
+			assertTrue("Instance vs dataset", InstancesTools.checkCompatibility(dataset, comInstance1,false));
+			
+			//
+			assertTrue("Instance vs class-incomaptible dataset", InstancesTools.checkCompatibility(dataset,incInstanceCl,false));
+
+			assertTrue("Instance vs class-incomaptible dataset", InstancesTools.checkCompatibility(datasetOtherClass,tmpInstance1,false));
+
+			
 			
 			assertTrue("Instance vs instance", InstancesTools.checkCompatibility(tmpInstance2, tmpInstance1));
+			assertTrue("Instance vs instance", InstancesTools.checkCompatibility(tmpInstance2, tmpInstance1,false));
 			assertTrue("Instance vs instance", InstancesTools.checkCompatibility(tmpInstance2, comInstance1));
+			assertTrue("Instance vs instance", InstancesTools.checkCompatibility(tmpInstance2, comInstance1,false));
 			
 			
 			assertTrue("Equality check no class", InstancesTools.checkEquall(tmpInstance1, tmpInstance1, false));
@@ -132,6 +157,23 @@ public class InstancesToolsTest extends TestCase {
 				assertFalse("Instance vs dataset (should fail)", InstancesTools.checkCompatibility(nomAttribSet2, tmpInstance));
 				fail("Exception should has been thrown");
 			}catch(Exception a) {}
+			
+			RandomDataGenerator gen3 = (RandomDataGenerator) SerialCopier.makeCopy(gen);
+			gen3.setNumClasses(3);
+			
+			Instances datasetOtherClass = gen3.generateData();
+			Instance incInstanceCl = datasetOtherClass.get(0);
+			
+			try {
+			assertFalse("Instance vs class-incomaptible dataset", InstancesTools.checkCompatibility(dataset,incInstanceCl));
+			fail("Exception should has been thrown");
+			}catch(Exception e) {}
+			
+			try {
+			assertFalse("Instance vs class-incomaptible dataset", InstancesTools.checkCompatibility(datasetOtherClass,tmpInstance1));
+			fail("Exception should has been thrown");
+			}catch(Exception e) {}
+			
 			
 		} catch (Exception e) {
 			
