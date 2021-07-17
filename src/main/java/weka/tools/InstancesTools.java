@@ -10,7 +10,7 @@ import weka.core.Utils;
 
 /**
  * @author pawel trajdos
- *
+ * @since 0.0.1
  */
 public class InstancesTools {
 
@@ -41,6 +41,10 @@ public class InstancesTools {
 	 * 
 	 */
 	public static boolean checkCompatibility(Instances dataset, Instance inst)throws Exception{
+		return checkCompatibility(dataset, inst,true);
+	}
+	
+	public static boolean checkCompatibility(Instances dataset, Instance inst, boolean checkClassAttribute)throws Exception{
 		if(dataset == inst.dataset())
 			return true;
 		int numAttribs = dataset.numAttributes();
@@ -50,17 +54,21 @@ public class InstancesTools {
 		if(inst.classIndex() != dataset.classIndex())
 			throw new Exception("The class index does not match");
 		
-		/*if(!inst.dataset().equals(dataset))
-			throw new Exception("Dataset is incompatible!");
-		*/
+		if(checkClassAttribute && inst.classIndex()>0) {
+			if(dataset.numClasses() != inst.numClasses())
+				throw new Exception("Number of classes do not match");
+		}
 
 		
 		Attribute instAttr;
 		Attribute setAttr;
 		String msg;
+		int classIdx = inst.classIndex();
 		for(int a =0 ;a<numAttribs;a++){
 			instAttr = inst.attribute(a);
 			setAttr = dataset.attribute(a);
+			if( !checkClassAttribute &&(a ==classIdx) )
+				continue;
 			
 			msg  = instAttr.equalsMsg(setAttr);
 			if(msg!=null) {
@@ -79,9 +87,22 @@ public class InstancesTools {
 	 * @throws Exception if the instances are incompatible
 	 * 
 	 * @since 0.4.0
-	 * @version 0.8.0
+	 * @version 1.11.0
 	 */
 	public static boolean checkCompatibility(Instance inst1, Instance inst2 )throws Exception{
+		return checkCompatibility(inst1, inst2, true);
+	}
+	
+	/**
+	 * Checks whether the instances are compatible.
+	 * @param inst1
+	 * @param inst2
+	 * @param checkClassAttrib -- determines whether class attribute is checked
+	 * @return
+	 * @throws Exception
+	 */
+	
+	public static boolean checkCompatibility(Instance inst1, Instance inst2, boolean checkClassAttrib )throws Exception{
 		if(inst1.dataset() == inst2.dataset())
 			return true;
 		int numAttribs = inst1.numAttributes();
@@ -91,13 +112,18 @@ public class InstancesTools {
 		if(inst2.classIndex() != inst1.classIndex())
 			throw new Exception("The class index does not match");
 		
-		/*if(!checkCompatibility(inst1.dataset(), inst2))
-			throw new Exception("Datasets does not match");
-		*/
+		if( checkClassAttrib && inst1.classIndex()>0 ) {
+			if(inst1.numClasses() != inst2.numClasses())
+				throw new Exception("The number of classes do not match");
+		}
+			
 		Attribute inst2Attr;
 		Attribute inst1Attr;
 		String msg;
+		int classIdx = inst1.classIndex();
 		for(int a =0 ;a<numAttribs;a++){
+			if( !checkClassAttrib &&(a ==classIdx) )
+				continue;
 			inst2Attr = inst2.attribute(a);
 			inst1Attr = inst1.attribute(a);
 			
