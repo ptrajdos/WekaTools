@@ -5,7 +5,6 @@ import org.junit.Test;
 import junit.framework.TestCase;
 import weka.core.Attribute;
 import weka.core.Instances;
-import weka.core.Utils;
 
 public class InstancesOperator2Test extends TestCase {
 

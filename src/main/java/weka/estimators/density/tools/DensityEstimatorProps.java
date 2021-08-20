@@ -3,8 +3,6 @@
  */
 package weka.estimators.density.tools;
 
-import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
-
 import weka.estimators.density.DensityEstimator;
 import weka.tools.numericIntegration.Function;
 import weka.tools.numericIntegration.Integrator;

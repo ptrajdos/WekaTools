@@ -4,10 +4,11 @@ import java.util.Arrays;
 import java.util.Random;
 
 import junit.framework.TestCase;
-import weka.core.Utils;
 import weka.core.UtilsPT;
 import weka.estimators.density.tools.DensityEstimatorProps;
+import weka.estimators.density.tools.ROIFinder;
 import weka.tools.Linspace;
+import weka.tools.SerialCopier;
 import weka.tools.numericIntegration.Function;
 import weka.tools.numericIntegration.SimpsonsIntegrator;
 
@@ -15,7 +16,7 @@ import weka.tools.numericIntegration.SimpsonsIntegrator;
  * Test class for bounded density estimators
  * @author pawel trajdos
  * @since 0.11.0
- * @version 1.9.1
+ * @version 1.12.1
  *
  */
 public abstract class DensEstimatorTest extends TestCase {
@@ -26,7 +27,6 @@ public abstract class DensEstimatorTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.SMALL=1e-2;
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +35,6 @@ public abstract class DensEstimatorTest extends TestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		Utils.SMALL=1e-6;
 	}
 
 	protected  int numVals=1000;
@@ -43,6 +42,8 @@ public abstract class DensEstimatorTest extends TestCase {
 	protected double integrationEps=1E-6;
 	protected  double step=0.01;
 	protected int seed=0;
+	protected double compareIntegrateEps=1e-2;
+	protected double compareEps=1E-6;
 	
 	protected double[] generateUniform() {
 		double[] values  = new double[numVals];
@@ -78,15 +79,15 @@ public abstract class DensEstimatorTest extends TestCase {
 		
 		double val =0;
 		val = dens.getCDF(getLower()-eps);
-		assertTrue("-Inf", Utils.eq(val, 0));
+		assertTrue("-Inf", eq(val, 0));
 		val = dens.getCDF(getUpper()+eps);
-		assertTrue("+Inf", Utils.eq(val, 1));
+		assertTrue("+Inf", eq(val, 1));
 		
 		double[] lins = Linspace.genLinspace(getLower(), getUpper(), step);
 		for(int i=0;i< lins.length-1;i++) {
 			assertTrue("Finite", Double.isFinite(dens.getCDF(lins[i])));
 			assertTrue("Finite", Double.isFinite(dens.getCDF(lins[i+1])));
-			assertTrue("Increasing Property", dens.getCDF(lins[i])<= dens.getCDF(i+1) );
+			assertTrue("Increasing Property", dens.getCDF(lins[i])<= dens.getCDF(lins[i+1]) );
 		}
 		
 		
@@ -122,23 +123,28 @@ public abstract class DensEstimatorTest extends TestCase {
 		
 		double val=0;
 		val = dens.getPDF(getLower()-eps);
-		assertTrue("-Inf", Utils.eq(val, 0));
+		assertTrue("-Inf", eq(val, 0));
 		val=dens.getPDF(getUpper()+eps);
-		assertTrue("+Inf", Utils.eq(val, 0));
+		assertTrue("+Inf", eq(val, 0));
 		
 		double[] lins = Linspace.genLinspace(getLower(), getUpper(), step);
+		double pdf=0;
 		for(int i=0;i< lins.length;i++) {
-			assertFalse("Not NaN", Double.isNaN(dens.getPDF(lins[i])));
-			assertTrue("Not Inf", Double.isFinite(dens.getPDF(lins[i])));
-			assertTrue("Greater than zero", dens.getPDF(lins[i]) >=0);
+			pdf = dens.getPDF(lins[i]);
+			assertFalse("Not NaN", Double.isNaN(pdf));
+			assertTrue("Not Inf", Double.isFinite(pdf));
+			assertTrue("Greater than zero", pdf >=0);
 		}
 		
 		Fun fun = new Fun(dens);
 		SimpsonsIntegrator trint = new SimpsonsIntegrator();
-		trint.setUpperBound(getUpper()+integrationEps);
-		trint.setLowerBound(getLower()-integrationEps);
+		trint.setSequenceLength(1000);
+		
+		double[] roi = ROIFinder.findRoi(dens, getLower(), getUpper(), trint.getSequenceLength());
+		trint.setUpperBound(roi[1]+integrationEps);
+		trint.setLowerBound(roi[0]-integrationEps);
 		trint.setFunction(fun);
-		//trint.setSequenceLength(1000);
+		
 		
 		double integral=0;
 		try {
@@ -147,7 +153,8 @@ public abstract class DensEstimatorTest extends TestCase {
 			e.printStackTrace();
 			fail("An exception has been thrown");
 		}
-		assertTrue("Integration", Utils.eq(integral, 1.0));
+		assertTrue("Integration over zero",integral>0);
+		assertTrue("Integration to one", this.eqIntegr(integral, 1.0));
 		
 		double lowerBound = getUpper()+integrationEps;
 		double upperBound = getLower()-integrationEps;
@@ -207,6 +214,16 @@ public abstract class DensEstimatorTest extends TestCase {
 		
 	}
 	
+	public void testSerializable() {
+		DensityEstimator densEst = this.getEstimator();
+		
+		try {
+			DensityEstimator estCopy = (DensityEstimator) SerialCopier.makeCopy(densEst);
+		} catch (Exception e) {
+			fail("An Exception has been caught: " + e.getMessage());
+		}
+	}
+	
 /*	public void testCdfLower() {
 		checkCDF(generateHomogeneous(this.getLower()));
 	}
@@ -233,6 +250,23 @@ public abstract class DensEstimatorTest extends TestCase {
 			dens.addValue(d, 1.0);
 		}	
 	}
+	
+	public boolean eqIntegr(double a, double b) {
+		double absDiff = Math.abs(a-b);
+		if(absDiff>this.compareIntegrateEps)
+			return false;
+					
+		return true;
+	}
+	
+	public boolean eq(double a, double b) {
+		double absDiff = Math.abs(a-b);
+		if(absDiff>this.compareEps)
+			return false;
+					
+		return true;
+	}
+	
 	
 
 }

@@ -19,6 +19,7 @@ public class SilvermanBandwidthSelectionKernelTest extends DensEstimatorTest{
 		super.setUp();
 		this.eps=1.0;
 		this.integrationEps=1.0;
+		this.compareEps=1E-4;
 	}
 
 	
