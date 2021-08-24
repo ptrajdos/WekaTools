@@ -4,9 +4,15 @@
 package weka.estimators.density;
 
 import java.io.Serializable;
+import java.util.Enumeration;
+import java.util.Vector;
 
+import weka.core.Option;
+import weka.core.OptionHandler;
 import weka.core.Utils;
 import weka.core.UtilsPT;
+import weka.estimators.density.histogram.BinWidthCalculatorFreedmanDiaconis;
+import weka.estimators.density.histogram.HistogramBinWidthCalculator;
 import weka.tools.WeightedValuesHolder;
 
 /**
@@ -15,7 +21,7 @@ import weka.tools.WeightedValuesHolder;
  * @since 1.12.0
  *
  */
-public class HistogramDensityEstimator implements DensityEstimator, Serializable {
+public class HistogramDensityEstimator implements DensityEstimator, Serializable, OptionHandler {
 	
 	/**
 	 * 
@@ -42,6 +48,8 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 	private double minBinWidth=1E-4;
 	
 	protected boolean histInitialized=false;
+	
+	protected HistogramBinWidthCalculator binWidthCalculator = new BinWidthCalculatorFreedmanDiaconis();
 	
 
 
@@ -89,18 +97,12 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 
 	@Override
 	public double[] getValues() {
-		double[] vals = new double[this.weightedValHolder.getNumVals()];
-		for(int i=0;i<vals.length;i++)
-			vals[i] = this.weightedValHolder.getValue(i);
-		return vals;
+		return this.weightedValHolder.getValues();
 	}
 
 	@Override
 	public double[] getWeights() {
-		double[] weights = new double[this.weightedValHolder.getNumVals()];
-		for(int i=0;i<weights.length;i++)
-			weights[i] = this.weightedValHolder.getWeight(i);
-		return weights;
+		return this.weightedValHolder.getWeights();
 	}
 	
 	
@@ -136,16 +138,14 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 		this.maxVal = vals[Utils.maxIndex(vals)];
 		double range = (this.maxVal-this.minVal);
 		
-		double iqr = UtilsPT.quantile(vals, 0.75) - UtilsPT.quantile(vals, 0.25);
-		
-		this.binWidth = 2.0*iqr/Math.pow(nVals, 1.0/3.0);
-		
-		if(this.binWidth<this.minBinWidth) {
-			this.binWidth=this.minBinWidth;
-			if(range<this.minBinWidth) {
-				this.minVal-=this.minBinWidth/2;
-				this.maxVal+=this.minBinWidth/2;
-			}
+		if(range < this.minBinWidth) {
+			this.binWidth = this.minBinWidth;
+			this.minVal-=this.minBinWidth/2;
+			this.maxVal+=this.minBinWidth/2;
+		}else {
+			this.binWidth = this.binWidthCalculator.getWidth(this.weightedValHolder);
+			if(this.binWidth < this.minBinWidth)
+				this.binWidth = this.minBinWidth;
 		}
 		
 		nBins = (int) Math.max(Math.ceil(range/this.binWidth), 1) ;
@@ -166,6 +166,86 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 			thrVal+=this.binWidth;
 		}
 		return index;
+	}
+	
+	
+
+	@Override
+	public Enumeration<Option> listOptions() {
+		Vector<Option> newVector = new Vector<Option>(1);
+		
+		newVector.addElement(new Option(
+			      "\tMin bin width to use "+
+		          "(default:" +1E-4 + ".\n",
+			      "MBW", 1, "-MBW"));
+		
+		newVector.addElement(new Option(
+			      "\tObject used to calculate the bin width "+
+		          "(default:weka.estimators.density.histogram.BinWidthCalculatorFreedmanDiaconis"
+		          + " .\n",
+			      "BWC", 1, "-BWC"));
+		
+	    
+		return newVector.elements();
+	}
+
+	@Override
+	public void setOptions(String[] options) throws Exception {
+		
+		this.setBinWidthCalculator((HistogramBinWidthCalculator) UtilsPT.parseObjectOptions(options, "BWC", new BinWidthCalculatorFreedmanDiaconis(), HistogramBinWidthCalculator.class));
+		
+		this.setMinBinWidth(UtilsPT.parseDoubleOption(options, "MBW", 1E-4));
+	
+		
+	}
+
+	@Override
+	public String[] getOptions() {
+		Vector<String> options = new Vector<String>();
+		
+		options.add("-MBW");
+		options.add(""+ this.getMinBinWidth());
+		
+		options.add("-BWC");
+		options.add(UtilsPT.getClassAndOptions(this.getBinWidthCalculator()));
+		
+	    return options.toArray(new String[0]);
+	}
+
+	/**
+	 * @return the minBinWidth
+	 */
+	public double getMinBinWidth() {
+		return this.minBinWidth;
+	}
+
+	/**
+	 * @param minBinWidth the minBinWidth to set
+	 */
+	public void setMinBinWidth(double minBinWidth) {
+		this.minBinWidth = minBinWidth;
+	}
+	
+	public String minBinWidthTipText() {
+		return "Min width of bin that can be used";
+	}
+
+	/**
+	 * @return the binWidthCalculator
+	 */
+	public HistogramBinWidthCalculator getBinWidthCalculator() {
+		return this.binWidthCalculator;
+	}
+
+	/**
+	 * @param binWidthCalculator the binWidthCalculator to set
+	 */
+	public void setBinWidthCalculator(HistogramBinWidthCalculator binWidthCalculator) {
+		this.binWidthCalculator = binWidthCalculator;
+	}
+	
+	public String binWidthCalculatorTipText() {
+		return "Set object used to calculate the bin width";
 	}
 
 }

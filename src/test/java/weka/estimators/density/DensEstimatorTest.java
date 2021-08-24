@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import junit.framework.TestCase;
+import weka.core.OptionHandler;
 import weka.core.UtilsPT;
 import weka.estimators.density.tools.DensityEstimatorProps;
 import weka.estimators.density.tools.ROIFinder;
@@ -11,6 +12,8 @@ import weka.tools.Linspace;
 import weka.tools.SerialCopier;
 import weka.tools.numericIntegration.Function;
 import weka.tools.numericIntegration.SimpsonsIntegrator;
+import weka.tools.tests.OptionHandlerChecker;
+import weka.tools.tests.WekaGOEChecker;
 
 /**
  * Test class for bounded density estimators
@@ -232,6 +235,22 @@ public abstract class DensEstimatorTest extends TestCase {
 		checkCDF(generateHomogeneous(this.getUpper()));
 	}
 	*/
+	
+	public void testOptionsIfPresent() {
+		DensityEstimator densEst = this.getEstimator();
+		if(densEst instanceof OptionHandler) {
+			OptionHandlerChecker.checkOptions((OptionHandler) densEst);
+		}
+	}
+	
+	public void testTipText() {
+		DensityEstimator densEst = this.getEstimator();
+		
+		 WekaGOEChecker goe = new WekaGOEChecker();
+		 goe.setObject(this.getEstimator());
+		 goe.checkToolTipsCall();
+		
+	}
 	
 	public void testCdfMiddle() {
 		checkCDF(generateHomogeneous(0.5*(this.getUpper() + this.getLower()) ));

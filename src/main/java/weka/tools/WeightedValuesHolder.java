@@ -13,7 +13,7 @@ import weka.core.Utils;
  * Stores a set of weighted values
  * @author pawel trajdos
  * @since 0.9.0
- * @version 0.9.0
+ * @version 1.12.0
  *
  */
 public class WeightedValuesHolder implements Serializable {
@@ -50,11 +50,30 @@ public class WeightedValuesHolder implements Serializable {
 		return this.values.get(index);
 	}
 	
+	public double[] getValues() {
+		double[] values = new double[this.values.size()];
+		for(int i=0;i<values.length;i++)
+			values[i]=this.getValue(i);
+		return values;
+	}
+	/**
+	 * Returns a normalized weight related to index
+	 * @param index
+	 * @return
+	 */
 	public double getWeight(int index) {
 		if(Utils.eq(this.currentWeightSum, 0))
 			return this.weights.get(index);
-		
 		return this.weights.get(index)/this.currentWeightSum;
+	}
+	
+	public double[] getWeights() {
+		double[] weights = new double[this.weights.size()];
+		
+		for(int i=0;i<weights.length;i++)
+			weights[i] = this.getWeight(i);
+		
+		return weights;
 	}
 	
 	public int getNumVals() {

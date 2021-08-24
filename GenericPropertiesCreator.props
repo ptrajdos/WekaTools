@@ -14,3 +14,6 @@ weka.tools.stats.distributionDistances.DistributionDistanceCalculator=\
 
 weka.estimators.MultivariateEstimatorFromInstances=\
  weka.estimators
+
+weka.estimators.density.histogram.HistogramBinWidthCalculator=\
+ weka.estimators.density.histogram
