@@ -30,10 +30,25 @@ public class ROIFinder implements Serializable {
 	 */
 	public static double[] findRoi(DensityEstimator estim, double lowerSearchBound , double upperSearchBound, int numSamples) {
 		double[] roi = new double[2];
-		double[] seq = Linspace.genLinspace(lowerSearchBound, upperSearchBound, numSamples);
-		double h = (upperSearchBound - lowerSearchBound)/numSamples;
-		roi[0]=lowerSearchBound;
-		roi[1]=upperSearchBound;
+		
+		double delta = 1.0/numSamples;
+		double realLowerBound=lowerSearchBound;
+		double realUppoerBound=upperSearchBound;
+		
+		while(!Utils.eq(estim.getCDF(realLowerBound), 0)) {
+			realLowerBound-=delta;
+		}
+		
+		while(!Utils.eq(estim.getCDF(realUppoerBound), 1)) {
+			realUppoerBound+=delta;
+		}
+		
+		
+		
+		double[] seq = Linspace.genLinspace(realLowerBound, realUppoerBound, numSamples);
+		double h = (realUppoerBound - realLowerBound)/numSamples;
+		roi[0]=realLowerBound;
+		roi[1]=realUppoerBound;
 		boolean upperFound=false;
 		double tmpCdf=0;
 		for(int i=0;i<seq.length;i++) {

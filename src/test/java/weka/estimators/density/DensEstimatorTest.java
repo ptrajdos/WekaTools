@@ -48,6 +48,8 @@ public abstract class DensEstimatorTest extends TestCase {
 	protected double compareIntegrateEps=1e-2;
 	protected double compareEps=1E-6;
 	
+	protected boolean stricEstimInterval=false;
+	
 	protected double[] generateUniform() {
 		double[] values  = new double[numVals];
 		Random rnd = new Random(seed);
@@ -81,16 +83,30 @@ public abstract class DensEstimatorTest extends TestCase {
 		dens.addValues(vals, this.generateHomogeneous(1.0));
 		
 		double val =0;
-		val = dens.getCDF(getLower()-eps);
+		
+		val = dens.getCDF(Double.NEGATIVE_INFINITY);
 		assertTrue("-Inf", eq(val, 0));
-		val = dens.getCDF(getUpper()+eps);
-		assertTrue("+Inf", eq(val, 1));
+		val = dens.getCDF(Double.POSITIVE_INFINITY);
+		assertTrue("+Inf", eqIntegr(val, 1));
+		
+		if(this.stricEstimInterval) {
+			val = dens.getCDF(this.getLower()-eps);
+			assertTrue("Strict lower bound", eq(val, 0));
+			val = dens.getCDF(this.getUpper()+eps);
+			assertTrue("Strict upper bound", eq(val, 1));
+		}
+		
+		
 		
 		double[] lins = Linspace.genLinspace(getLower(), getUpper(), step);
+		double cdfL=0;
+		double cdfU=0;
 		for(int i=0;i< lins.length-1;i++) {
-			assertTrue("Finite", Double.isFinite(dens.getCDF(lins[i])));
-			assertTrue("Finite", Double.isFinite(dens.getCDF(lins[i+1])));
-			assertTrue("Increasing Property", dens.getCDF(lins[i])<= dens.getCDF(lins[i+1]) );
+			cdfL = dens.getCDF(lins[i]);
+			cdfU = dens.getCDF(lins[i+1]);
+			assertTrue("Finite", Double.isFinite( cdfL ));
+			assertTrue("Finite next", Double.isFinite( cdfU ));
+			assertTrue("Increasing Property", cdfL<= cdfU );
 		}
 		
 		
@@ -125,10 +141,18 @@ public abstract class DensEstimatorTest extends TestCase {
 		
 		
 		double val=0;
-		val = dens.getPDF(getLower()-eps);
+	
+		val = dens.getPDF(Double.NEGATIVE_INFINITY);
 		assertTrue("-Inf", eq(val, 0));
-		val=dens.getPDF(getUpper()+eps);
+		val=dens.getPDF(Double.POSITIVE_INFINITY);
 		assertTrue("+Inf", eq(val, 0));
+		
+		if(this.stricEstimInterval) {
+			val = dens.getPDF(this.getLower() - eps);
+			assertTrue("Strict lower bound", eq(val, 0));
+			val=dens.getPDF(this.getUpper() + eps);
+			assertTrue("Strict upper bound", eq(val, 0));
+		}
 		
 		double[] lins = Linspace.genLinspace(getLower(), getUpper(), step);
 		double pdf=0;
@@ -157,7 +181,7 @@ public abstract class DensEstimatorTest extends TestCase {
 			fail("An exception has been thrown");
 		}
 		assertTrue("Integration over zero",integral>0);
-		assertTrue("Integration to one", this.eqIntegr(integral, 1.0));
+		assertTrue("Integration to one: " + integral, this.eqIntegr(integral, 1.0));
 		
 		double lowerBound = getUpper()+integrationEps;
 		double upperBound = getLower()-integrationEps;
@@ -184,7 +208,7 @@ public abstract class DensEstimatorTest extends TestCase {
 	}
 	
 	public void testPdfGauss() {
-		double[] divs= {10,100,1000,10000,1000000,1000000};
+		double[] divs= {10,100,1000,10000,1000000,1000000,1E7,1E8};
 		for (double d : divs) {
 			checkPDF(generateGauss(d));
 		}

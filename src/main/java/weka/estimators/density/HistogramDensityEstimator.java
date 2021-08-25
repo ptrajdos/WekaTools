@@ -45,7 +45,7 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 	
 	protected double binWidth;
 	
-	private double minBinWidth=1E-4;
+	private double minRange=1E-4;
 	
 	protected boolean histInitialized=false;
 	
@@ -138,17 +138,22 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 		this.maxVal = vals[Utils.maxIndex(vals)];
 		double range = (this.maxVal-this.minVal);
 		
-		if(range < this.minBinWidth) {
-			this.binWidth = this.minBinWidth;
-			this.minVal-=this.minBinWidth/2;
-			this.maxVal+=this.minBinWidth/2;
+		if(range < this.minRange) {
+			this.binWidth = this.minRange;
+			this.minVal-=this.minRange/2;
+			this.maxVal+=this.minRange/2;
 		}else {
 			this.binWidth = this.binWidthCalculator.getWidth(this.weightedValHolder);
-			if(this.binWidth < this.minBinWidth)
-				this.binWidth = this.minBinWidth;
+			//if(this.binWidth < this.minBinWidth)
+				//this.binWidth = this.minBinWidth;
 		}
 		
 		nBins = (int) Math.max(Math.ceil(range/this.binWidth), 1) ;
+		double actualMaxVal = this.minVal + this.binWidth*nBins;
+		double maxDiff = actualMaxVal - this.maxVal;
+		this.minVal-=maxDiff/2;
+		this.maxVal+=maxDiff/2;
+		
 		
 		this.binCounts = new double[nBins];
 		
@@ -175,9 +180,9 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 		Vector<Option> newVector = new Vector<Option>(1);
 		
 		newVector.addElement(new Option(
-			      "\tMin bin width to use "+
+			      "\tMin range of values to produce bins "+
 		          "(default:" +1E-4 + ".\n",
-			      "MBW", 1, "-MBW"));
+			      "MBW", 1, "-MRA"));
 		
 		newVector.addElement(new Option(
 			      "\tObject used to calculate the bin width "+
@@ -194,7 +199,7 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 		
 		this.setBinWidthCalculator((HistogramBinWidthCalculator) UtilsPT.parseObjectOptions(options, "BWC", new BinWidthCalculatorFreedmanDiaconis(), HistogramBinWidthCalculator.class));
 		
-		this.setMinBinWidth(UtilsPT.parseDoubleOption(options, "MBW", 1E-4));
+		this.setMinRange(UtilsPT.parseDoubleOption(options, "MRA", 1E-4));
 	
 		
 	}
@@ -203,8 +208,8 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 	public String[] getOptions() {
 		Vector<String> options = new Vector<String>();
 		
-		options.add("-MBW");
-		options.add(""+ this.getMinBinWidth());
+		options.add("-MRA");
+		options.add(""+ this.getRange());
 		
 		options.add("-BWC");
 		options.add(UtilsPT.getClassAndOptions(this.getBinWidthCalculator()));
@@ -215,18 +220,18 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 	/**
 	 * @return the minBinWidth
 	 */
-	public double getMinBinWidth() {
-		return this.minBinWidth;
+	public double getRange() {
+		return this.minRange;
 	}
 
 	/**
-	 * @param minBinWidth the minBinWidth to set
+	 * @param minRange the minBinWidth to set
 	 */
-	public void setMinBinWidth(double minBinWidth) {
-		this.minBinWidth = minBinWidth;
+	public void setMinRange(double minRange) {
+		this.minRange = minRange;
 	}
 	
-	public String minBinWidthTipText() {
+	public String minRangeTipText() {
 		return "Min width of bin that can be used";
 	}
 
