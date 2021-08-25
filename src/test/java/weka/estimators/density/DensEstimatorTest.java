@@ -11,6 +11,7 @@ import weka.estimators.density.tools.ROIFinder;
 import weka.tools.Linspace;
 import weka.tools.SerialCopier;
 import weka.tools.numericIntegration.Function;
+import weka.tools.numericIntegration.SimpleIntegrator;
 import weka.tools.numericIntegration.SimpsonsIntegrator;
 import weka.tools.tests.OptionHandlerChecker;
 import weka.tools.tests.WekaGOEChecker;
@@ -164,8 +165,8 @@ public abstract class DensEstimatorTest extends TestCase {
 		}
 		
 		Fun fun = new Fun(dens);
-		SimpsonsIntegrator trint = new SimpsonsIntegrator();
-		trint.setSequenceLength(1000);
+		SimpleIntegrator trint = new SimpsonsIntegrator();
+		trint.setSequenceLength(2000);
 		
 		double[] roi = ROIFinder.findRoi(dens, getLower(), getUpper(), trint.getSequenceLength());
 		trint.setUpperBound(roi[1]+integrationEps);

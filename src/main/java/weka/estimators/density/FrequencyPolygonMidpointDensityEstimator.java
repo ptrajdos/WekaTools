@@ -42,7 +42,7 @@ public class FrequencyPolygonMidpointDensityEstimator extends HistogramDensityEs
 		}
 		
 		if(binIndex == (this.binCounts.length -1) && x >= binMidPoint) {
-			double newMid=this.maxVal;
+			double newMid=binMidPoint;
 			pdf = this.binCounts[binIndex]*(1-(x-newMid)/this.binWidth )/(this.overallSum*this.binWidth);
 			return pdf;
 		}
