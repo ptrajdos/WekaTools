@@ -51,12 +51,12 @@ public class GaussianKernel implements Kernel, Serializable {
 
 	@Override
 	public double supportLower() {
-		return -4;
+		return -5.1;
 	}
 
 	@Override
 	public double supportUpper() {
-		return 4;
+		return 5.1;
 	}
 	
 	

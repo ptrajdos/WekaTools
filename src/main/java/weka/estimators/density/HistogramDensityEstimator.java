@@ -209,7 +209,7 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 		Vector<String> options = new Vector<String>();
 		
 		options.add("-MRA");
-		options.add(""+ this.getRange());
+		options.add(""+ this.getMinRange());
 		
 		options.add("-BWC");
 		options.add(UtilsPT.getClassAndOptions(this.getBinWidthCalculator()));
@@ -220,7 +220,7 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 	/**
 	 * @return the minBinWidth
 	 */
-	public double getRange() {
+	public double getMinRange() {
 		return this.minRange;
 	}
 

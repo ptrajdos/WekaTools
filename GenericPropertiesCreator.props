@@ -1,7 +1,10 @@
+weka.estimators.density.KernelDensityEstimator=\
+	weka.estimators.density
 
 weka.estimators.density.DensityEstimator=\
-	weka.estimators.density,\
+	weka.estimators.density, \
 	weka.estimators.density.bandwidthFinders
+
 
 weka.tools.numericIntegration.Function=\
 	weka.tools.numericIntegration
@@ -13,7 +16,10 @@ weka.tools.stats.distributionDistances.DistributionDistanceCalculator=\
 	weka.tools.stats.distributionDistances
 
 weka.estimators.MultivariateEstimatorFromInstances=\
- weka.estimators
+	weka.estimators
 
 weka.estimators.density.histogram.HistogramBinWidthCalculator=\
- weka.estimators.density.histogram
+	weka.estimators.density.histogram
+
+weka.estimators.density.Kernel=\
+	weka.estimators.density.kernels

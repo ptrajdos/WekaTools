@@ -25,13 +25,14 @@ public class GaussianKernelFast implements Kernel, Serializable {
 	
 	private double a = (8.0*(Math.PI-3.0))/(3.0*Math.PI*(4.0-Math.PI));
 	private double sqrtTwo = Math.sqrt(2.0);
+	private double b = Math.pow(Math.sqrt(2.0*Math.PI), -1.0);
 
 	/* (non-Javadoc)
 	 * @see weka.estimators.density.Kernel#getKernelPDFValue(double)
 	 */
 	@Override
 	public double getKernelPDFValue(double x) {
-		return Math.pow(Math.sqrt(2.0*Math.PI), -1.0)* Math.exp(-0.5*x*x);
+		return this.b* Math.exp(-0.5*x*x);
 	}
 	
 	private double erfEstim(double x) {
@@ -62,12 +63,12 @@ public class GaussianKernelFast implements Kernel, Serializable {
 
 	@Override
 	public double supportLower() {
-		return -4;
+		return -5.1;
 	}
 
 	@Override
 	public double supportUpper() {
-		return 4;
+		return 5.1;
 	}
 	
 	
