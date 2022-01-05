@@ -4,18 +4,23 @@ import java.util.Arrays;
 import java.util.Random;
 
 import junit.framework.TestCase;
-import weka.core.Utils;
+import weka.core.OptionHandler;
 import weka.core.UtilsPT;
 import weka.estimators.density.tools.DensityEstimatorProps;
+import weka.estimators.density.tools.ROIFinder;
 import weka.tools.Linspace;
+import weka.tools.SerialCopier;
 import weka.tools.numericIntegration.Function;
+import weka.tools.numericIntegration.SimpleIntegrator;
 import weka.tools.numericIntegration.SimpsonsIntegrator;
+import weka.tools.tests.OptionHandlerChecker;
+import weka.tools.tests.WekaGOEChecker;
 
 /**
  * Test class for bounded density estimators
  * @author pawel trajdos
  * @since 0.11.0
- * @version 1.9.1
+ * @version 1.12.1
  *
  */
 public abstract class DensEstimatorTest extends TestCase {
@@ -26,7 +31,6 @@ public abstract class DensEstimatorTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.SMALL=1e-2;
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +39,6 @@ public abstract class DensEstimatorTest extends TestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		Utils.SMALL=1e-6;
 	}
 
 	protected  int numVals=1000;
@@ -43,25 +46,29 @@ public abstract class DensEstimatorTest extends TestCase {
 	protected double integrationEps=1E-6;
 	protected  double step=0.01;
 	protected int seed=0;
+	protected double compareIntegrateEps=1e-2;
+	protected double compareEps=1E-6;
+	
+	protected boolean stricEstimInterval=false;
 	
 	protected double[] generateUniform() {
-		double[] values  = new double[numVals];
-		Random rnd = new Random(seed);
-		for(int i=0;i<numVals;i++)
+		double[] values  = new double[this.numVals];
+		Random rnd = new Random(this.seed);
+		for(int i=0;i<this.numVals;i++)
 			values[i] = rnd.nextDouble();
 		return values;
 	}
 	
 	protected double[] generateGauss(double divisor) {
-		double[] values  = new double[numVals];
-		Random rnd = new Random(seed);
-		for(int i=0;i<numVals;i++)
+		double[] values  = new double[this.numVals];
+		Random rnd = new Random(this.seed);
+		for(int i=0;i<this.numVals;i++)
 			values[i] = rnd.nextGaussian()/divisor + 0.5;
 		return values;
 	}
 	
 	protected double[] generateHomogeneous(double value) {
-		double[] values = new double[numVals];
+		double[] values = new double[this.numVals];
 		Arrays.fill(values, value);
 		return values;
 	}
@@ -77,16 +84,30 @@ public abstract class DensEstimatorTest extends TestCase {
 		dens.addValues(vals, this.generateHomogeneous(1.0));
 		
 		double val =0;
-		val = dens.getCDF(getLower()-eps);
-		assertTrue("-Inf", Utils.eq(val, 0));
-		val = dens.getCDF(getUpper()+eps);
-		assertTrue("+Inf", Utils.eq(val, 1));
 		
-		double[] lins = Linspace.genLinspace(getLower(), getUpper(), step);
+		val = dens.getCDF(Double.NEGATIVE_INFINITY);
+		assertTrue("-Inf", eq(val, 0));
+		val = dens.getCDF(Double.POSITIVE_INFINITY);
+		assertTrue("+Inf", eqIntegr(val, 1));
+		
+		if(this.stricEstimInterval) {
+			val = dens.getCDF(this.getLower()-this.eps);
+			assertTrue("Strict lower bound", eq(val, 0));
+			val = dens.getCDF(this.getUpper()+this.eps);
+			assertTrue("Strict upper bound", eq(val, 1));
+		}
+		
+		
+		
+		double[] lins = Linspace.genLinspace(getLower(), getUpper(), this.step);
+		double cdfL=0;
+		double cdfU=0;
 		for(int i=0;i< lins.length-1;i++) {
-			assertTrue("Finite", Double.isFinite(dens.getCDF(lins[i])));
-			assertTrue("Finite", Double.isFinite(dens.getCDF(lins[i+1])));
-			assertTrue("Increasing Property", dens.getCDF(lins[i])<= dens.getCDF(i+1) );
+			cdfL = dens.getCDF(lins[i]);
+			cdfU = dens.getCDF(lins[i+1]);
+			assertTrue("Finite", Double.isFinite( cdfL ));
+			assertTrue("Finite next", Double.isFinite( cdfU ));
+			assertTrue("Increasing Property", cdfL<= cdfU );
 		}
 		
 		
@@ -121,24 +142,37 @@ public abstract class DensEstimatorTest extends TestCase {
 		
 		
 		double val=0;
-		val = dens.getPDF(getLower()-eps);
-		assertTrue("-Inf", Utils.eq(val, 0));
-		val=dens.getPDF(getUpper()+eps);
-		assertTrue("+Inf", Utils.eq(val, 0));
+	
+		val = dens.getPDF(Double.NEGATIVE_INFINITY);
+		assertTrue("-Inf", eq(val, 0));
+		val=dens.getPDF(Double.POSITIVE_INFINITY);
+		assertTrue("+Inf", eq(val, 0));
 		
-		double[] lins = Linspace.genLinspace(getLower(), getUpper(), step);
+		if(this.stricEstimInterval) {
+			val = dens.getPDF(this.getLower() - this.eps);
+			assertTrue("Strict lower bound", eq(val, 0));
+			val=dens.getPDF(this.getUpper() + this.eps);
+			assertTrue("Strict upper bound", eq(val, 0));
+		}
+		
+		double[] lins = Linspace.genLinspace(getLower(), getUpper(), this.step);
+		double pdf=0;
 		for(int i=0;i< lins.length;i++) {
-			assertFalse("Not NaN", Double.isNaN(dens.getPDF(lins[i])));
-			assertTrue("Not Inf", Double.isFinite(dens.getPDF(lins[i])));
-			assertTrue("Greater than zero", dens.getPDF(lins[i]) >=0);
+			pdf = dens.getPDF(lins[i]);
+			assertFalse("Not NaN", Double.isNaN(pdf));
+			assertTrue("Not Inf", Double.isFinite(pdf));
+			assertTrue("Greater than zero", pdf >=0);
 		}
 		
 		Fun fun = new Fun(dens);
-		SimpsonsIntegrator trint = new SimpsonsIntegrator();
-		trint.setUpperBound(getUpper()+integrationEps);
-		trint.setLowerBound(getLower()-integrationEps);
+		SimpleIntegrator trint = new SimpsonsIntegrator();
+		trint.setSequenceLength(2000);
+		
+		double[] roi = ROIFinder.findRoi(dens, getLower(), getUpper(), trint.getSequenceLength());
+		trint.setUpperBound(roi[1]+this.integrationEps);
+		trint.setLowerBound(roi[0]-this.integrationEps);
 		trint.setFunction(fun);
-		//trint.setSequenceLength(1000);
+		
 		
 		double integral=0;
 		try {
@@ -147,10 +181,11 @@ public abstract class DensEstimatorTest extends TestCase {
 			e.printStackTrace();
 			fail("An exception has been thrown");
 		}
-		assertTrue("Integration", Utils.eq(integral, 1.0));
+		assertTrue("Integration over zero",integral>0);
+		assertTrue("Integration to one: " + integral, this.eqIntegr(integral, 1.0));
 		
-		double lowerBound = getUpper()+integrationEps;
-		double upperBound = getLower()-integrationEps;
+		double lowerBound = getUpper()+this.integrationEps;
+		double upperBound = getLower()-this.integrationEps;
 		double expVal;
 		try {
 			expVal = DensityEstimatorProps.getMoment(dens, lowerBound, upperBound, 1);
@@ -174,7 +209,7 @@ public abstract class DensEstimatorTest extends TestCase {
 	}
 	
 	public void testPdfGauss() {
-		double[] divs= {10,100,1000,10000,1000000,1000000};
+		double[] divs= {10,100,1000,10000,1000000,1000000,1E7,1E8};
 		for (double d : divs) {
 			checkPDF(generateGauss(d));
 		}
@@ -207,6 +242,17 @@ public abstract class DensEstimatorTest extends TestCase {
 		
 	}
 	
+	public void testSerializable() {
+		DensityEstimator densEst = this.getEstimator();
+		
+		try {
+			DensityEstimator estCopy = (DensityEstimator) SerialCopier.makeCopy(densEst);
+		} catch (Exception e) {
+			fail("An Exception has been caught: " + e.getMessage());
+		}
+	}
+
+	
 /*	public void testCdfLower() {
 		checkCDF(generateHomogeneous(this.getLower()));
 	}
@@ -215,6 +261,22 @@ public abstract class DensEstimatorTest extends TestCase {
 		checkCDF(generateHomogeneous(this.getUpper()));
 	}
 	*/
+	
+	public void testOptionsIfPresent() {
+		DensityEstimator densEst = this.getEstimator();
+		if(densEst instanceof OptionHandler) {
+			OptionHandlerChecker.checkOptions((OptionHandler) densEst);
+		}
+	}
+	
+	public void testTipText() {
+		DensityEstimator densEst = this.getEstimator();
+		
+		 WekaGOEChecker goe = new WekaGOEChecker();
+		 goe.setObject(this.getEstimator());
+		 goe.checkToolTipsCall();
+		
+	}
 	
 	public void testCdfMiddle() {
 		checkCDF(generateHomogeneous(0.5*(this.getUpper() + this.getLower()) ));
@@ -233,6 +295,23 @@ public abstract class DensEstimatorTest extends TestCase {
 			dens.addValue(d, 1.0);
 		}	
 	}
+	
+	public boolean eqIntegr(double a, double b) {
+		double absDiff = Math.abs(a-b);
+		if(absDiff>this.compareIntegrateEps)
+			return false;
+					
+		return true;
+	}
+	
+	public boolean eq(double a, double b) {
+		double absDiff = Math.abs(a-b);
+		if(absDiff>this.compareEps)
+			return false;
+					
+		return true;
+	}
+	
 	
 
 }

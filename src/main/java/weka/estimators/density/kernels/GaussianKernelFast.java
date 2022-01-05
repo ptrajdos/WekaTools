@@ -23,16 +23,29 @@ public class GaussianKernelFast implements Kernel, Serializable {
 	 */
 	private static final long serialVersionUID = -4439818887117815184L;
 	
-	private double a = (8.0*(Math.PI-3.0))/(3.0*Math.PI*(4.0-Math.PI));
+	private static double a = (8.0*(Math.PI-3.0))/(3.0*Math.PI*(4.0-Math.PI));
 	private double sqrtTwo = Math.sqrt(2.0);
+	private static double b = Math.pow(Math.sqrt(2.0*Math.PI), -1.0);
 
 	/* (non-Javadoc)
 	 * @see weka.estimators.density.Kernel#getKernelPDFValue(double)
 	 */
 	@Override
 	public double getKernelPDFValue(double x) {
-		return Math.pow(Math.sqrt(2.0*Math.PI), -1.0)* Math.exp(-0.5*x*x);
+		return GaussianKernelFast.b* Math.exp(-0.5*x*x);
 	}
+	
+	/**
+	 * ERF approximation from:
+	 * @article{winitzki2008handy,
+  		title={A handy approximation for the error function and its inverse},
+  		author={Winitzki, Sergei},
+  		journal={A lecture note obtained through private communication},
+  		year={2008}
+		}
+	 * @param x
+	 * @return erf estimation
+	 */
 	
 	private double erfEstim(double x) {
 		double xs = x*x;
@@ -62,12 +75,12 @@ public class GaussianKernelFast implements Kernel, Serializable {
 
 	@Override
 	public double supportLower() {
-		return -4;
+		return -5.1;
 	}
 
 	@Override
 	public double supportUpper() {
-		return 4;
+		return 5.1;
 	}
 	
 	

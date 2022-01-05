@@ -9,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
-import weka.core.Randomizable;
-
 /**
  * @author pawel trajdos
  * @since 1.7.0

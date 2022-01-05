@@ -10,7 +10,6 @@ import java.util.Vector;
 import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.UtilsPT;
-import weka.estimators.density.kernels.EpanechnikovKernel;
 import weka.estimators.density.kernels.GaussianKernel;
 import weka.tools.WeightedValuesHolder;
 
@@ -21,7 +20,7 @@ import weka.tools.WeightedValuesHolder;
  * @version 0.9.0
  *
  */
-public abstract class AbstractKernelEstimator implements KernelDensityEstimator, Serializable, OptionHandler {
+public abstract class AbstractKernelEstimator implements KernelDensityEstimator,DensityEstimator, Serializable, OptionHandler {
 	
 	/**
 	 * 
@@ -115,7 +114,7 @@ public abstract class AbstractKernelEstimator implements KernelDensityEstimator,
 		
 		newVector.addElement(new Option(
 			      "\tKernel object to use "+
-		          "(default: weka.estimators.density.kernels.EpanechnikovKernel).\n",
+		          "(default: weka.estimators.density.kernels.GaussianKernel).\n",
 			      "KE", 1, "-KE"));
 		
 	    
@@ -129,7 +128,7 @@ public abstract class AbstractKernelEstimator implements KernelDensityEstimator,
 	@Override
 	public void setOptions(String[] options) throws Exception {
 		this.setKernel((Kernel) 
-				UtilsPT.parseObjectOptions(options, "KE", new EpanechnikovKernel(), Kernel.class));
+				UtilsPT.parseObjectOptions(options, "KE", new GaussianKernel(), Kernel.class));
 		
 		this.setBandwidth(UtilsPT.parseDoubleOption(options, "BW", 0.1));
 		
@@ -144,10 +143,10 @@ public abstract class AbstractKernelEstimator implements KernelDensityEstimator,
 		Vector<String> options = new Vector<String>();
 		
 		options.add("-BW");
-		options.add(""+ this.bandwidth);
+		options.add(""+ this.getBandwidth());
 		
 		options.add("-KE");
-		options.add(UtilsPT.getClassAndOptions(this.kernel));
+		options.add(UtilsPT.getClassAndOptions(this.getKernel()));
 		
 	    return options.toArray(new String[0]);
 	}

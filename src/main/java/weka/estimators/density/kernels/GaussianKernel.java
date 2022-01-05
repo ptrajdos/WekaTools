@@ -24,13 +24,15 @@ public class GaussianKernel implements Kernel, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4439818887117815184L;
+	
+	private static double a =Math.pow(Math.sqrt(2*Math.PI), -1); 
 
 	/* (non-Javadoc)
 	 * @see weka.estimators.density.Kernel#getKernelPDFValue(double)
 	 */
 	@Override
 	public double getKernelPDFValue(double x) {
-		return Math.pow(Math.sqrt(2*Math.PI), -1)* Math.exp(-0.5*x*x);
+		return a * Math.exp(-0.5*x*x);
 	}
 
 	/* (non-Javadoc)
@@ -51,12 +53,12 @@ public class GaussianKernel implements Kernel, Serializable {
 
 	@Override
 	public double supportLower() {
-		return -4;
+		return -5.1;
 	}
 
 	@Override
 	public double supportUpper() {
-		return 4;
+		return 5.1;
 	}
 	
 	

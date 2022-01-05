@@ -12,7 +12,9 @@ import weka.core.UtilsPT;
 import weka.estimators.density.BandwidthSelectionKernelEstimator;
 
 /**
- * @author pawel
+ * @since 0.13.0
+ * @version 0.13.0
+ * @author pawel trajdos
  *
  */
 public abstract class SimpleBandwidthFinder extends BandwidthSelectionKernelEstimator {

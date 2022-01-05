@@ -150,7 +150,7 @@ Vector<Option> newVector = new Vector<Option>(1);
 		Vector<String> options = new Vector<String>();
 		
 		options.add("-EST");
-		options.add(UtilsPT.getClassAndOptions(this.densEstim));
+		options.add(UtilsPT.getClassAndOptions(this.getDensEstim()));
 		
 	    return options.toArray(new String[0]);
 	}
