@@ -10,7 +10,6 @@ import java.util.Vector;
 import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.UtilsPT;
-import weka.estimators.density.kernels.EpanechnikovKernel;
 import weka.estimators.density.kernels.GaussianKernel;
 import weka.tools.WeightedValuesHolder;
 

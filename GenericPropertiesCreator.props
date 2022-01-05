@@ -3,7 +3,8 @@ weka.estimators.density.KernelDensityEstimator=\
 
 weka.estimators.density.DensityEstimator=\
 	weka.estimators.density, \
-	weka.estimators.density.bandwidthFinders
+	weka.estimators.density.bandwidthFinders, \
+	weka.estimators.density.kernelucv
 
 
 weka.tools.numericIntegration.Function=\
