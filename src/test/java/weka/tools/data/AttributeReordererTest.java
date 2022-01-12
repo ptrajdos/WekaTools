@@ -33,5 +33,13 @@ public class AttributeReordererTest {
 			fail("An exception has been caught: " + e);
 		}
 	}
+	
+	@Test
+	public void testCreateClass() {
+		
+		AttributeReorderer reord = new AttributeReorderer();
+		assertTrue("Not null", reord != null);
+		
+	}
 
 }

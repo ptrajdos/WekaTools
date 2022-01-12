@@ -4,9 +4,12 @@ import java.util.Arrays;
 import java.util.Random;
 
 import junit.framework.TestCase;
+import weka.core.OptionHandler;
 import weka.core.Utils;
 import weka.tools.WeightedValuesHolder;
+import weka.tools.tests.OptionHandlerChecker;
 import weka.tools.tests.SerializationChecker;
+import weka.tools.tests.WekaGOEChecker;
 
 /**
  * 
@@ -23,6 +26,19 @@ public abstract class HistogramBinWidthCalculatorTest extends TestCase {
 	public void testSerialization() {
 		HistogramBinWidthCalculator binWidthCalc = this.getBinWidthCalc();
 		assertTrue("Serialization Check", SerializationChecker.checkSerializationCopy(binWidthCalc));
+	}
+	
+	public void testOptionsIfPresent() {
+		HistogramBinWidthCalculator calc = this.getBinWidthCalc(); 
+		if(calc instanceof OptionHandler) {
+			OptionHandler opth = (OptionHandler) calc;
+			OptionHandlerChecker.checkOptions(opth);
+			
+			WekaGOEChecker checker = new WekaGOEChecker();
+			checker.setObject(calc);
+			
+			assertTrue("Check Tip Texts", checker.checkToolTipsCall());
+		}
 	}
 
 	public void testBinWidth() {
