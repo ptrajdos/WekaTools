@@ -68,7 +68,7 @@ public abstract class GeneralUCVKernelEstimator implements DensityEstimator, Ser
 		}
 		double sd = UtilsPT.stdDev(vals);
 		double iqr = (UtilsPT.quantile(vals, 0.75) - UtilsPT.quantile(vals, 0.25))/1.34;
-		double h = 0.9*Math.min(sd, iqr) * Math.pow(vals.length, -1/5);
+		double h = 0.9*Math.min(sd, iqr) * Math.pow(vals.length, -1.0/5.0);
 		h = Math.max(h, this.getMinBandwidth());
 		return h;
 	}

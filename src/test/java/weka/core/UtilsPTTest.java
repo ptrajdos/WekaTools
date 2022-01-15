@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.apache.commons.math3.special.Erf;
 import org.junit.Test;
 
 import weka.tools.Linspace;
@@ -146,6 +147,8 @@ public class UtilsPTTest {
 			int maxIdx = Utils.maxIndex(sample);
 			assertTrue("One quantile -> max", Utils.eq(quant, sample[maxIdx]));
 			assertTrue("Over one quantile -> max", Utils.eq(UtilsPT.quantile(sample, 1.1), sample[maxIdx]));
+			
+			
 		}
 		double sampleVal=6.54;
 		double[] sample= {sampleVal};
@@ -156,6 +159,62 @@ public class UtilsPTTest {
 			assertTrue("One element distribution", Utils.eq(quant, sampleVal));
 		}
 		
+	}
+	
+	@Test
+	public void testQuantilesGaussian() {
+		
+		int N = 30000;
+		double[] vals  = new double[N];
+		Random rnd = new Random(0);
+		for(int i=0;i<vals.length;i++)
+			vals[i]= rnd.nextGaussian(); // mu=0, sd=1
+		
+		double[] quantiles = new double[] {0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9};
+		
+		for(int i=0;i<quantiles.length;i++) {
+			double empQ = UtilsPT.quantile(vals, quantiles[i]);
+			double theorQ = this.gaussQuantile(quantiles[i]);
+			assertEquals("Normal dist Quantiles (" + quantiles[i] + "):",theorQ, empQ, 0.03);
+		}
+		
+		double empIQR = UtilsPT.quantile(vals, 0.75) - UtilsPT.quantile(vals, 0.25);
+		double theorIQR = this.gaussQuantile(0.75) - this.gaussQuantile(0.25);
+		
+		assertEquals( "Gaussian IQR", theorIQR, empIQR, 0.03);
+		
+		
+	}
+	
+	@Test
+	public void testSD() {
+		
+		int N = 30000;
+		double[] vals  = new double[N];
+		Random rnd = new Random(0);
+		for(int i=0;i<vals.length;i++)
+			vals[i]= rnd.nextGaussian(); // mu=0, sd=1
+		
+		double empSD = UtilsPT.stdDev(vals);
+		double empVar = UtilsPT.var(vals);
+		try {
+			double empCoVar = UtilsPT.cov(vals, vals);
+			double empCorr = UtilsPT.corr(vals, vals);
+			assertEquals("Cov test", 1.0, empCoVar,0.01);
+			assertEquals("Corr test", 1.0, empCorr,0.01);
+		} catch (Exception e) {
+			fail("An exception has been caught: " + e);
+		}
+		
+		assertEquals( "Sdev for normal distribution", 1.0, empSD,0.01 );
+		assertEquals( "Var for normal distribution", 1.0, empVar,0.01 );
+		
+	}
+	
+	protected double gaussQuantile(double p) {
+		
+		double val = Math.sqrt(2) * Erf.erfInv(2.0*p -1);
+		return val;
 	}
 	
 	protected double[] sampleGen(int maxLen, int seed) {
@@ -223,6 +282,71 @@ public class UtilsPTTest {
 	}
 	
 	@Test
+	public void testGMean() {
+		
+		double[] vals = this.sampleGen(1000, 0);
+		for(int i=0;i<vals.length;i++)
+			vals[i]+=1E-6; // assure nonzero
+		
+		double gmean = UtilsPT.geometricMean(vals);
+		double mean = Utils.mean(vals);
+		assertFalse("Not NaN", Double.isNaN(gmean));
+		assertTrue("Finite", Double.isFinite(gmean));
+		assertTrue("Art mean > geom mean", mean >= gmean);
+		
+		vals[0]=0;
+		gmean = UtilsPT.geometricMean(vals);
+		mean = Utils.mean(vals);
+		assertFalse("Not NaN", Double.isNaN(gmean));
+		assertTrue("Inf",Double.isFinite(gmean));
+		assertTrue("Zero mean", Utils.eq(gmean, 0.0));
+		assertTrue("Art mean > geom mean", mean >= gmean);
+		
+		vals[0] = -1.0;
+		gmean = UtilsPT.geometricMean(vals);
+		assertTrue("NaN for negative", Double.isNaN(gmean));
+		assertFalse("Negative value",Double.isFinite(gmean));
+			
+	}
+	
+	@Test
+	public void testHMean() {
+		
+		double[] vals = this.sampleGen(1000, 0);
+		for(int i=0;i<vals.length;i++)
+			vals[i]+=1E-6; // assure nonzero
+		
+		double hmean = UtilsPT.harmonicMean(vals);
+		double gmean = UtilsPT.geometricMean(vals);
+		double mean = Utils.mean(vals);
+		assertFalse("Not NaN", Double.isNaN(hmean));
+		assertTrue("Finite", Double.isFinite(hmean));
+		assertTrue("Art mean > harmonic mean", mean >= hmean);
+		assertTrue("Geometric mean > harmonic mean", gmean >= hmean);
+		
+		vals[0]=0;
+		hmean = UtilsPT.harmonicMean(vals);
+		mean = Utils.mean(vals);
+		assertFalse("Not NaN", Double.isNaN(hmean));
+		assertTrue("Finite", Double.isFinite(hmean));
+		assertTrue("Art mean > geom mean", mean >= hmean);
+		assertTrue("Zero for zero value", Utils.eq(hmean, 0));	
+	}
+	
+	@Test
+	public void testQuadraticMean() {
+		
+		double[] vals = this.sampleGen(1000, 0);
+		
+		double qmean = UtilsPT.quadraticMean(vals);
+		double mean = Utils.mean(vals);
+		assertFalse("Not NaN", Double.isNaN(qmean));
+		assertTrue("Finite", Double.isFinite(qmean));
+		assertTrue("Art mean > harmonic mean", qmean >= mean);
+
+	}
+	
+	@Test
 	public void testParseIntOptions() {
 		int testInt=1;
 		String flag="C";
@@ -247,5 +371,7 @@ public class UtilsPTTest {
 		
 		return genData;
 	}
+	
+	
 
 }

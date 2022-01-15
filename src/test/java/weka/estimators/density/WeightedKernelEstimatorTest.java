@@ -9,10 +9,9 @@ import org.junit.Test;
 
 import weka.core.Utils;
 
-public class WeightedKernelEstimatorTest {
+public class WeightedKernelEstimatorTest extends DensEstimatorTest {
 
-	@Test
-	public void test() {
+	public void testWeighted() {
 		Random rnd = new Random();
 		rnd.setSeed(0);
 		
@@ -54,6 +53,11 @@ public class WeightedKernelEstimatorTest {
 		
 		assertTrue("min PDF", Utils.eq(kern.getPDF(-1.0), 0));
 		assertTrue("max PDF", Utils.eq(kern.getPDF(1.5), 0));
+	}
+
+	@Override
+	protected DensityEstimator getEstimator() {
+		return new WeightedKernelEstimator();
 	}
 
 }
