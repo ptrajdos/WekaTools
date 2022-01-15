@@ -28,9 +28,10 @@ public class SilvermanBandwidthSelectionKernel extends SimpleBandwidthFinder {
 	protected void findBandwidth() {
 		double[] vals = this.getValues();
 		double sd = UtilsPT.stdDev(vals);
-		double iqr = (UtilsPT.quantile(vals, 0.75) - UtilsPT.quantile(vals, 0.25))/1.34;
-		double h = this.scaleFactor*0.9*Math.min(sd, iqr) * Math.pow(vals.length, -1/5);
-		h = Math.max(h, minH);
+		double iqr = ( UtilsPT.quantile(vals, 0.75) - UtilsPT.quantile(vals, 0.25) )/1.34;
+		double scaledLen = Math.pow((double)vals.length, -1.0/5.0);
+		double h = this.scaleFactor*0.9*Math.min(sd, iqr) * scaledLen;
+		h = Math.max(h, this.minH);
 		this.kernEstim.setBandwidth(h);
 	}
 

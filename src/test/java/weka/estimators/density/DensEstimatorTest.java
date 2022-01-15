@@ -59,6 +59,15 @@ public abstract class DensEstimatorTest extends TestCase {
 		return values;
 	}
 	
+	protected double[] generateNegUniform() {
+		double[] values = this.generateUniform();
+		for(int i=0;i<values.length;i++)
+			values[i]-=10;
+		
+		return values;
+		
+	}
+	
 	protected double[] generateGauss(double divisor) {
 		double[] values  = new double[this.numVals];
 		Random rnd = new Random(this.seed);
@@ -66,6 +75,7 @@ public abstract class DensEstimatorTest extends TestCase {
 			values[i] = rnd.nextGaussian()/divisor + 0.5;
 		return values;
 	}
+	
 	
 	protected double[] generateHomogeneous(double value) {
 		double[] values = new double[this.numVals];
@@ -208,6 +218,7 @@ public abstract class DensEstimatorTest extends TestCase {
 		checkPDF(generateUniform());
 	}
 	
+	
 	public void testPdfGauss() {
 		double[] divs= {10,100,1000,10000,1000000,1000000,1E7,1E8};
 		for (double d : divs) {
@@ -215,6 +226,7 @@ public abstract class DensEstimatorTest extends TestCase {
 		}
 		
 	}
+	
 	
 	/*
 	public void testPfdLower() {
@@ -230,6 +242,8 @@ public abstract class DensEstimatorTest extends TestCase {
 		checkPDF(generateHomogeneous(0.5*(this.getUpper() + this.getLower()) ));
 	}
 	
+	
+	
 	public void testCdf() {
 		checkCDF(generateUniform());
 	}
@@ -241,6 +255,7 @@ public abstract class DensEstimatorTest extends TestCase {
 		}
 		
 	}
+	
 	
 	public void testSerializable() {
 		DensityEstimator densEst = this.getEstimator();

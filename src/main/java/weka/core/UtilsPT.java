@@ -229,6 +229,50 @@ public class UtilsPT {
 	}
 	
 	/**
+	 * Calculates the geometric mean of the given values
+	 * @param values 
+	 * @return g-mean
+	 */
+	public static double geometricMean(double[] values) {
+		
+		double sum =0;
+		for(int i=0;i<values.length;i++)
+			sum+= Math.log(values[i]);
+		
+		double result= Math.exp(sum/values.length);
+		return result;
+	}
+	
+	/**
+	 * Calculates the harminic mean of given values
+	 * @param values
+	 * @return
+	 */
+	public static double harmonicMean(double[] values) {
+		double sum=0;
+		for(int i=0;i<values.length;i++) 
+			sum+=1.0/values[i];
+		
+		double result =values.length/sum;
+		return result;
+	}
+	
+	/**
+	 * Calculates the quadratic mean of given values
+	 * @param values
+	 * @return
+	 */
+	public static double quadraticMean(double[] values) {
+		double sum =0;
+		
+		for(int i=0;i<values.length;i++) 
+			sum+=values[i] * values[i];
+		
+		double result =Math.sqrt(sum/values.length);
+		return result;
+	}
+	
+	/**
 	 * Helper function for getting options
 	 * Return string for object and its options.
 	 * 

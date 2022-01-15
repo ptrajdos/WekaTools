@@ -27,11 +27,15 @@ public class ThresholdCurvePTTest {
 	
 		
 		for (int i=0;i<nClasses;i++) {
-			ThresholdCurve tc = new ThresholdCurve();
+			ThresholdCurve tc = new ThresholdCurvePT();
 	        Instances result = tc.getCurve(predictions, i);
 	        double rarea =  ThresholdCurvePT.getROCArea(result);
 	        this.checkAUC(rarea);
 	        assertTrue("Perfect Predictions", Utils.eq(rarea, 1.0));
+	        
+	        double prcArea = ThresholdCurvePT.getPRCArea(result);
+	        this.checkAUC(prcArea);
+	        assertTrue("Perfect Predictions", Utils.eq(prcArea, 1.0));
 		}
 
 	}
@@ -58,11 +62,14 @@ public class ThresholdCurvePTTest {
 	
 		
 		for (int i=0;i<nClasses;i++) {
-			ThresholdCurve tc = new ThresholdCurve();
+			ThresholdCurve tc = new ThresholdCurvePT();
 	        Instances result = tc.getCurve(predictions, i);
 	        double rarea =  ThresholdCurvePT.getROCArea(result);
 	        this.checkAUC(rarea);
-	        assertTrue("Perfect Predictions", Utils.eq(rarea, 0.0));
+	        assertTrue("Wrong Predictions", Utils.eq(rarea, 0.0));
+	        
+	        double prcArea = ThresholdCurvePT.getPRCArea(result);
+	        this.checkAUC(prcArea);
 		}
 
 	}
@@ -93,10 +100,13 @@ public class ThresholdCurvePTTest {
 	
 		
 		for (int i=0;i<nClasses;i++) {
-			ThresholdCurve tc = new ThresholdCurve();
+			ThresholdCurve tc = new ThresholdCurvePT();
 	        Instances result = tc.getCurve(predictions, i);
 	        double rarea =  ThresholdCurvePT.getROCArea(result);
 	        this.checkAUC(rarea);
+	        
+	        double prcArea = ThresholdCurvePT.getPRCArea(result);
+	        this.checkAUC(prcArea);
 		}
 
 	}
@@ -117,11 +127,14 @@ public class ThresholdCurvePTTest {
 	
 		
 		for (int i=0;i<nClasses;i++) {
-			ThresholdCurve tc = new ThresholdCurve();
+			ThresholdCurve tc = new ThresholdCurvePT();
 	        Instances result = tc.getCurve(predictions, i);
 	        double rarea =  ThresholdCurvePT.getROCArea(result);
 	        this.checkAUC(rarea);
-	        assertTrue("Perfect Predictions", Utils.eq(rarea, 0.0));
+	        assertTrue("Wrong Predictions", Utils.eq(rarea, 0.0));
+	        
+	        double prcArea = ThresholdCurvePT.getPRCArea(result);
+	        this.checkAUC(prcArea);
 		}
 
 	}
@@ -142,11 +155,15 @@ public class ThresholdCurvePTTest {
 	
 		
 		for (int i=0;i<nClasses;i++) {
-			ThresholdCurve tc = new ThresholdCurve();
+			ThresholdCurve tc = new ThresholdCurvePT();
 	        Instances result = tc.getCurve(predictions, i);
 	        double rarea =  ThresholdCurvePT.getROCArea(result);
 	        this.checkAUC(rarea);
 	        assertTrue("Perfect Predictions", Utils.eq(rarea, 0.0));
+	        
+	        double prcArea = ThresholdCurvePT.getPRCArea(result);
+	        this.checkAUC(prcArea);
+	    
 		}
 
 	}
@@ -174,6 +191,10 @@ public class ThresholdCurvePTTest {
 		Instances instances = dataGen.generateData();
 		double val = ThresholdCurvePT.getROCArea(instances);
 		assertTrue("Nan value", Double.isNaN(val));
+		
+		double prcArea = ThresholdCurvePT.getPRCArea(instances);
+		assertTrue("Nan value", Double.isNaN(prcArea));
+	        
 	}
 	
 	@Test
@@ -192,11 +213,14 @@ public class ThresholdCurvePTTest {
 	
 		
 		for (int i=0;i<nClasses;i++) {
-			ThresholdCurve tc = new ThresholdCurve();
+			ThresholdCurve tc = new ThresholdCurvePT();
 	        Instances result = tc.getCurve(predictions, i);
 	        result = new Instances(result, 0);
 	        double rarea =  ThresholdCurvePT.getROCArea(result);
 	        assertTrue("Nan value", Double.isNaN(rarea));
+	        
+	        double prcArea = ThresholdCurvePT.getPRCArea(result);
+	        assertTrue("Nan value", Double.isNaN(prcArea));
 		}
 
 	}
