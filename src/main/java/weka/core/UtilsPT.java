@@ -273,6 +273,44 @@ public class UtilsPT {
 	}
 	
 	/**
+	 * Calculates the k-th, standarized, empirical moment of the sample
+	 * @param values -- data
+	 * @param k -- moment order
+	 * @return empirical skewnes
+	 */
+	public static double standarizedMoment(double[] values, double k) {
+		double me = Utils.mean(values);
+		double sdev = UtilsPT.stdDev(values);
+		
+		double[] skewDistr = new double[values.length];
+		
+		for(int i =0;i<skewDistr.length;i++)
+			skewDistr[i] = Math.pow((values[i] - me)/sdev, k);
+		
+		double skew = Utils.mean(skewDistr);
+	
+		return skew;
+	}
+	
+	/**
+	 * Calculates the empirical skewness of the given values
+	 * @param values
+	 * @return -- empirical skewness
+	 */
+	public static double skew(double[] values) {
+		return UtilsPT.standarizedMoment(values, 3.0);
+	}
+	
+	/**
+	 * Calculates the empirical kurtosis of the given values
+	 * @param values
+	 * @return -- empirical kurtosis
+	 */
+	public static double kurtosis(double[] values) {
+		return UtilsPT.standarizedMoment(values, 4.0) - 3.0;
+	}
+	
+	/**
 	 * Helper function for getting options
 	 * Return string for object and its options.
 	 * 

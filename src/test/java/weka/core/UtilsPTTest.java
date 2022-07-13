@@ -37,6 +37,34 @@ public class UtilsPTTest {
 		assertTrue(Utils.eq(tmean, 2.5));
 		assertTrue(Utils.eq(UtilsPT.truncatedMean(new double[] {3,2}), 2.5));
 	}
+	
+	@Test
+	public void testSkewnes() {
+		Random rnd = new Random(10);
+		int N = 10000;
+		double[] distribution = new double[N];
+		for(int i=0;i<distribution.length;i++)
+			distribution[i] = rnd.nextGaussian();
+		
+		double skew = UtilsPT.skew(distribution);
+		assertEquals(0.0, skew, 0.1);
+		
+		
+	}
+	
+	@Test
+	public void testKurtosis() {
+		Random rnd = new Random(10);
+		int N = 10000;
+		double[] distribution = new double[N];
+		for(int i=0;i<distribution.length;i++)
+			distribution[i] = rnd.nextGaussian();
+		
+		double kurt = UtilsPT.kurtosis(distribution);
+		assertEquals(0.0, kurt, 0.1);
+		
+		
+	}
 	@Test
 	public void testVars() {
 		double[] array = new double[] {1,2,3,4,5,6,7,8,9,10};
