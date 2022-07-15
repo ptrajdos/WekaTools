@@ -164,8 +164,8 @@ public class HistogramDensityEstimator implements IHistogramDensityEstimator, Se
 		int numBins = this.binCounts.length;
 		double thrVal = this.minVal + this.binWidth;
 		for(int i=0;i<numBins;i++) {
+			index = i;
 			if(value < thrVal) {
-				index = i;
 				break;
 			}
 			thrVal+=this.binWidth;
