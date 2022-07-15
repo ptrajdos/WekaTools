@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import weka.core.Utils;
 import weka.core.UtilsPT;
+import weka.estimators.density.IHistogramDensityEstimator;
 import weka.tools.WeightedValuesHolder;
 
 /**
@@ -38,8 +39,8 @@ public class BinWidthCalculatorDoane implements HistogramBinWidthCalculator, Ser
 	public static double eps = 1E-6;
 
 	@Override
-	public double getWidth(WeightedValuesHolder valHolder) {
-		double[] values = valHolder.getValues();
+	public double getWidth(IHistogramDensityEstimator histEstim) {
+		double[] values = histEstim.getValues();
 		
 		double absSkew = Math.abs(UtilsPT.skew(values));
 		double n = values.length;

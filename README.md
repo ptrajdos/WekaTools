@@ -11,15 +11,9 @@ The build system is changed to Maven. To compile the package use:
 ```console
 mvn package
 ```
-To to build the package using ant type:
 
+To install the package into weka packages:
 ```console
-mvn ant:ant
+make install
 ```
-The above generates the ant buildfile. Then just type
-
-```console
-ant package
-```
-
 

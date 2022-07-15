@@ -15,7 +15,10 @@ PACKAGE_PATH=${DIST_PATH}/${PACKAGE_NAME}-${PACKAGE_VERSION}-package.zip
 .PHONY: install
 
 install_package:
-	${MVN} clean package
+	${MVN} -T 1C clean package
 
 install: install_package
+	${JAVA} -cp ${WEKA_JAR_PATH_INT} weka.core.WekaPackageManager -install-package ${PACKAGE_PATH}
+
+install_built:
 	${JAVA} -cp ${WEKA_JAR_PATH_INT} weka.core.WekaPackageManager -install-package ${PACKAGE_PATH}

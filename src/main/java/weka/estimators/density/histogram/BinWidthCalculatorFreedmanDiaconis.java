@@ -7,6 +7,7 @@ import java.util.Vector;
 import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.UtilsPT;
+import weka.estimators.density.IHistogramDensityEstimator;
 import weka.tools.WeightedValuesHolder;
 
 public class BinWidthCalculatorFreedmanDiaconis implements HistogramBinWidthCalculator, Serializable, OptionHandler {
@@ -19,8 +20,8 @@ public class BinWidthCalculatorFreedmanDiaconis implements HistogramBinWidthCalc
 	private double minBinWidth = 1E-5;
 
 	@Override
-	public double getWidth(WeightedValuesHolder valHolder) {
-		double[] values = valHolder.getValues();
+	public double getWidth(IHistogramDensityEstimator histEstim) {
+		double[] values = histEstim.getValues();
 		double iqr = UtilsPT.quantile(values, 0.75) - UtilsPT.quantile(values, 0.25);
 		
 		if(iqr < 1E-9) {

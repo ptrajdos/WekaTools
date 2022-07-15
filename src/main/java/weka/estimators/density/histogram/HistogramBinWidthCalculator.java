@@ -3,7 +3,7 @@
  */
 package weka.estimators.density.histogram;
 
-import weka.tools.WeightedValuesHolder;
+import weka.estimators.density.IHistogramDensityEstimator;
 
 /**
  * An interface for objects that calculate bin width for the histogram esitmator
@@ -14,6 +14,6 @@ import weka.tools.WeightedValuesHolder;
  */
 public interface HistogramBinWidthCalculator {
 	
-	public double getWidth(WeightedValuesHolder valHolder);
+	public double getWidth(IHistogramDensityEstimator histEstim);
 
 }

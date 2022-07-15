@@ -11,6 +11,7 @@ import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.Utils;
 import weka.core.UtilsPT;
+import weka.estimators.density.IHistogramDensityEstimator;
 import weka.tools.WeightedValuesHolder;
 
 /**
@@ -30,8 +31,8 @@ public class BinWidthCalculatorSquare implements Serializable, HistogramBinWidth
 	private double minBinWidth =1E-5;
 
 	@Override
-	public double getWidth(WeightedValuesHolder valHolder) {
-		double[] values = valHolder.getValues();
+	public double getWidth(IHistogramDensityEstimator histEstim) {
+		double[] values = histEstim.getValues();
 		
 		double numBins = Math.ceil(Math.sqrt(values.length));
 		

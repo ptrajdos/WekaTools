@@ -17,11 +17,11 @@ import weka.tools.WeightedValuesHolder;
 
 /**
  * @author pawel trajdos
- * @version 1.12.0
+ * @version 2.0.0
  * @since 1.12.0
  *
  */
-public class HistogramDensityEstimator implements DensityEstimator, Serializable, OptionHandler {
+public class HistogramDensityEstimator implements IHistogramDensityEstimator, Serializable, OptionHandler {
 	
 	/**
 	 * 
@@ -143,7 +143,7 @@ public class HistogramDensityEstimator implements DensityEstimator, Serializable
 			this.minVal-=this.minRange/2;
 			this.maxVal+=this.minRange/2;
 		}else {
-			this.binWidth = this.binWidthCalculator.getWidth(this.weightedValHolder);
+			this.binWidth = this.binWidthCalculator.getWidth(this);
 			//if(this.binWidth < this.minBinWidth)
 				//this.binWidth = this.minBinWidth;
 		}

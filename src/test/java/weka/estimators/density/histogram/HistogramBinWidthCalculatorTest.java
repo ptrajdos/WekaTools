@@ -6,7 +6,7 @@ import java.util.Random;
 import junit.framework.TestCase;
 import weka.core.OptionHandler;
 import weka.core.Utils;
-import weka.tools.WeightedValuesHolder;
+import weka.estimators.density.HistogramDensityEstimator;
 import weka.tools.tests.OptionHandlerChecker;
 import weka.tools.tests.SerializationChecker;
 import weka.tools.tests.WekaGOEChecker;
@@ -48,14 +48,18 @@ public abstract class HistogramBinWidthCalculatorTest extends TestCase {
 		double[] rndVals = this.getRandomUniformData(numVals);
 		double[] weights = this.getUniformWeights(numVals);
 		
-		WeightedValuesHolder holder = new WeightedValuesHolder();
-		holder.addValues(rndVals, weights);
+		HistogramDensityEstimator estim = new HistogramDensityEstimator();
+		estim.addValues(rndVals, weights);
+		
+		
+//		WeightedValuesHolder holder = new WeightedValuesHolder();
+//		holder.addValues(rndVals, weights);
 		
 		double minVal = rndVals[ Utils.minIndex(rndVals)];
 		double maxVal = rndVals[ Utils.maxIndex(rndVals)];
 		double range = maxVal - minVal;
 		
-		double binWidth = binWidthCalc.getWidth(holder);
+		double binWidth = binWidthCalc.getWidth(estim);
 		
 		assertTrue("Non negative", binWidth>0);
 		assertTrue("Less or equall range", binWidth <= range);
@@ -63,6 +67,7 @@ public abstract class HistogramBinWidthCalculatorTest extends TestCase {
 		
 	}
 	
+	@SuppressWarnings("static-method")
 	public double[] getRandomUniformData(int nVals) {
 		double[] vals = new double[nVals];
 		
@@ -73,6 +78,7 @@ public abstract class HistogramBinWidthCalculatorTest extends TestCase {
 		return vals;
 	}
 	
+	@SuppressWarnings("static-method")
 	public double[] getUniformWeights(int nVals) {
 		double[] vals = new double[nVals];
 		Arrays.fill(vals, 1.0);
