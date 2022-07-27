@@ -4,7 +4,9 @@
 package weka.estimators.density;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Vector;
 
 import weka.core.Option;
@@ -13,6 +15,9 @@ import weka.core.Utils;
 import weka.core.UtilsPT;
 import weka.estimators.density.histogram.BinWidthCalculatorFreedmanDiaconis;
 import weka.estimators.density.histogram.HistogramBinWidthCalculator;
+import weka.estimators.density.histogram.bin.Bin;
+import weka.estimators.density.histogram.bin.IBin;
+import weka.tools.SerialCopier;
 import weka.tools.WeightedValuesHolder;
 
 /**
@@ -38,6 +43,8 @@ public class HistogramDensityEstimator implements IHistogramDensityEstimator, Se
 	 * Bin-specific bin count
 	 */
 	protected double[] binCounts;
+	
+	protected List<IBin> bins;
 	
 	protected double minVal;
 	
@@ -67,7 +74,8 @@ public class HistogramDensityEstimator implements IHistogramDensityEstimator, Se
 			return 0;
 		
 		int binIndex = this.findBin(x);
-		double pdf = this.binCounts[binIndex]/(this.overallSum*this.binWidth);
+		IBin selBin = this.bins.get(binIndex);
+		double pdf = selBin.getCount()/(this.overallSum*selBin.getWidth());
 		return pdf;
 	}
 
@@ -83,7 +91,7 @@ public class HistogramDensityEstimator implements IHistogramDensityEstimator, Se
 		int binIndex = this.findBin(x);
 		double binSum=0;
 		for(int i=0;i<=binIndex;i++)
-			binSum+=this.binCounts[i];
+			binSum+=this.bins.get(i).getCount();
 		double cdf = binSum/(this.overallSum);
 		return cdf;
 	}
@@ -121,7 +129,8 @@ public class HistogramDensityEstimator implements IHistogramDensityEstimator, Se
 		int binIndex=0;
 		for(int i=0;i<vals.length;i++) {
 			binIndex = this.findBin(vals[i]);
-			this.binCounts[binIndex]+=weights[i];
+			
+			this.bins.get(binIndex).addValue(weights[i]);
 			this.overallSum+=weights[i];
 		}
 		this.histInitialized=true;
@@ -144,8 +153,6 @@ public class HistogramDensityEstimator implements IHistogramDensityEstimator, Se
 			this.maxVal+=this.minRange/2;
 		}else {
 			this.binWidth = this.binWidthCalculator.getWidth(this);
-			//if(this.binWidth < this.minBinWidth)
-				//this.binWidth = this.minBinWidth;
 		}
 		
 		nBins = (int) Math.max(Math.ceil(range/this.binWidth), 1) ;
@@ -157,18 +164,32 @@ public class HistogramDensityEstimator implements IHistogramDensityEstimator, Se
 		
 		this.binCounts = new double[nBins];
 		
+		double lowerBound=this.minVal;
+		double upperBound = lowerBound + this.binWidth;
+		
+		this.bins = new ArrayList<IBin>(nBins);
+		
+		for(int i = 0; i< nBins;i++) {
+			this.bins.add(new Bin(lowerBound, upperBound));
+			lowerBound+= this.binWidth;
+			upperBound+= this.binWidth;
+		}
+		
 	}
 	
 	protected int findBin(double value) {
 		int index=0;
-		int numBins = this.binCounts.length;
-		double thrVal = this.minVal + this.binWidth;
+		int numBins = this.bins.size();
+		
+		if(value < this.bins.get(0).getLowerBound())
+			return 0;
+		
 		for(int i=0;i<numBins;i++) {
 			index = i;
-			if(value < thrVal) {
+			if( this.bins.get(i).isValueInBin(value) ) {
 				break;
 			}
-			thrVal+=this.binWidth;
+			
 		}
 		return index;
 	}
@@ -182,7 +203,7 @@ public class HistogramDensityEstimator implements IHistogramDensityEstimator, Se
 		newVector.addElement(new Option(
 			      "\tMin range of values to produce bins "+
 		          "(default:" +1E-4 + ".\n",
-			      "MBW", 1, "-MRA"));
+			      "MRA", 1, "-MRA"));
 		
 		newVector.addElement(new Option(
 			      "\tObject used to calculate the bin width "+
@@ -251,6 +272,16 @@ public class HistogramDensityEstimator implements IHistogramDensityEstimator, Se
 	
 	public String binWidthCalculatorTipText() {
 		return "Set object used to calculate the bin width";
+	}
+
+	@Override
+	public List<IBin> getBins() {
+		try {
+			this.computeHist();
+			return (List<IBin>) SerialCopier.makeCopy(this.bins);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }

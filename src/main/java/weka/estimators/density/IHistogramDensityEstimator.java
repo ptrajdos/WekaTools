@@ -3,7 +3,9 @@
  */
 package weka.estimators.density;
 
-import weka.tools.WeightedValuesHolder;
+import java.util.List;
+
+import weka.estimators.density.histogram.bin.IBin;
 
 /**
  * 
@@ -15,6 +17,8 @@ import weka.tools.WeightedValuesHolder;
  *
  */
 public interface IHistogramDensityEstimator extends DensityEstimator {
+	
+	public List<IBin> getBins();
 
 
 }
