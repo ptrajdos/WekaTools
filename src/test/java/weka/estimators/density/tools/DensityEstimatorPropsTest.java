@@ -8,7 +8,7 @@ public class DensityEstimatorPropsTest extends TestCase {
 	
 	
 	protected DensityEstimator createUniformEstimator() {
-DensityEstimator dens = new DensityEstimator() {
+			DensityEstimator dens = new DensityEstimator() {
 			
 			@Override
 			public void addValue(double data, double weight) {
@@ -46,6 +46,12 @@ DensityEstimator dens = new DensityEstimator() {
 			
 			@Override
 			public void addValues(double[] data, double[] weight) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void reset() {
 				// TODO Auto-generated method stub
 				
 			}

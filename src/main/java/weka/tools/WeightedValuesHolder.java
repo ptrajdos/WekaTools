@@ -79,5 +79,10 @@ public class WeightedValuesHolder implements Serializable {
 	public int getNumVals() {
 		return this.values.size();
 	}
+	
+	public void reset() {
+		this.values  = new ArrayList<Double>(100);
+		this.weights = new ArrayList<Double>(100);
+	}
 
 }

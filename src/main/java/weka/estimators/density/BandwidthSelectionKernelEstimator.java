@@ -168,6 +168,12 @@ Vector<Option> newVector = new Vector<Option>(1);
 	public String toString() {
 		return "Bandwidth Selection Kernel Estimator:\n" + this.kernEstim.toString();
 	}
+
+	@Override
+	public void reset() {
+		this.kernEstim.reset();
+		
+	}
 	
 	
 	

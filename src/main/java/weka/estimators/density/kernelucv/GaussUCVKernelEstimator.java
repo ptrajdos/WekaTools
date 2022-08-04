@@ -3,9 +3,6 @@
  */
 package weka.estimators.density.kernelucv;
 
-import java.util.Enumeration;
-
-import weka.core.Option;
 import weka.estimators.density.Kernel;
 import weka.estimators.density.kernels.GaussianKernel;
 

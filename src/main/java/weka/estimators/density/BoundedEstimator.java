@@ -15,7 +15,7 @@ import weka.core.UtilsPT;
  * Estimator with boundary correction based on the reflection approach
  * @author pawel trajdos
  * @since 0.9.0
- * @version 0.10.1
+ * @version 2.0.0
  *
  */
 public class BoundedEstimator implements DensityEstimator, Serializable, OptionHandler {
@@ -74,7 +74,7 @@ public class BoundedEstimator implements DensityEstimator, Serializable, OptionH
 	}
 	@Override
 	public Enumeration<Option> listOptions() {
-Vector<Option> newVector = new Vector<Option>(1);
+		Vector<Option> newVector = new Vector<Option>(1);
 		
 	
 		newVector.addElement(new Option(
@@ -204,6 +204,11 @@ Vector<Option> newVector = new Vector<Option>(1);
 	@Override
 	public double[] getWeights() {
 		return this.kernEstim.getWeights();
+	}
+
+	@Override
+	public void reset() {
+		this.kernEstim.reset();
 	}
 	
 	

@@ -297,6 +297,25 @@ public abstract class DensEstimatorTest extends TestCase {
 		checkCDF(generateHomogeneous(0.5*(this.getUpper() + this.getLower()) ));
 	}
 	
+	public void testReset() {
+		DensityEstimator dens = this.getEstimator();
+		double[] weights = this.generateHomogeneous(1.0);
+		double[] values = this.generateGauss(1.0);
+		dens.addValues(values, weights);
+		
+		dens.reset();
+		
+		try {
+			double pdfVal = dens.getPDF(0);
+			assertTrue("NaN value should have been returned", Double.isNaN(pdfVal));
+			
+			double cdfVal = dens.getCDF(0.0);
+			assertTrue("NaN value should have been returned", Double.isNaN(cdfVal));
+		}catch (Exception e) {
+			assertTrue("Empty set ", true);
+		}
+	}
+	
 	public void testToString() {
 		DensityEstimator dens = this.getEstimator();
 		String desc  = dens.toString();

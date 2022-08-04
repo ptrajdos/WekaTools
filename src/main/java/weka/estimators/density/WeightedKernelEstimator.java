@@ -25,6 +25,8 @@ public class WeightedKernelEstimator extends AbstractKernelEstimator {
 	@Override
 	public double getPDF(double x) {
 		int numVals = this.valHolder.getNumVals();
+		if (numVals == 0 )
+			return Double.NaN;
 		double estimation =0;
 		for(int i=0;i<numVals;i++) {
 			estimation+=this.kernel.getKernelPDFValue(  (x-this.valHolder.getValue(i))/this.bandwidth  )*this.valHolder.getWeight(i);
@@ -39,6 +41,8 @@ public class WeightedKernelEstimator extends AbstractKernelEstimator {
 	@Override
 	public double getCDF(double x) {
 		int numVals = this.valHolder.getNumVals();
+		if(numVals == 0)
+			return Double.NaN;
 		double estimation =0;
 		for(int i=0;i<numVals;i++)
 			estimation+=this.kernel.getKernelCDFValue(  (x-this.valHolder.getValue(i))/this.bandwidth  )*this.valHolder.getWeight(i);

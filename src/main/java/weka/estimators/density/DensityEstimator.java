@@ -65,6 +65,13 @@ public interface DensityEstimator extends IncrementalEstimator {
 	 */
 	public double[] getWeights();
 	
+	/**
+	 * Resets the estimator
+	 * @since 2.0.0
+	 * @version 2.0.0
+	 */
+	public void reset();
+	
 	
 
 }

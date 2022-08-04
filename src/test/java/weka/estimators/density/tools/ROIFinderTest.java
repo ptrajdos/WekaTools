@@ -49,6 +49,12 @@ public class ROIFinderTest extends TestCase {
 				// TODO Auto-generated method stub
 				
 			}
+
+			@Override
+			public void reset() {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 		
 		double[] roi = ROIFinder.findRoi(densEstim, 0, 1.0, 100);

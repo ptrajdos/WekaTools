@@ -12,6 +12,8 @@ import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.UtilsPT;
 import weka.estimators.density.histogram.bin.IBin;
+import weka.tools.numericIntegration.Function;
+import weka.tools.numericIntegration.TrapezoidalIntegrator;
 
 /**
  * @author pawel trajdos
@@ -31,6 +33,7 @@ public class FrequencyPolygonMidpointDensityEstimator implements IHistogramDensi
 	protected double minVal=0;
 	protected double maxVal=0;
 	protected double overallSum = 0;
+	protected double normalizingFactor = 1.0;
 	
 	protected boolean isInitialised = false;
 	
@@ -54,10 +57,12 @@ public class FrequencyPolygonMidpointDensityEstimator implements IHistogramDensi
 		for (IBin iBin : bins) {
 			this.overallSum+= iBin.getCount();
 		}
-		
+				
 		this.isInitialised = true;
 		
 	}
+	
+
 
 	@Override
 	public double getPDF(double x) {
@@ -78,7 +83,6 @@ public class FrequencyPolygonMidpointDensityEstimator implements IHistogramDensi
 		
 		int binIndex = this.findBin(x);
 		IBin tmpBin = bins.get(binIndex);
-		double binUpperThresh = tmpBin.getUpperBound();
 		double binMidPoint = tmpBin.getBinCenter();
 		
 		double pdf=0; 
@@ -123,6 +127,7 @@ public class FrequencyPolygonMidpointDensityEstimator implements IHistogramDensi
 		pdf = a*t + b;
 		
 		return pdf;
+
 	}
 
 	@Override
@@ -269,6 +274,16 @@ public class FrequencyPolygonMidpointDensityEstimator implements IHistogramDensi
 		
 	    return options.toArray(new String[0]);
 	}
+
+
+
+	@Override
+	public void reset() {
+		this.internalHistogramEstimator.reset();
+		this.isInitialised = false;
+	}
+	
+	
 	
 
 }

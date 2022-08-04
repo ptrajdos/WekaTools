@@ -164,6 +164,14 @@ public abstract class AbstractKernelEstimator implements KernelDensityEstimator,
 		strBuild.append("Bandwidth: " + this.bandwidth + "\n");
 		return strBuild.toString();
 	}
+
+
+	@Override
+	public void reset() {
+		this.valHolder.reset();
+		
+	}
+	
 	
 	
 

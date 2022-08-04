@@ -17,7 +17,7 @@ import weka.core.UtilsPT;
  * Needed for speed reasons
  * @author pawel trajdos
  * @since 0.13.0
- * @version 0.13.0
+ * @version 2.0.0
  *
  */
 public class CachedEstimator implements DensityEstimator, Serializable, OptionHandler {
@@ -153,6 +153,13 @@ Vector<Option> newVector = new Vector<Option>(1);
 		options.add(UtilsPT.getClassAndOptions(this.getDensEstim()));
 		
 	    return options.toArray(new String[0]);
+	}
+
+	@Override
+	public void reset() {
+		this.densEstim.reset();
+		this.pdfHash.clear();
+		this.cdfHash.clear();
 	}
 	
 	

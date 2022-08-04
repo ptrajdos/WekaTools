@@ -15,7 +15,7 @@ public class HistogramDensityEstimatorTest extends DensEstimatorTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		this.compareIntegrateEps=9E-2;
+		this.compareIntegrateEps=1E-2;
 	}
 	
 	public void testGetBins(){

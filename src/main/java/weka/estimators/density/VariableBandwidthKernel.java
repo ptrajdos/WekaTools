@@ -73,6 +73,10 @@ public class VariableBandwidthKernel extends WeightedKernelEstimator {
 		this.initializeLambdas();
 		
 		int numVals = this.valHolder.getNumVals();
+		
+		if( numVals == 0)
+			return Double.NaN;
+		
 		double estimation =0;
 		for(int i=0;i<numVals;i++) {
 			estimation+=this.kernel.getKernelPDFValue(  (x-this.valHolder.getValue(i))/(this.bandwidth*this.lambdas[i])  )
@@ -87,6 +91,10 @@ public class VariableBandwidthKernel extends WeightedKernelEstimator {
 		this.initializeLambdas();
 		
 		int numVals = this.valHolder.getNumVals();
+		
+		if( numVals == 0)
+			return Double.NaN;
+		
 		double estimation =0;
 		for(int i=0;i<numVals;i++)
 			estimation+=this.kernel.getKernelCDFValue(  (x-this.valHolder.getValue(i))/(this.bandwidth*this.lambdas[i])  )*this.valHolder.getWeight(i);

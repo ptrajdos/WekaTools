@@ -1,10 +1,10 @@
 package weka.estimators.density;
 
-public class FrequencyPolygonMidpointDensityEstimatorTest extends HistogramDensityEstimatorTest {
+public class EqualProbabilityHistogramDensityEstimatorTest extends HistogramDensityEstimatorTest {
 
 	@Override
 	protected DensityEstimator getEstimator() {
-		return new FrequencyPolygonMidpointDensityEstimator();
+		return new EqualProbabilityHistogramDensityEstimator();
 	}
 	
 	@Override

@@ -68,4 +68,13 @@ public class Bin implements IBin, Serializable {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		double intervalLength = this.getUpperBound() - this.getLowerBound();
+		String description= "Bin (" + this.getLowerBound() + "; " + this.getUpperBound() + "], len: " + intervalLength +" cnt: " + this.getCount();
+		return description;
+	}
+	
+	
+
 }

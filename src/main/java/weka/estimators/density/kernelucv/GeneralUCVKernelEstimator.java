@@ -210,6 +210,10 @@ public abstract class GeneralUCVKernelEstimator implements DensityEstimator, Ser
 	    return options.toArray(new String[0]);
 	}
 	
+	@Override
+	public void reset() {
+		this.weiValHold.reset();
+	}
 	
 
 }
