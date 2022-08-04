@@ -12,7 +12,7 @@ import weka.tools.Linspace;
 /**
  * @author pawel trajdos
  * @since 0.14.0
- * @version 1.12.0
+ * @version 2.0.0
  *
  */
 public class ROIFinder implements Serializable {
@@ -44,7 +44,6 @@ public class ROIFinder implements Serializable {
 		}
 		
 		
-		
 		double[] seq = Linspace.genLinspace(realLowerBound, realUppoerBound, numSamples);
 		double h = (realUppoerBound - realLowerBound)/numSamples;
 		roi[0]=realLowerBound;
@@ -69,9 +68,75 @@ public class ROIFinder implements Serializable {
 			if(upperFound)
 				break;
 				
-				
 		}
 		return roi;
 	}
+	
+	public static class RoI implements Serializable{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 8161532791060580667L;
+		
+		private double lowerBound;
+		private double upperBound;
+		
+		public RoI(double lowerBound, double upperBound) {
+			this.lowerBound = lowerBound;
+			this.upperBound = upperBound;
+		}
+
+		/**
+		 * @return the lowerBound
+		 */
+		public double getLowerBound() {
+			return this.lowerBound;
+		}
+
+		/**
+		 * @return the upperBound
+		 */
+		public double getUpperBound() {
+			return this.upperBound;
+		}
+		
+		public double intersectionLength(RoI otherRoI) {
+			
+			double rightmost = Math.min(this.upperBound, otherRoI.upperBound);
+			double leftmost = Math.max(this.lowerBound, otherRoI.lowerBound);
+			
+			double area = Math.max(0, rightmost - leftmost);
+			
+			return area;
+		}
+		
+		public boolean isIntersecting(RoI otherRoi) {
+			return this.intersectionLength(otherRoi)>0;
+		}
+		
+		public RoI getIntersection(RoI otherRoI){
+			
+			if(! this.isIntersecting(otherRoI))
+				return null;
+			
+			double rightmost = Math.min(this.upperBound, otherRoI.upperBound);
+			double leftmost = Math.max(this.lowerBound, otherRoI.lowerBound);
+			
+			return new RoI(leftmost, rightmost);
+			
+			
+		}
+		
+		
+	}
+	
+	public static RoI findRoi2(DensityEstimator estim, double lowerSearchBound , double upperSearchBound, int numSamples) {
+		double[] dRoi = ROIFinder.findRoi(estim, lowerSearchBound, upperSearchBound, numSamples);
+		RoI roi = new RoI(dRoi[0], dRoi[1]);
+		return roi;
+	}
+	
+	
 
 }
