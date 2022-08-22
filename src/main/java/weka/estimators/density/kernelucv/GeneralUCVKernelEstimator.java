@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import weka.core.KhanKleinSummator;
 import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.Utils;
@@ -17,6 +18,21 @@ import weka.tools.Linspace;
 import weka.tools.WeightedValuesHolder;
 
 /**
+ * Kernel that uses unbiased cross-validation approach. 
+ * Implemented according to:
+ * @article{Scott1987,
+  doi = {10.1080/01621459.1987.10478550},
+  url = {https://doi.org/10.1080/01621459.1987.10478550},
+  year = {1987},
+  month = dec,
+  publisher = {Informa {UK} Limited},
+  volume = {82},
+  number = {400},
+  pages = {1131--1146},
+  author = {David W. Scott and George R. Terrell},
+  title = {Biased and Unbiased Cross-Validation in Density Estimation},
+  journal = {Journal of the American Statistical Association}
+}
  * @author pawel trajdos
  * @since 1.12.0
  * @version 1.12.0
@@ -70,7 +86,7 @@ public abstract class GeneralUCVKernelEstimator implements DensityEstimator, Ser
 		double iqr = (UtilsPT.quantile(vals, 0.75) - UtilsPT.quantile(vals, 0.25))/1.34;
 		double h = 0.9*Math.min(sd, iqr) * Math.pow(vals.length, -1.0/5.0);
 		h = Math.max(h, this.getMinBandwidth());
-		return h;
+		return 2.0 * h;
 	}
 	
 	protected double getUCV(double h) {
@@ -82,16 +98,17 @@ public abstract class GeneralUCVKernelEstimator implements DensityEstimator, Ser
 		double RK = this.getSquaredKernelIntegral()/(numPoints*h);
 		
 		
-		double tmpSum=0;
+		
+		KhanKleinSummator ktmpSum = new KhanKleinSummator();
 		for(int i=0;i<numPoints;i++)
 			for(int j=0;j<numPoints;j++) {
 				if (i==j)
 					continue;
-					tmpSum+= this.getKernelProductIntegral(h, vals[i], vals[j])/(numPoints*numPoints*h*h);
-					tmpSum-= 2.0/(numPoints*(numPoints-1)*h)*this.kernel.getKernelPDFValue((vals[i]- vals[j])/h); 
+					ktmpSum.addToSum(this.getKernelProductIntegral(h, vals[i], vals[j])/(numPoints*numPoints*h*h));
+					ktmpSum.addToSum(-2.0/(numPoints*(numPoints-1)*h)*this.kernel.getKernelPDFValue((vals[i]- vals[j])/h));
 			}
 		
-		double ucv = RK + tmpSum;
+		double ucv = RK + ktmpSum.getSum();
 		
 		return ucv;
 	}
@@ -124,10 +141,12 @@ public abstract class GeneralUCVKernelEstimator implements DensityEstimator, Ser
 		}
 		
 		int numVals = this.weiValHold.getNumVals();
-		double estimation =0;
+		
+		KhanKleinSummator kEstimation = new KhanKleinSummator();
 		for(int i=0;i<numVals;i++) {
-			estimation+=this.kernel.getKernelPDFValue(  (x-this.weiValHold.getValue(i))/this.bandwidth  );
+			kEstimation.addToSum(this.kernel.getKernelPDFValue(  (x-this.weiValHold.getValue(i))/this.bandwidth  ));
 		}
+		double estimation = kEstimation.getSum();
 		estimation/=numVals*this.bandwidth;
 		return estimation;
 	}
@@ -141,10 +160,12 @@ public abstract class GeneralUCVKernelEstimator implements DensityEstimator, Ser
 		} 
 		
 		int numVals = this.weiValHold.getNumVals();
-		double estimation =0;
-		for(int i=0;i<numVals;i++)
-			estimation+=this.kernel.getKernelCDFValue(  (x-this.weiValHold.getValue(i))/this.bandwidth  );
+		KhanKleinSummator kEstimation = new KhanKleinSummator();
 		
+		for(int i=0;i<numVals;i++)
+			kEstimation.addToSum(this.kernel.getKernelCDFValue(  (x-this.weiValHold.getValue(i))/this.bandwidth  ));
+		
+		double estimation =kEstimation.getSum();
 		estimation/=numVals;
 		
 		return estimation;
@@ -214,6 +235,18 @@ public abstract class GeneralUCVKernelEstimator implements DensityEstimator, Ser
 	public void reset() {
 		this.weiValHold.reset();
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder strb = new StringBuilder();
+		
+		strb.append("UCVKernelEstimator:\n");
+		strb.append("Selected Bandwidth: " + this.bandwidth);
+		
+		return strb.toString();
+	}
+	
+	
 	
 
 }

@@ -12,6 +12,23 @@ import weka.core.OptionHandler;
 import weka.core.UtilsPT;
 
 /**
+ * Variable bandwidth kernel estimator.
+ * Implemented according to:
+ * 
+ * @article{Van_Kerm_2003,
+	doi = {10.1177/1536867x0300300204},
+	url = {https://doi.org/10.1177%2F1536867x0300300204},
+	year = 2003,
+	month = {jun},
+	publisher = {{SAGE} Publications},
+	volume = {3},
+	number = {2},
+	pages = {148--156},
+	author = {Philippe Van Kerm},
+	title = {Adaptive Kernel Density Estimation},
+	journal = {The Stata Journal: Promoting communications on statistics and Stata}
+}
+
  * @author pawel trajdos
  * @since 1.13.0
  * @version 1.13.0

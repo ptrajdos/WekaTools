@@ -3,6 +3,8 @@
  */
 package weka.tools.numericIntegration;
 
+import weka.core.KhanKleinSummator;
+
 /**
  * Performs numerical integration using Simpsons rule
  * @author pawel trajdos
@@ -24,12 +26,16 @@ public class SimpsonsIntegrator extends SimpleIntegrator {
 	 */
 	@Override
 	public double integrate() throws Exception {
-		double value=0;
+		
 		double[] sequence = this.generateSequence();
 		
+		KhanKleinSummator sumVal = new KhanKleinSummator();
+		
 		double tmpVal =0;
-		value += this.delta/3.0 * (this.getFunction().value(sequence[0]) +
-				this.getFunction().value(sequence[sequence.length-1]));
+		
+		sumVal.addToSum(this.delta/3.0 * (this.getFunction().value(sequence[0]) +
+				this.getFunction().value(sequence[sequence.length-1])));
+		
 		
 		for(int i=1;i<sequence.length -1;i++) {
 			if(i%2==0) {
@@ -37,9 +43,10 @@ public class SimpsonsIntegrator extends SimpleIntegrator {
 			}else {
 				tmpVal= 4.0*this.getFunction().value(sequence[i]);
 			}
-			value+= tmpVal*this.delta/3.0;
+			sumVal.addToSum(tmpVal*this.delta/3.0);
+			
 		}
-		return value;
+		return sumVal.getSum();
 	}
 
 }

@@ -13,6 +13,7 @@ import weka.tools.SerialCopier;
 import weka.tools.numericIntegration.Function;
 import weka.tools.numericIntegration.SimpleIntegrator;
 import weka.tools.numericIntegration.SimpsonsIntegrator;
+import weka.tools.numericIntegration.TrapezoidalIntegrator;
 import weka.tools.tests.OptionHandlerChecker;
 import weka.tools.tests.WekaGOEChecker;
 
@@ -50,6 +51,8 @@ public abstract class DensEstimatorTest extends TestCase {
 	protected double compareEps=1E-6;
 	
 	protected boolean stricEstimInterval=false;
+	
+	protected int integrationSequenceLength=5000;
 	
 	protected double[] generateUniform() {
 		double[] values  = new double[this.numVals];
@@ -176,7 +179,7 @@ public abstract class DensEstimatorTest extends TestCase {
 		
 		Fun fun = new Fun(dens);
 		SimpleIntegrator trint = new SimpsonsIntegrator();
-		trint.setSequenceLength(2000);
+		trint.setSequenceLength(this.integrationSequenceLength);
 		
 		double[] roi = ROIFinder.findRoi(dens, getLower(), getUpper(), trint.getSequenceLength());
 		trint.setUpperBound(roi[1]+this.integrationEps);

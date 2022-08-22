@@ -472,5 +472,55 @@ public class UtilsPT {
 		}
 		return tmp;
 	}
+	/**
+	 * Khan-Klein summation.
+	 *Implemented according to:
+	 *
+	 * @article{Klein2005,
+  doi = {10.1007/s00607-005-0139-x},
+  url = {https://doi.org/10.1007/s00607-005-0139-x},
+  year = {2005},
+  month = nov,
+  publisher = {Springer Science and Business Media {LLC}},
+  volume = {76},
+  number = {3-4},
+  pages = {279--293},
+  author = {A. Klein},
+  title = {A Generalized Kahan-Babu{\v{s}}ka-Summation-Algorithm},
+  journal = {Computing}
+}
+	 *
+	 * @param array -- array of numbers to sum
+	 * @return sum
+	 */
+	public static double KhanKleinSum(double[] array) {
+		double sum = 0.0;
+		double cs = 0.0; 
+		double ccs = 0.0;
+		double c = 0.0;
+		double cc  = 0.0;
+		
+		for(int i=0;i<array.length;i++) {
+			double t = sum + array[i];
+			
+			if (Math.abs(sum) >= Math.abs(array[i]))
+				c = (sum - t) + array[i];
+			else
+				c = (array[i] - t) + sum;
+			
+			sum = t;
+			t = cs + c;
+			
+			if( Math.abs(cs) >= Math.abs(c))
+				cc = (cs - t) + c;
+			else
+				cc = (c - t) + cs;
+			
+			cs =t;
+			ccs = ccs + cc;
+		}
+		
+		return sum + cs + ccs;
+	}
 
 }

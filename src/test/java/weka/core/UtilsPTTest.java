@@ -259,7 +259,7 @@ public class UtilsPTTest {
 	public void testSoftmax() {
 		int lens[]= {1,2,3,5,10,100};
 		for(int i=0;i<lens.length;i++) {
-			double[] dat = this.generateDate(lens[i], i);
+			double[] dat = this.generateData(lens[i], i);
 			int dMaxIdx = Utils.maxIndex(dat);
 			double[] smax = UtilsPT.softMax(dat);
 			int sMaxIdx = Utils.maxIndex(smax);
@@ -289,7 +289,7 @@ public class UtilsPTTest {
 	public void testSoftMin() {
 		int lens[]= {1,2,3,5,10,100};
 		for(int i=0;i<lens.length;i++) {
-			double[] dat = this.generateDate(lens[i], i);
+			double[] dat = this.generateData(lens[i], i);
 			int dMaxIdx = Utils.maxIndex(dat);
 			double[] smax = UtilsPT.softMin(dat);
 			int sMaxIdx = Utils.minIndex(smax);
@@ -391,13 +391,31 @@ public class UtilsPTTest {
 		
 	}
 	
-	double[] generateDate(int numVals, int seed) {
+	double[] generateData(int numVals, int seed) {
 		double[] genData = new double[numVals];
 		Random rnd = new Random(seed);
 		for(int i=0;i<genData.length;i++)
 			genData[i] = rnd.nextDouble();
 		
 		return genData;
+	}
+	
+	@Test
+	public void testKhanKlainSum() {
+		double[] vals = new double[] {1.0,1.0E100,1.0,-1.0E100};
+		
+		double ks = UtilsPT.KhanKleinSum(vals);
+		
+		assertTrue("Small-large summation: ", Utils.eq(ks, 2.0));
+		
+		int N = 2000;
+		
+		double[] array = generateData(N, 0);
+		
+		double avg = UtilsPT.KhanKleinSum(array);
+		avg/=(double)N;
+		assertEquals("Average", 0.5, avg,1E-2);
+		
 	}
 	
 	
