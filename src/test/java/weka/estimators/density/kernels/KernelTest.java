@@ -10,6 +10,7 @@ import weka.tools.Linspace;
 import weka.tools.numericIntegration.Function;
 import weka.tools.numericIntegration.SimpleIntegrator;
 import weka.tools.numericIntegration.SimpsonsIntegrator;
+import weka.tools.tests.ToStringChecker;
 
 /**
  * @author pawel
@@ -82,6 +83,10 @@ public abstract class KernelTest extends TestCase {
 		assertTrue("Integration", Utils.eq(integral, 1.0));
 		Utils.SMALL=1e-6;
 		
+	}
+	
+	public void testToString() {
+		ToStringChecker.checkToString(getKernel());
 	}
 
 }

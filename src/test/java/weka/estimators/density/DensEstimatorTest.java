@@ -42,7 +42,7 @@ public abstract class DensEstimatorTest extends TestCase {
 		super.tearDown();
 	}
 
-	protected  int numVals=1000;
+	protected  int numVals=100;
 	protected  double eps=1e-6;
 	protected double integrationEps=1E-6;
 	protected  double step=0.01;

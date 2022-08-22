@@ -28,7 +28,7 @@ import weka.tools.numericIntegration.SimpsonsIntegrator;
 
  * @author pawel trajdos
  * @since 0.13.0
- * @version 0.13.0
+ * @version 2.0.0
  *
  */
 public class MaximalSmoothingPrincipleBandwidthSelectionKernel extends SimpleBandwidthFinder {
@@ -49,32 +49,32 @@ public class MaximalSmoothingPrincipleBandwidthSelectionKernel extends SimpleBan
 		int sampleSize = sample.length;
 		
 		// Default values for gaussian kernel;
-		double kernelSD = 1;
+		double kernelForthMoment = 1;
 		double kernelSQ = 1.0/(2*Math.sqrt(Math.PI));
 		
 		try {
-			kernelSD = this.findKernelSecondMoment();
+			kernelForthMoment = this.findKernelForthMoment();
 			kernelSQ = this.findKernelSquareIntegral();
 		} catch (Exception e) {
 			e.printStackTrace();
-			 kernelSD = 1;
+			 kernelForthMoment = 1;
 			 kernelSQ = 1.0/(2*Math.sqrt(Math.PI));
 		}
 		
 		
-		double h = this.scaleFactor* 3.0 * Math.pow(35*sampleSize, -0.2) *sampleSD * Math.pow(kernelSD, -0.8) * Math.pow(kernelSQ, 0.2);
+		double h = this.scaleFactor* 3.0 * Math.pow(35.0*sampleSize, -0.2) *sampleSD * Math.pow(kernelForthMoment, -0.2) * Math.pow(kernelSQ, 0.2);
 		if(h<this.minH)
 			h=this.minH;
 		this.kernEstim.setBandwidth(h);
 
 	}
 	
-	private double findKernelSecondMoment() throws Exception {
+	private double findKernelForthMoment() throws Exception {
 		Function fun = new Function() {
 			@Override
 			public double value(double argument) {
 				Kernel kern = kernEstim.getKernel();
-				return argument*argument*kern.getKernelPDFValue(argument);
+				return argument*argument*argument*argument*kern.getKernelPDFValue(argument);
 			}
 		};
 		

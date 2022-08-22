@@ -8,6 +8,7 @@ public class BoundedEstimatorTest extends DensEstimatorTest {
 	protected void setUp() throws Exception {
 		super.setUp();
 		this.stricEstimInterval=true;
+		this.numVals = 100;
 	}
 
 	@Override

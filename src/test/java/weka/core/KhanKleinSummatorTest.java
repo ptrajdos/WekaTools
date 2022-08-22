@@ -9,6 +9,7 @@ import java.util.Random;
 import org.junit.Test;
 
 import weka.tools.SerialCopier;
+import weka.tools.tests.EqualsChecker;
 
 public class KhanKleinSummatorTest {
 
@@ -68,6 +69,11 @@ public class KhanKleinSummatorTest {
 		
 		assertTrue("The same sum for different method of passing values", summator.equals(summator2));
 		
+	}
+	@Test
+	public void testEquality() {
+		KhanKleinSummator summator = new KhanKleinSummator();
+		EqualsChecker.checkEquality(summator);
 	}
 	
 	protected double[] generateData(int number, int seed) {

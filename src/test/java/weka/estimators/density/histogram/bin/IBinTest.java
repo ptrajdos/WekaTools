@@ -37,6 +37,10 @@ public abstract class IBinTest extends TestCase {
 		bin.addValue(value);
 		assertEquals("Value", value, bin.getCount(), 1E-3);
 		
+		String description  = bin.toString();
+		assertTrue("Not null description", description!=null );
+		assertTrue("Nonzero description length", description.length()>0);
+		
 
 	}
 

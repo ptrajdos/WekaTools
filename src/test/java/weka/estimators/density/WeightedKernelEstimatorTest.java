@@ -10,12 +10,17 @@ import org.junit.Test;
 import weka.core.Utils;
 
 public class WeightedKernelEstimatorTest extends DensEstimatorTest {
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		this.numVals = 100;
+	}
 
 	public void testWeighted() {
 		Random rnd = new Random();
 		rnd.setSeed(0);
 		
-		int numVals =300;
 		double wei =1.0;
 		
 		WeightedKernelEstimator kern = new WeightedKernelEstimator();

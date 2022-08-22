@@ -6,11 +6,11 @@ public class VariableBandwidthKernelTest extends DensEstimatorTest {
 
 	@Override
 	protected DensityEstimator getEstimator() {
-		return new VariableBandwidthKernel();
+		return new VariableBandwidthKernelEstimator();
 	}
 	
 	public void testAlpha() {
-		VariableBandwidthKernel est = (VariableBandwidthKernel) this.getEstimator();
+		VariableBandwidthKernelEstimator est = (VariableBandwidthKernelEstimator) this.getEstimator();
 		
 		est.setAlpha(-1);
 		assertTrue("Lowel limit of alpha is 0", Utils.eq(est.getAlpha(), 0.0));
