@@ -17,7 +17,7 @@ import weka.estimators.density.BandwidthSelectionKernelEstimator;
  * @author pawel trajdos
  *
  */
-public abstract class SimpleBandwidthFinder extends BandwidthSelectionKernelEstimator {
+public abstract class SimpleBandwidthFinderEstimator extends BandwidthSelectionKernelEstimator {
 
 	/**
 	 * 
@@ -26,7 +26,7 @@ public abstract class SimpleBandwidthFinder extends BandwidthSelectionKernelEsti
 	/**
 	 * Min allowed bandwidth
 	 */
-	protected double minH =0.01;
+	protected double minH =1E-6;
 	/**
 	 * The scale factor used to sale Silverman's bandwidth
 	 */

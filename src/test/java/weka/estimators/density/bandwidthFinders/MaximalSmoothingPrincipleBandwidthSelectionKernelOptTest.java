@@ -12,12 +12,12 @@ public class MaximalSmoothingPrincipleBandwidthSelectionKernelOptTest extends Op
 	}
 	
 	public MaximalSmoothingPrincipleBandwidthSelectionKernelOptTest(String name) {
-		this(name, MaximalSmoothingPrincipleBandwidthSelectionKernel.class.getCanonicalName());
+		this(name, MaximalSmoothingPrincipleBandwidthSelectionKernelEstimator.class.getCanonicalName());
 	}
 
 	@Override
 	protected OptionHandler getOptionHandler() {
-		MaximalSmoothingPrincipleBandwidthSelectionKernel ke = Mockito.mock(MaximalSmoothingPrincipleBandwidthSelectionKernel.class, Mockito.CALLS_REAL_METHODS);
+		MaximalSmoothingPrincipleBandwidthSelectionKernelEstimator ke = Mockito.mock(MaximalSmoothingPrincipleBandwidthSelectionKernelEstimator.class, Mockito.CALLS_REAL_METHODS);
 		return ke;
 	}	
 	

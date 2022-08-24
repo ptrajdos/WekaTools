@@ -15,7 +15,7 @@ public class UnbiasedCrossValidationBandwidthSelectionKernelTest extends DensEst
 
 	@Override
 	protected DensityEstimator getEstimator() {
-		UnbiasedCrossValidationBandwidthSelectionKernel estim =new UnbiasedCrossValidationBandwidthSelectionKernel();
+		UnbiasedCrossValidationBandwidthSelectionKernelEstimator estim =new UnbiasedCrossValidationBandwidthSelectionKernelEstimator();
 		KernelDensityEstimator es = estim.getKernEstim();
 		es.setKernel(new EpanechnikovKernel());
 		estim.setKernEstim(es);

@@ -7,7 +7,7 @@ public class MaximalSmoothingPrincipleBandwidthSelectionKernelTest extends DensE
 
 	@Override
 	protected DensityEstimator getEstimator() {
-		return new MaximalSmoothingPrincipleBandwidthSelectionKernel();
+		return new MaximalSmoothingPrincipleBandwidthSelectionKernelEstimator();
 	}
 	
 	/* (non-Javadoc)

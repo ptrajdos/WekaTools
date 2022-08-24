@@ -31,7 +31,7 @@ import weka.tools.numericIntegration.SimpsonsIntegrator;
  * @version 2.0.0
  *
  */
-public class MaximalSmoothingPrincipleBandwidthSelectionKernel extends SimpleBandwidthFinder {
+public class MaximalSmoothingPrincipleBandwidthSelectionKernelEstimator extends SimpleBandwidthFinderEstimator {
 
 
 	/**
@@ -49,27 +49,27 @@ public class MaximalSmoothingPrincipleBandwidthSelectionKernel extends SimpleBan
 		int sampleSize = sample.length;
 		
 		// Default values for gaussian kernel;
-		double kernelForthMoment = 1;
+		double kernelFourthMoment = 1;
 		double kernelSQ = 1.0/(2*Math.sqrt(Math.PI));
 		
 		try {
-			kernelForthMoment = this.findKernelForthMoment();
+			kernelFourthMoment = this.findKernelFourthMoment();
 			kernelSQ = this.findKernelSquareIntegral();
 		} catch (Exception e) {
 			e.printStackTrace();
-			 kernelForthMoment = 1;
+			 kernelFourthMoment = 1;
 			 kernelSQ = 1.0/(2*Math.sqrt(Math.PI));
 		}
 		
 		
-		double h = this.scaleFactor* 3.0 * Math.pow(35.0*sampleSize, -0.2) *sampleSD * Math.pow(kernelForthMoment, -0.2) * Math.pow(kernelSQ, 0.2);
+		double h = this.scaleFactor* 3.0 * Math.pow(35.0*sampleSize, -0.2) *sampleSD * Math.pow(kernelFourthMoment, -0.2) * Math.pow(kernelSQ, 0.2);
 		if(h<this.minH)
 			h=this.minH;
 		this.kernEstim.setBandwidth(h);
 
 	}
 	
-	private double findKernelForthMoment() throws Exception {
+	private double findKernelFourthMoment() throws Exception {
 		Function fun = new Function() {
 			@Override
 			public double value(double argument) {

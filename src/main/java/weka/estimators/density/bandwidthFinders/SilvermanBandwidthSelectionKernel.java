@@ -12,7 +12,7 @@ import weka.core.UtilsPT;
  * @version 1.5.3
  *
  */
-public class SilvermanBandwidthSelectionKernel extends SimpleBandwidthFinder {
+public class SilvermanBandwidthSelectionKernel extends SimpleBandwidthFinderEstimator {
 
 	/**
 	 * 

@@ -126,7 +126,7 @@ public abstract class BandwidthSelectionKernelEstimator implements DensityEstima
 	 */
 	@Override
 	public Enumeration<Option> listOptions() {
-Vector<Option> newVector = new Vector<Option>(1);
+		Vector<Option> newVector = new Vector<Option>(1);
 		
 		newVector.addElement(new Option(
 			      "\tKernel object to use "+
