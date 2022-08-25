@@ -19,6 +19,11 @@ public class SilvermanBandwidthSelectionKernel extends SimpleBandwidthFinderEsti
 	 */
 	private static final long serialVersionUID = -6985984437409051201L;
 	
+	public SilvermanBandwidthSelectionKernel() {
+		super();
+		this.minH = 1E-3;
+	}
+	
 
 
 	/* (non-Javadoc)

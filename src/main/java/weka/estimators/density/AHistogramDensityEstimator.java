@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
 
+import weka.core.KhanKleinSummator;
 import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.UtilsPT;
@@ -75,15 +76,18 @@ public abstract class AHistogramDensityEstimator implements IHistogramDensityEst
 			return 1;
 		
 		int binIndex = this.findBin(x);
-		double binSum=0;
+		
+		KhanKleinSummator binSumK = new KhanKleinSummator();
+		
 		for(int i=0;i<binIndex;i++)
-			binSum+=this.bins.get(i).getCount();
+			binSumK.addToSum(this.bins.get(i).getCount());
 		
 		IBin selectedBin = this.bins.get(binIndex);
 		
-		binSum += (x -  selectedBin.getLowerBound())* this.getPDF(x);
+		binSumK.addToSum((x -  selectedBin.getLowerBound())* this.getPDF(x));
 		
-		double cdf = binSum/(this.overallSum);
+		
+		double cdf = binSumK.getSum()/(this.overallSum);
 		return cdf;
 	}
 

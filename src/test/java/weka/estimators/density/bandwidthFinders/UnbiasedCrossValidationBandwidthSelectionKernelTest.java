@@ -1,11 +1,12 @@
 package weka.estimators.density.bandwidthFinders;
 
+import weka.estimators.density.BasicKernelDensityEstimatorTest;
 import weka.estimators.density.DensEstimatorTest;
 import weka.estimators.density.DensityEstimator;
 import weka.estimators.density.KernelDensityEstimator;
 import weka.estimators.density.kernels.EpanechnikovKernel;
 
-public class UnbiasedCrossValidationBandwidthSelectionKernelTest extends DensEstimatorTest {
+public class UnbiasedCrossValidationBandwidthSelectionKernelTest extends BasicKernelDensityEstimatorTest {
 	
 	@Override
 	protected void setUp() throws Exception {

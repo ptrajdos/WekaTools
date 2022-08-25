@@ -12,6 +12,7 @@ import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.Utils;
 import weka.core.UtilsPT;
+import weka.estimators.density.BasicKernelDensityEstimator;
 import weka.estimators.density.DensityEstimator;
 import weka.estimators.density.Kernel;
 import weka.tools.Linspace;
@@ -38,7 +39,7 @@ import weka.tools.WeightedValuesHolder;
  * @version 1.12.0
  *
  */
-public abstract class GeneralUCVKernelEstimator implements DensityEstimator, Serializable, OptionHandler {
+public abstract class GeneralUCVKernelEstimator implements BasicKernelDensityEstimator, Serializable, OptionHandler {
 	
 	private static final long serialVersionUID = -6943481377417404445L;
 	
@@ -61,11 +62,7 @@ public abstract class GeneralUCVKernelEstimator implements DensityEstimator, Ser
 	public GeneralUCVKernelEstimator() {
 		this.kernel = this.getKernel();
 	}
-	/**
-	 * In subclass
-	 * @return Kernel used in estimator
-	 */
-	protected abstract Kernel getKernel();
+	
 	
 	protected abstract double getSquaredKernelIntegral();
 	
@@ -245,6 +242,12 @@ public abstract class GeneralUCVKernelEstimator implements DensityEstimator, Ser
 		
 		return strb.toString();
 	}
+	
+	@Override
+	public double getBandwidth() {
+		return this.bandwidth;
+	}
+	
 	
 	
 	

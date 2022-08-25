@@ -25,7 +25,7 @@ public class GaussUCVKernelEstimator extends GeneralUCVKernelEstimator {
 
 	
 	@Override
-	protected Kernel getKernel() {
+	public Kernel getKernel() {
 		return new GaussianKernel();
 	}
 

@@ -38,6 +38,12 @@ public class MaximalSmoothingPrincipleBandwidthSelectionKernelEstimator extends 
 	 * 
 	 */
 	private static final long serialVersionUID = 2498101140294446576L;
+	
+	
+	public MaximalSmoothingPrincipleBandwidthSelectionKernelEstimator() {
+		super();
+		this.minH = 1E-3;
+	}
 
 	/* (non-Javadoc)
 	 * @see weka.estimators.density.BandwidthSelectionKernelEstimator#findBandwidth()

@@ -14,15 +14,11 @@ import weka.estimators.density.kernels.EpanechnikovKernel;
  */
 public class EpanechnikovUCVKernelEstimator extends SymmetricFiniteSupportUCVKernelEstimator {
 	
-	//TODO Fails with gaussian distribution with high div (small variance)
-	//TODO pdfMiddle also fails -- integrated value is equal zero
-//	Bandwidth is minimal -- probable cause of the integration to zero
-
 
 	private static final long serialVersionUID = -5588207555757668023L;
 
 	@Override
-	protected Kernel getKernel() {
+	public Kernel getKernel() {
 		return new EpanechnikovKernel();
 	}
 

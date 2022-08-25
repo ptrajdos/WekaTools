@@ -12,46 +12,28 @@ import weka.core.OptionHandler;
 import weka.core.UtilsPT;
 
 /**
- * Kernel estimator with automatic bandwidth selection
+ * Kernel with nested BasicKernelDensityEstimator
  * @author pawel trajdos
- * @since 0.13.0
- * @version 0.13.0
+ * @since 2.0.0
+ * @version 2.0.0
  *
  */
-public abstract class BandwidthSelectionKernelEstimator implements BasicKernelDensityEstimator, Serializable, OptionHandler {
+public abstract class NestedBasicKernelDensityEstimator implements BasicKernelDensityEstimator, Serializable, OptionHandler {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5735185710445258136L;
 	
-	protected KernelDensityEstimator kernEstim;
+	
+	private static final long serialVersionUID = -5224055180063504611L;
+	
+	protected BasicKernelDensityEstimator kernEstim;
 	protected boolean isModified=true;
 
 	/**
 	 * 
 	 */
-	public BandwidthSelectionKernelEstimator() {
+	public NestedBasicKernelDensityEstimator() {
 		this.kernEstim = new SimpleKernelEstimator();
 	}
 
-	/* (non-Javadoc)
-	 * @see weka.estimators.density.DensityEstimator#getPDF(double)
-	 */
-	@Override
-	public double getPDF(double x) {
-		this.setBandwidthInternal();
-		return this.kernEstim.getPDF(x);
-	}
-
-	/* (non-Javadoc)
-	 * @see weka.estimators.density.DensityEstimator#getCDF(double)
-	 */
-	@Override
-	public double getCDF(double x) {
-		this.setBandwidthInternal();
-		return this.kernEstim.getCDF(x);
-	}
 
 	/* (non-Javadoc)
 	 * @see weka.estimators.density.DensityEstimator#addValues(double[], double[])
@@ -88,31 +70,17 @@ public abstract class BandwidthSelectionKernelEstimator implements BasicKernelDe
 
 	}
 
-
-	/**
-	 * Finds and sets bandwidth to the kernel
-	 * 
-	 */
-	protected abstract void findBandwidth();
-	
-	private void setBandwidthInternal() {
-		if(!this.isModified)
-			return;
-		findBandwidth();
-		this.isModified=false;
-	}
-
 	/**
 	 * @return the kernEstim
 	 */
-	public KernelDensityEstimator getKernEstim() {
+	public BasicKernelDensityEstimator getKernEstim() {
 		return this.kernEstim;
 	}
 
 	/**
 	 * @param kernEstim the kernEstim to set
 	 */
-	public void setKernEstim(KernelDensityEstimator kernEstim) {
+	public void setKernEstim(BasicKernelDensityEstimator kernEstim) {
 		this.kernEstim = kernEstim;
 		this.isModified=true;
 	}
@@ -184,8 +152,6 @@ public abstract class BandwidthSelectionKernelEstimator implements BasicKernelDe
 	public double getBandwidth() {
 		return this.kernEstim.getBandwidth();
 	}
-	
-	
 	
 
 }

@@ -3,6 +3,8 @@
  */
 package weka.estimators.density;
 
+import weka.core.KhanKleinSummator;
+
 /**
  * Weighted kernel estimator
  * @author pawel trajdos
@@ -27,11 +29,14 @@ public class WeightedKernelEstimator extends AbstractKernelEstimator {
 		int numVals = this.valHolder.getNumVals();
 		if (numVals == 0 )
 			return Double.NaN;
+		
+		KhanKleinSummator estimationSum = new KhanKleinSummator();
 		double estimation =0;
 		for(int i=0;i<numVals;i++) {
-			estimation+=this.kernel.getKernelPDFValue(  (x-this.valHolder.getValue(i))/this.bandwidth  )*this.valHolder.getWeight(i);
+			estimationSum.addToSum(this.kernel.getKernelPDFValue(  (x-this.valHolder.getValue(i))/this.bandwidth  )*this.valHolder.getWeight(i));
+		
 		}
-		estimation/=this.bandwidth;
+		estimation = estimationSum.getSum()/this.bandwidth;
 		return estimation;
 	}
 
@@ -43,11 +48,14 @@ public class WeightedKernelEstimator extends AbstractKernelEstimator {
 		int numVals = this.valHolder.getNumVals();
 		if(numVals == 0)
 			return Double.NaN;
-		double estimation =0;
-		for(int i=0;i<numVals;i++)
-			estimation+=this.kernel.getKernelCDFValue(  (x-this.valHolder.getValue(i))/this.bandwidth  )*this.valHolder.getWeight(i);
 		
-		return estimation;
+		KhanKleinSummator estimationSum = new KhanKleinSummator();
+		
+		for(int i=0;i<numVals;i++)
+			estimationSum.addToSum(this.kernel.getKernelCDFValue(  (x-this.valHolder.getValue(i))/this.bandwidth  )*this.valHolder.getWeight(i));
+	
+		
+		return estimationSum.getSum();
 	}
 
 

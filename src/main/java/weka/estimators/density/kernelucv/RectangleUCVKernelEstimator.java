@@ -19,7 +19,7 @@ public class RectangleUCVKernelEstimator extends SymmetricFiniteSupportUCVKernel
 	
 
 	@Override
-	protected Kernel getKernel() {
+	public Kernel getKernel() {
 		return new RectangularKernel();
 	}
 

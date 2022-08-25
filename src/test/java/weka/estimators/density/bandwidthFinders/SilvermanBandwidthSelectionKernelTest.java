@@ -1,9 +1,10 @@
 package weka.estimators.density.bandwidthFinders;
 
+import weka.estimators.density.BasicKernelDensityEstimatorTest;
 import weka.estimators.density.DensEstimatorTest;
 import weka.estimators.density.DensityEstimator;
 
-public class SilvermanBandwidthSelectionKernelTest extends DensEstimatorTest{
+public class SilvermanBandwidthSelectionKernelTest extends BasicKernelDensityEstimatorTest{
 
 	@Override
 	protected DensityEstimator getEstimator() {

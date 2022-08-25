@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import weka.core.KhanKleinSummator;
 import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.UtilsPT;
@@ -34,7 +35,7 @@ import weka.core.UtilsPT;
  * @version 2.0.0
  *
  */
-public class VariableBandwidthKernelEstimator extends WeightedKernelEstimator {
+public class VariableBandwidthKernelDensityEstimator extends WeightedKernelEstimator {
 
 	/**
 	 * 
@@ -94,13 +95,14 @@ public class VariableBandwidthKernelEstimator extends WeightedKernelEstimator {
 		if( numVals == 0)
 			return Double.NaN;
 		
-		double estimation =0;
+		KhanKleinSummator estimationSum = new KhanKleinSummator();
+		
 		for(int i=0;i<numVals;i++) {
-			estimation+=this.kernel.getKernelPDFValue(  (x-this.valHolder.getValue(i))/(this.bandwidth*this.lambdas[i])  )
-					*this.valHolder.getWeight(i)/(this.lambdas[i]*this.bandwidth);
+			estimationSum.addToSum(this.kernel.getKernelPDFValue(  (x-this.valHolder.getValue(i))/(this.bandwidth*this.lambdas[i])  )
+					*this.valHolder.getWeight(i)/(this.lambdas[i]*this.bandwidth));
 			
 		}
-		return estimation;
+		return estimationSum.getSum();
 	}
 	
 	@Override
@@ -112,11 +114,13 @@ public class VariableBandwidthKernelEstimator extends WeightedKernelEstimator {
 		if( numVals == 0)
 			return Double.NaN;
 		
-		double estimation =0;
-		for(int i=0;i<numVals;i++)
-			estimation+=this.kernel.getKernelCDFValue(  (x-this.valHolder.getValue(i))/(this.bandwidth*this.lambdas[i])  )*this.valHolder.getWeight(i);
+		KhanKleinSummator estimationSum = new KhanKleinSummator();
 		
-		return estimation;
+		for(int i=0;i<numVals;i++)
+			estimationSum.addToSum(this.kernel.getKernelCDFValue(  (x-this.valHolder.getValue(i))/(this.bandwidth*this.lambdas[i])  )*this.valHolder.getWeight(i));
+			
+		
+		return estimationSum.getSum();
 	}
 
 	/**

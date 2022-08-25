@@ -20,7 +20,7 @@ public class TriweightUCVKernelEstimator extends SymmetricFiniteSupportUCVKernel
 	private static final double squareIntegral = 350.0/429.0;
 
 	@Override
-	protected Kernel getKernel() {
+	public Kernel getKernel() {
 		return new TriweightKernel();
 	}
 
