@@ -1,7 +1,12 @@
+weka.estimators.density.DensityEstimator=\
+	weka.estimators.density, \
+	weka.estimators.density.bandwidthFinders, \
+	weka.estimators.density.kernelucv
+
 weka.estimators.density.KernelDensityEstimator=\
 	weka.estimators.density
 
-weka.estimators.density.DensityEstimator=\
+weka.estimators.density.BasicKernelDensityEstimator=\
 	weka.estimators.density, \
 	weka.estimators.density.bandwidthFinders, \
 	weka.estimators.density.kernelucv
