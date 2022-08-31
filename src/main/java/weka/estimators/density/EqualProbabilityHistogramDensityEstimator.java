@@ -48,6 +48,11 @@ public class EqualProbabilityHistogramDensityEstimator extends AHistogramDensity
 		
 		int nBins = (int) Math.floor( Math.sqrt(vals.length));//TODO Finad a way to estimate this.
 		
+		if(nBins == 1) {
+			this.bins.add( new Bin(this.minVal, this.maxVal) );
+			return;
+		}
+		
 		double[] quantiles = Linspace.genLinspace(0, 1, nBins);
 		
 		double[] quantiles_vals = new double[quantiles.length];
@@ -61,6 +66,8 @@ public class EqualProbabilityHistogramDensityEstimator extends AHistogramDensity
 		for(int i=0;i<quantiles_vals.length -1;i++) {
 			this.bins.add(new Bin(quantiles_vals[i], quantiles_vals[i+1]));
 		}
+		
+		return;
 	}
 
 }

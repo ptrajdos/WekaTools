@@ -255,6 +255,16 @@ public abstract class DensEstimatorTest extends TestCase {
 		checkCDF(vals);
 	}
 	
+	public void testPdfTwoValues() {
+		double[] vals = new double[]{0.0,1.0};
+		checkPDF(vals);
+	}
+	
+	public void testCdfTwoValues() {
+		double[] vals = new double[]{0.0,1.0};
+		checkCDF(vals);
+	}
+	
 	
 	
 	public void testCdf() {
