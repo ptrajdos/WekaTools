@@ -245,6 +245,16 @@ public abstract class DensEstimatorTest extends TestCase {
 		checkPDF(generateHomogeneous(0.5*(this.getUpper() + this.getLower()) ));
 	}
 	
+	public void testPdfSingleValue() {
+		double[] vals = new double[]{0.5};
+		checkPDF(vals);
+	}
+	
+	public void testCdfSingleValue() {
+		double[] vals = new double[]{0.5};
+		checkCDF(vals);
+	}
+	
 	
 	
 	public void testCdf() {

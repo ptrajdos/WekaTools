@@ -56,6 +56,8 @@ public class EqualProbabilityHistogramDensityEstimator extends AHistogramDensity
 			quantiles_vals[i] = UtilsPT.quantile(vals, quantiles[i]);
 		}
 		
+		
+		
 		for(int i=0;i<quantiles_vals.length -1;i++) {
 			this.bins.add(new Bin(quantiles_vals[i], quantiles_vals[i+1]));
 		}

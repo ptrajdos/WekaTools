@@ -138,7 +138,7 @@ public abstract class AHistogramDensityEstimator implements IHistogramDensityEst
 		int index=0;
 		int numBins = this.bins.size();
 		
-		if(value < this.bins.get(0).getLowerBound())
+		if(value <= this.bins.get(0).getLowerBound())
 			return 0;
 		
 		for(int i=0;i<numBins;i++) {
