@@ -58,7 +58,6 @@ public class EqualProbabilityHistogramDensityEstimator extends AHistogramDensity
 		double[] quantiles_vals = new double[quantiles.length];
 		
 		
-		//TODO prune quantiles
 		for(int i = 0;i<quantiles_vals.length;i++) {
 			quantiles_vals[i] = UtilsPT.quantile(vals, quantiles[i]);
 		}
@@ -70,8 +69,7 @@ public class EqualProbabilityHistogramDensityEstimator extends AHistogramDensity
 			return;
 		}
 		
-		
-		//TODO connect some bins if too narrow
+	
 		double lastVal = this.minVal;
 		boolean extendingBin = false;
 		for(int i=0;i<quantiles_vals.length -1;i++) {
