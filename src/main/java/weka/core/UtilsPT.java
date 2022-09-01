@@ -48,9 +48,9 @@ public class UtilsPT {
 		double[] tmpArray = Arrays.copyOf(array,array.length);
 		Arrays.sort(tmpArray);
 		
-		if(q >1)
+		if(q >= 1)
 			return tmpArray[array.length-1];
-		if(q<0)
+		if(q <= 0)
 			return tmpArray[0];
 		
 		double preIdx = q*(array.length+1);

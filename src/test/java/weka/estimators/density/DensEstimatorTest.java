@@ -1,6 +1,8 @@
 package weka.estimators.density;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import junit.framework.TestCase;
@@ -367,6 +369,17 @@ public abstract class DensEstimatorTest extends TestCase {
 			return false;
 					
 		return true;
+	}
+	
+	double[] createSkewedDistribution() {
+		int N = this.numVals;
+		double[] values = new double[N];
+		Arrays.fill(values, 0.1);
+		
+		values[N-1] = 1.0;
+		values[N-2] = 0.9;
+		
+		return values;
 	}
 	
 	
