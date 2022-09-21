@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.logging.Level;
 
 import org.apache.commons.math3.special.Erf;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import weka.tools.Linspace;
 import weka.tools.tests.DistributionChecker;
 
 public class UtilsPTTest {
+	
 	
 	@Test
 	public void testCreation() {

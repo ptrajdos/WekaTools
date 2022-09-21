@@ -5,14 +5,28 @@ package weka.core;
 
 import java.util.Arrays;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+
 
 /**
  * @author pawel trajdos
  * @since 0.2.0
- * @version 1.5.1
+ * @version 2.0.0
  *
  */
 public class UtilsPT {
+	
+	public static final Logger logger = Logger.getLogger(UtilsPT.class.getName());
+	static {
+		logger.setLevel(Level.SEVERE);
+	}
 
 	/**
 	 * @version 0.2.0
@@ -322,6 +336,9 @@ public class UtilsPT {
 	 * @return
 	 */
 	public static String getClassAndOptions(Object obj) {
+		
+		if(obj == null)
+			return "";
 		String className = obj.getClass().getName();
 		String objOptions = "";
 		if(obj instanceof OptionHandler) {
@@ -335,8 +352,92 @@ public class UtilsPT {
 			result = ""+className;
 		}
 		 
-		return result;
+		return result.trim();
 	}
+	/**
+	 * Returns the representation to be used with sklweka.
+	 * @param obj -- An object to get options from
+	 * @return String representation of the object
+	 * 
+	 * @since 2.0.0
+	 * @version 2.0.0
+	 */
+	public static String getString4WekaSklearn(Object obj) {
+		String className = "classname=" +"\"" + obj.getClass().getName() + "\"";
+		
+		
+		
+		String representation = ""+ className;
+		
+		if(obj instanceof OptionHandler) {
+			String[] options = ((OptionHandler) obj).getOptions();
+			StringBuffer strBuff = new StringBuffer();
+			strBuff.append(", options=[");
+			
+			for(int i=0;i<options.length;i++) {
+				String tmpOptions = Utils.joinOptions(new String[] {options[i]}).trim();
+				
+				if(! ( tmpOptions.charAt(0) == '"' && tmpOptions.charAt(tmpOptions.length()-1) == '"' ) ) {
+					strBuff.append("\"" + options[i] + "\"");
+				}else {
+					strBuff.append(tmpOptions);
+				}
+				
+				
+				
+				if(i<options.length -1) {
+					strBuff.append(", ");
+				}
+			}
+			
+			
+			strBuff.append("]");
+			representation += strBuff.toString();
+			
+		}
+		
+		return representation;
+	}
+	
+	/**
+	 * Returns the representation to be used with sklweka.
+	 * @param obj -- An object to get options from
+	 * @return Map representation of the object
+	 * 
+	 * @since 2.0.0
+	 * @version 2.0.0
+	 */
+	
+	public static Map<String,Object> getWekaSklearnMap(Object obj) {
+		
+		Map<String,Object> WekaSklearnOptions = new HashMap<String, Object>();
+		
+		String className =obj.getClass().getName();
+		WekaSklearnOptions.put("classname", className);
+		
+		
+		List<String> optList = new LinkedList<String>();
+		
+		
+		if(obj instanceof OptionHandler) {
+			String[] options = ((OptionHandler) obj).getOptions();
+			
+			
+			for(int i=0;i<options.length;i++) {
+				String tmpOptions = Utils.joinOptions(new String[] {options[i].trim()}).trim();
+				optList.add(tmpOptions);	
+			}
+		}
+		
+		
+		WekaSklearnOptions.put("options", optList);
+		
+		
+		return WekaSklearnOptions;
+		
+	}
+	
+	
 	
 	/**
 	 * Parses the integer option from options. If the integer option is invalid returns defaultValue
@@ -355,7 +456,7 @@ public class UtilsPT {
 			String optionStr = Utils.getOption(optionFlag, options);
 			value = Integer.parseInt(optionStr);
 		} catch (Exception e) {
-			System.err.println("Invalid option" + optionFlag + "\n Default value will be used");
+			logger.warning("Invalid option" + optionFlag + "\n Default value will be used");
 		}
 		return value;
 	}
@@ -377,9 +478,11 @@ public class UtilsPT {
 			String optionStr = Utils.getOption(optionFlag, options);
 			value = Double.parseDouble(optionStr);
 		} catch (Exception e) {
-			System.err.println("Invalid option: " + optionFlag + "\n Default value will be used");
-			System.err.println("Options: " + Arrays.toString(options));
-			System.err.println("Default value: " + defValue);
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("Invalid option: " + optionFlag + "\n Default value will be used");
+			strBuilder.append("Options: " + Arrays.toString(options));
+			strBuilder.append("Default value: " + defValue);
+			logger.warning(strBuilder.toString());
 		}
 		return value;
 	}
@@ -414,15 +517,19 @@ public class UtilsPT {
 		    	  throw new Exception("Exception "+ e.getMessage() +" at creating object with options: " + Arrays.toString(objectClassSpec));
 		      }
 		    }else {
-		    	throw new Exception("No option");
+		    	throw new Exception("No options have been given! ");
 		    }
 		}catch(Exception e) {
-			System.err.println("Option " + optionFlag + " cannot be parsed. Default value is used");
-			System.err.println("Exception: " + e.getMessage());
-			System.err.println("Default value: " + defValue.toString());
-			System.err.println("Class type: " + classtype.toGenericString());
-			System.err.println("Options String: " + Arrays.toString(options));
-			System.err.println("Option Object String:  " + ((objectOptionString != null)? objectOptionString: "NULL" ));
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("Option " + optionFlag + " cannot be parsed. Default value is used");
+			strBuilder.append("Exception: " + e.getMessage());
+			strBuilder.append("Default value: " + defValue.toString());
+			strBuilder.append("Class type: " + classtype.toGenericString());
+			strBuilder.append("Options String: " + Arrays.toString(options));
+			strBuilder.append("Option Object String:  " + ((objectOptionString != null)? objectOptionString: "NULL" ));
+			
+			logger.warning(strBuilder.toString());
+				
 		}
 	    
 		return parsedObj;
