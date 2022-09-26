@@ -375,10 +375,10 @@ public class UtilsPT {
 			strBuff.append(", options=[");
 			
 			for(int i=0;i<options.length;i++) {
-				String tmpOptions = Utils.joinOptions(new String[] {options[i]}).trim();
+				String tmpOptions = Utils.joinOptions(new String[] {options[i].trim()}).trim();
 				
 				if(! ( tmpOptions.charAt(0) == '"' && tmpOptions.charAt(tmpOptions.length()-1) == '"' ) ) {
-					strBuff.append("\"" + options[i] + "\"");
+					strBuff.append("\"" + options[i].trim() + "\"");
 				}else {
 					strBuff.append(tmpOptions);
 				}
@@ -424,8 +424,10 @@ public class UtilsPT {
 			
 			
 			for(int i=0;i<options.length;i++) {
-				String tmpOptions = Utils.joinOptions(new String[] {options[i].trim()}).trim();
-				optList.add(tmpOptions);	
+				String trimmedOption = options[i].trim();
+				//String tmpOptions = Utils.joinOptions(new String[] {options[i].trim() }).trim();
+				
+				optList.add(trimmedOption);	
 			}
 		}
 		
