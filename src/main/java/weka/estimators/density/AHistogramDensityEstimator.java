@@ -134,21 +134,40 @@ public abstract class AHistogramDensityEstimator implements IHistogramDensityEst
 	
 	protected abstract void initializeBins();
 	
+
 	protected int findBin(double value) {
+		
 		int index=0;
 		int numBins = this.bins.size();
 		
 		if(value <= this.bins.get(0).getLowerBound())
 			return 0;
 		
-		for(int i=0;i<numBins;i++) {
-			index = i;
-			if( this.bins.get(i).isValueInBin(value) ) {
-				break;
-			}
+		if(value >= this.bins.get(numBins-1).getUpperBound())
+			return numBins-1;
+		
+		if( this.bins.get(0).isValueInBin(value))
+			return 0;
+		
+		if( this.bins.get(numBins-1).isValueInBin(value))
+			return numBins-1;
+		
+		int low = 0;
+		int high = numBins-1;
+		while(low != high) {
+			int mid = (low + high)/2;
 			
+			if( this.bins.get(mid).isValueInBin(value) )
+				return mid;
+			
+			if ( value > this.bins.get(mid).getUpperBound() )
+				low = mid;
+			else
+				high = mid;
 		}
-		return index;
+		
+		return 0;
+		
 	}
 	
 	

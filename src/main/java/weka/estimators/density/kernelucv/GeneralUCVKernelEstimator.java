@@ -171,6 +171,7 @@ public abstract class GeneralUCVKernelEstimator implements BasicKernelDensityEst
 	@Override
 	public void addValues(double[] data, double[] weight) {
 		this.weiValHold.addValues(data, weight);
+		this.needBWCalc=true;
 	}
 
 	@Override
