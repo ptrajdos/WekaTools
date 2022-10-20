@@ -4,6 +4,7 @@
 package weka.estimators.density;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
@@ -137,7 +138,6 @@ public abstract class AHistogramDensityEstimator implements IHistogramDensityEst
 
 	protected int findBin(double value) {
 		
-		int index=0;
 		int numBins = this.bins.size();
 		
 		if(value <= this.bins.get(0).getLowerBound())
@@ -223,12 +223,8 @@ public abstract class AHistogramDensityEstimator implements IHistogramDensityEst
 
 	@Override
 	public List<IBin> getBins() {
-		try {
-			this.computeHist();
-			return (List<IBin>) SerialCopier.makeCopy(this.bins);
-		} catch (Exception e) {
-			return null;
-		}
+		this.computeHist();
+		return Collections.unmodifiableList(this.bins);
 	}
 
 	@Override
