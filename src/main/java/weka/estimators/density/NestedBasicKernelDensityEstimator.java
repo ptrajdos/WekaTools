@@ -110,8 +110,8 @@ public abstract class NestedBasicKernelDensityEstimator implements BasicKernelDe
 	 */
 	@Override
 	public void setOptions(String[] options) throws Exception {
-		this.setKernEstim((KernelDensityEstimator) 
-				UtilsPT.parseObjectOptions(options, "KES", new SimpleKernelEstimator(), KernelDensityEstimator.class));
+		this.setKernEstim((BasicKernelDensityEstimator) 
+				UtilsPT.parseObjectOptions(options, "KES", new SimpleKernelEstimator(), BasicKernelDensityEstimator.class));
 		
 	}
 
