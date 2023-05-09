@@ -17,8 +17,11 @@ PACKAGE_PATH=${DIST_PATH}/${PACKAGE_NAME}-${PACKAGE_VERSION}-package.zip
 install_package:
 	${MVN} -T 1C clean package
 
-install: install_package
+weka_install: 
 	${JAVA} -cp ${WEKA_JAR_PATH_INT} weka.core.WekaPackageManager -install-package ${PACKAGE_PATH}
 
-install_built:
-	${JAVA} -cp ${WEKA_JAR_PATH_INT} weka.core.WekaPackageManager -install-package ${PACKAGE_PATH}
+install: install_package weka_install
+	echo "Install all"
+	
+jenv:
+	jenv local
