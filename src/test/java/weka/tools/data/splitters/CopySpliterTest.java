@@ -10,7 +10,7 @@ public class CopySpliterTest extends DataSplitterTest {
 	@Override
 	public DataSplitter getSplitter() {
 
-		return new CopySpliter();
+		return new CopySplitter();
 	}
 
 }

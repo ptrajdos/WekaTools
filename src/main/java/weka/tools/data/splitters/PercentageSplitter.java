@@ -3,6 +3,7 @@
  */
 package weka.tools.data.splitters;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -15,8 +16,10 @@ import weka.core.Utils;
  * @author pawel trajdos
  *
  */
-public class PercentageSplitter implements DataSplitter, Randomizable {
+public class PercentageSplitter implements DataSplitter, Randomizable, Serializable {
 	
+	private static final long serialVersionUID = 8923137316854032938L;
+
 	protected double[] percentages;
 	
 	protected int seed;

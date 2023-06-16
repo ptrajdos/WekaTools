@@ -3,6 +3,8 @@
  */
 package weka.tools.data.splitters;
 
+import java.io.Serializable;
+
 import weka.core.Instances;
 
 /**
@@ -11,15 +13,16 @@ import weka.core.Instances;
  * @version 2.1.0
  *
  */
-public class CopySpliter implements DataSplitter {
+public class CopySplitter implements DataSplitter, Serializable {
 	
+	private static final long serialVersionUID = 8915051309918891290L;
 	protected int nCopies; 
 	
-	public CopySpliter(int nCopies) {
+	public CopySplitter(int nCopies) {
 		this.nCopies = nCopies;
 	}
 	
-	public CopySpliter() {
+	public CopySplitter() {
 		this(2);
 	}
 
