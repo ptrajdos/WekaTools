@@ -45,12 +45,24 @@ public class PercentageSplitter implements DataSplitter, Randomizable {
 		
 		Instances[] retInstances = new Instances[this.percentages.length];
 		for(int i = 0; i<this.percentages.length;i++)
-			retInstances[i] = new Instances(data, i);
+			retInstances[i] = new Instances(data, 0);
 		
 		int nInstances = data.numInstances();
+		
+		double[] desInstancesCnts = new double[this.percentages.length];
+		for(int i = 0; i < this.percentages.length; i++) {
+			desInstancesCnts[i] = Math.ceil( this.percentages[i] * nInstances);
+		}
+		
 		for(int i=0; i<nInstances;i++) {
-			int setIdx = this.rnd.nextInt(this.percentages.length);
+			
+			int setIdx =0;
+			do {
+				setIdx = this.rnd.nextInt(this.percentages.length);
+			}while(retInstances[setIdx].numInstances() >= desInstancesCnts[setIdx]);
+			
 			Instance tmpInstance = data.get(i);
+			
 			retInstances[setIdx].add(tmpInstance.copy(tmpInstance.toDoubleArray()));
 		}
 		
