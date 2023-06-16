@@ -29,3 +29,6 @@ weka.estimators.density.histogram.HistogramBinWidthCalculator=\
 
 weka.estimators.density.Kernel=\
 	weka.estimators.density.kernels
+
+weka.tools.data.splitters.DataSplitter=\
+	weka.tools.data.splitters

@@ -6,3 +6,4 @@ weka.tools.stats.distributionDistances.DistributionDistanceCalculator=weka.gui.G
 weka.estimators.MultivariateEstimatorFromInstances=weka.gui.GenericObjectEditor
 weka.estimators.density.histogram.HistogramBinWidthCalculator=weka.gui.GenericObjectEditor
 weka.estimators.density.Kernel=weka.gui.GenericObjectEditor
+weka.tools.data.splitters.DataSplitter=weka.gui.GenericObjectEditor
