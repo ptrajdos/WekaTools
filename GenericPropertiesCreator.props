@@ -33,5 +33,5 @@ weka.estimators.density.Kernel=\
 weka.tools.data.splitters.DataSplitter=\
 	weka.tools.data.splitters
 
-weka.tools.arrayFunctions.MultivariateFunction=
+weka.tools.arrayFunctions.MultivariateFunction=\
 	weka.tools.arrayFunctions
