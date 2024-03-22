@@ -199,5 +199,44 @@ public class InstancesToolsTest extends TestCase {
 		}
 		
 	}
+	
+	@Test
+	public void testUniqueInstances_NoReps() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setNumNominalAttributes(0);
+		gen.setNumStringAttributes(0);
+		gen.setNumDateAttributes(0);
+		int nInstances = 100;
+		gen.setNumObjects(nInstances);
+		
+		Instances dataset = gen.generateData();
+		
+		int nUniqueInstances = InstancesTools.countUniqieInstances(dataset);
+		assertTrue(String.format("Invalid number of unique Instances. Is %s, should be %s ",nUniqueInstances, nInstances), nUniqueInstances == nInstances);
+		
+		
+	}
+	
+	@Test
+	public void testUniqueInstances_Reps() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setNumNominalAttributes(0);
+		gen.setNumStringAttributes(0);
+		gen.setNumDateAttributes(0);
+		int nInstances = 12;
+		gen.setNumObjects(10);
+		
+		Instances dataset = gen.generateData();
+		
+		Instances eDataset = new Instances(dataset, 0);
+		for(int i=0;i<nInstances;i++) {
+			eDataset.add( dataset.get(0) );
+		}
+		
+		int nUniqueInstances = InstancesTools.countUniqieInstances(eDataset);
+		assertTrue(String.format("Invalid number of unique Instances. Is %s, should be %s ",nUniqueInstances, nInstances), nUniqueInstances == 1);
+		
+		
+	}
 
 }

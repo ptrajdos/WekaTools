@@ -3,6 +3,9 @@
  */
 package weka.tools;
 
+import java.util.Arrays;
+import java.util.HashMap;
+
 import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -178,6 +181,21 @@ public class InstancesTools {
 	public static Instance copyInstance(Instance inst) {
 		Instance result = inst.copy(inst.toDoubleArray());
 		return result;
+	}
+	
+	/**
+	 * Counts the number of unique instances
+	 * @param data -- Instances to count
+	 * @return number of unique instances
+	 */
+	public static int countUniqieInstances(Instances data) {
+		HashMap<Integer, Integer> cntMap = new HashMap<>();
+		for (Instance instance : data) {
+			int hash = Arrays.hashCode(instance.toDoubleArray());
+			cntMap.put(hash, 1);
+		}
+		
+		return cntMap.size();
 	}
 	
 
