@@ -193,7 +193,8 @@ public class InstancesTools {
 		HashMap<Integer, Integer> cntMap = new HashMap<>();
 		for (Instance instance : data) {
 			int hash = Arrays.hashCode(instance.toDoubleArray());
-			cntMap.put(hash, 1);
+			if(!cntMap.containsKey(hash))
+				cntMap.put(hash, 1);
 		}
 		
 		return cntMap.size();
