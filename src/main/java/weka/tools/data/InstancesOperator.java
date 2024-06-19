@@ -14,6 +14,7 @@ import weka.filters.unsupervised.attribute.Normalize;
 import weka.filters.unsupervised.attribute.Standardize;
 import weka.filters.unsupervised.instance.Resample;
 import weka.filters.unsupervised.instance.SparseToNonSparse;
+import weka.tools.InstancesTools;
 
 /**
  * @author pawel trajdos
@@ -249,6 +250,26 @@ public static int[] objPerClass(Instances inputSet)throws Exception{
 	
 	return classCnts;
 }
+
+/**
+ * Counts the unique number of objects per class
+ * @param inputSet -- input data
+ * @return -- array of class specific instance counts
+ * @throws Exception
+ */
+public static int[] uniqObjPerClass(Instances inputSet)throws Exception{
+	int nClasses = inputSet.numClasses();
+	
+	int[] counts = new int[nClasses];
+	Instances[] classSplittedData = InstancesOperator.classSpecSplit(inputSet);
+	for(int c =0; c<nClasses; c++) {
+		counts[c] = InstancesTools.countUniqieInstances(classSplittedData[c]);
+	}
+	
+	return counts;
+}
+
+
 /**
  * Calculates the frequency of class-specific instances.
  * The resulting array sums up to one.  

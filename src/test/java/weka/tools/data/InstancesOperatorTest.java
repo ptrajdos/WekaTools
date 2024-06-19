@@ -114,6 +114,46 @@ public class InstancesOperatorTest extends TestCase {
 		
 	}
 	
+	public void testUniqObjPerClass() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setNumObjects(100);
+		Instances data = gen.generateData();
+		Instances emptySet = new Instances(data,0);
+		
+		try {
+			int[] counts = InstancesOperator.uniqObjPerClass(data);
+			this.checkObjCounts(counts, data);
+			
+			counts = InstancesOperator.objPerClass(emptySet);
+			this.checkObjCounts(counts, data);
+			
+		} catch (Exception e) {
+			fail("An exception has been caught");
+		}
+		
+		
+		try {
+			Instances nonUniqSet = new Instances(data,0);
+			Instances[] classSplitted = InstancesOperator.classSpecSplit(data);
+			int rep = 5;
+			for(int c =0; c<classSplitted.length; c++) {
+				for (int r =0; r<rep; r++) {
+					nonUniqSet.add(classSplitted[c].get(0));
+				}
+			}
+			
+			int[] counts = InstancesOperator.uniqObjPerClass(nonUniqSet);
+			for(int i =0 ;i< counts.length; i++) {
+				assertTrue("Wrong count: "+ counts[i] + " should be: 1" , counts[i] == 1);
+			}
+			
+		} catch (Exception e) {
+			fail("An exception has been caught");
+		}
+		
+		
+	}
+	
 	protected void instancesCheck(Instances data) {
 		assertTrue("Not null set.", data!=null);
 		assertTrue("Number of instances", data.numInstances()>=0);

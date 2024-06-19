@@ -187,6 +187,7 @@ public class InstancesTools {
 	 * Counts the number of unique instances
 	 * @param data -- Instances to count
 	 * @return number of unique instances
+	 * 
 	 */
 	public static int countUniqieInstances(Instances data) {
 		HashMap<Integer, Integer> cntMap = new HashMap<>();
